@@ -1,0 +1,1913 @@
+import React, { useEffect, useState } from "react";
+import Input from "./Input";
+
+import { useFormik } from "formik";
+
+const admission = [
+  "Playgroup",
+  "Montessorie",
+  "Nursery",
+  "Kg",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+];
+
+const campusPreference = [
+  "Head Office",
+  "Aliganj Campus I",
+  "Aliganj Campus II",
+  "Anand Nagar Campus",
+  "Aasharfabad Campus",
+  "Chowk Campus",
+  "Gomti Nagar Campus I",
+  "Gomti Nagar Campus II",
+  "Indira Nagar Campus",
+  "Jopling Road Campus",
+  "Kanpur Road Campus",
+  "Mahanagar Campus",
+  "Rajajipuram Campus I",
+  "Rajajipuram Campus II",
+  "Rajendra Nagar Campus I",
+  "Rajendra Nagar Campus II",
+  "RDSO Campus",
+  "Station Road Campus",
+  "Golf City Campus",
+  "United World Campus",
+  "Ayodhya Road Campus",
+  "Rajajipuram Campus III",
+];
+
+const country = ["India", "Other"];
+
+const state = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jammu and Kashmir",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttarakhand",
+  "Uttar Pradesh",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli",
+  "Daman and Diu",
+  "Delhi",
+  "Lakshadweep",
+  "Puducherry",
+];
+
+const schoolBoards = [
+  "Central Board of Secondary Education (CBSE)",
+  "Indian Certificate of Secondary Education (ICSE)",
+  "State Board of Education (SBE)",
+  "Council for the Indian School Certificate Examinations (CISCE)",
+  "National Institute of Open Schooling (NIOS)",
+  "Tamil Nadu State Board",
+  "Andhra Pradesh Board of Secondary Education",
+  "Gujarat Secondary and Higher Secondary Education Board",
+  "Maharashtra State Board of Secondary and Higher Secondary Education",
+  "Karnatak",
+  "Others",
+];
+
+const NonVacancy = () => {
+  const [year, setYear] = useState([]);
+  const [isBloodRelative, setIsBloodRelative] = useState(false);
+  const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
+
+  useEffect(() => {
+    const years = [];
+    for (let i = 1950; i <= new Date().getFullYear(); i++) {
+      years.push(i);
+    }
+    setYear(years);
+  }, []);
+
+  const {
+    values,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      category: "non-teaching",
+      designation: "",
+      campus_prefrence: [{}, {}, {}],
+      personal_details: {
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        dob: "",
+        image: "",
+        father: {
+          name: "",
+          mobile: "",
+          occupation: "",
+        },
+        mother: {
+          name: "",
+          mobile: "",
+          occupation: "",
+        },
+        mobile: "",
+        email: "",
+        gender: "",
+        marital_status: "",
+        aadhar_number: "",
+      },
+      communication: [],
+      address: {
+        permanent: {},
+        current: {},
+      },
+      academic_details: [],
+      other_qualification: [],
+      work_experience: [],
+      total_experience: 0,
+      earliest_date_join: "",
+      before_working_in_payroll: "no",
+      blood_relative: {},
+      declaration: false,
+    },
+    // validationSchema: staffRegistrationSchema,
+    onSubmit: (values, action) => {
+      console.log(values);
+    },
+  });
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
+        <h1 className="font-bold text-[22px]">Post Details</h1>
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="select"
+              label={"Select Designation"}
+              className="my-4"
+              name="designation"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              value={values.designation}
+              onBlur={handleBlur}
+              error={errors.academic}
+              id="designation"
+              selectoptions={["Developer"]}
+            />
+          </div>
+        </div>
+        <h1 className="font-bold text-[22px]">Campus Preference</h1>
+        <p>
+          <strong>Note:</strong> Choosing campus preferences does not guarantee
+          placement into that respective campus. Placement is based on the
+          vacancy and other factors.
+        </p>
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="select"
+              label={"Preferred Campus 1"}
+              className="my-4"
+              name={`campus_prefrence[${0}].campus_1`}
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              id={`campus_prefrence[${0}].campus_1`}
+              value={values.campus_prefrence[0]?.campus_1}
+              // error={errors?.campus_prefrence[0]?.campus_1}
+              selectoptions={campusPreference}
+            />
+          </div>
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="select"
+              label={"Preferred Campus 2"}
+              className="my-4"
+              name="campus_prefrence[1].campus_2"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              id="campus_prefrence[1].campus_3"
+              value={values?.campus_prefrence[1]?.campus_2}
+              // error={errors?.campus_prefrence[1]?.campus_1}
+              selectoptions={campusPreference}
+            />
+          </div>
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="select"
+              label={"Preferred Campus 3"}
+              className="my-4"
+              name="campus_prefrence[2].campus_3"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              id="campus_prefrence[2].campus_3"
+              value={values?.campus_prefrence[2]?.campus_3}
+              // error={errors?.campus_prefrence[2]?.campus_3}
+              selectoptions={campusPreference}
+            />
+          </div>
+        </div>
+
+        <h1 className="font-bold text-[22px]">Personal Details</h1>
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"FirstName"}
+              className="my-4"
+              name="first_name"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  first_name: e.target.value,
+                })
+              }
+              value={values.first_name}
+              error={errors.first_name}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Middle Name"}
+              className="my-4"
+              name="middle"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  middle_name: e.target.value,
+                })
+              }
+              value={values.personal_details?.middle_name}
+              error={errors.personal_details?.middle_name}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Last Name"}
+              className="my-4"
+              name="lastName"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  last_name: e.target.value,
+                })
+              }
+              value={values.personal_details?.last_name}
+              error={errors.personal_details?.last_name}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="date"
+              label="Date of Birth"
+              name="dob"
+              required={true}
+              className="my-4"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  dob: e.target.value,
+                })
+              }
+              value={values.personal_details?.dob}
+              error={errors.personal_details?.dob}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12 flex gap-2">
+            <Input
+              type="select"
+              selectoptions={["Married", "Unmarried"]}
+              label={"Marital Status"}
+              className="my-4 flex-1"
+              style={{ "--color--": "#525252" }}
+              name="admission"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  marital_status: e.target.value,
+                })
+              }
+              value={values.personal_details?.marital_status}
+              error={errors.personal_details?.marital_status}
+            />
+
+            {values.personal_details?.marital_status === "Married" ? (
+              <Input
+                type="text"
+                label={"Spouse Name"}
+                className="my-4 flex-1"
+                name="spouse name"
+                onChange={(e) =>
+                  setFieldValue("personal_details", {
+                    ...values.personal_details,
+                    spouse_name: e.target.value,
+                  })
+                }
+                value={values.personal_details?.spouse}
+                error={errors.personal_details?.spouse}
+                style={{ "--color--": "#525252" }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Aadhaar Number"}
+              name="aadhaar"
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  aadhar_number: e.target.value,
+                })
+              }
+              value={values.personal_details?.aadhar_number}
+              error={errors.personal_details?.aadhar_number}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="file"
+              label="Photo"
+              name="fileupload"
+              accept=".png,.jpg,.jpeg"
+              id={"fileupload"}
+              className="my-4"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details,
+                  image: e.target.files[0],
+                })
+              }
+              // value={values.personal_details?.image}
+              error={errors.personal_details?.image}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <h2 className="font-bold text-lg">Gender</h2>
+            <div className="flex gap-4">
+              <div className="input_wrp flex gap-2">
+                <label htmlFor="">Male</label>
+                <input
+                  id="personal_details.gender"
+                  name="personal_details.gender"
+                  checked={
+                    values.personal_details.gender === "male" ? true : false
+                  }
+                  value={"male"}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="radio"
+                />
+              </div>
+              <div className="input_wrp flex gap-2">
+                <label htmlFor="">Female</label>
+                <input
+                  id="personal_details.gender"
+                  name="personal_details.gender"
+                  checked={
+                    values.personal_details.gender === "female" ? true : false
+                  }
+                  value={"female"}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="radio"
+                />
+              </div>
+              <div className="input_wrp flex gap-2">
+                <label htmlFor="">Others</label>
+                <input
+                  id="personal_details.gender"
+                  name="personal_details.gender"
+                  checked={
+                    values.personal_details.gender === "others" ? true : false
+                  }
+                  value={"others"}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="radio"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h1 className="font-bold text-[22px]">Parent Details</h1>
+        <div className="grid grid-cols-12 gap-4"></div>
+
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Father's Name"}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+              name="fathersname"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details.father,
+                  name: e.target.value,
+                })
+              }
+              value={values.personal_details?.father?.name}
+              error={errors.personal_details?.father?.name}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12 ">
+            <Input
+              type="number"
+              label="Phone Number"
+              name="mobile"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details.father.mobile,
+                  mobile: e.target.value,
+                })
+              }
+              value={values.personal_details?.father?.mobile}
+              error={errors.personal_details?.father?.mobile}
+              className="my-4"
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Occupation"}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details.father.occupation,
+                  occupation: e.target.value,
+                })
+              }
+              value={values.personal_details?.father?.occupation}
+              error={errors.personal_details?.father?.occupation}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Mother's Name"}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+              name="mothersname"
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details.mother.name,
+                  name: e.target.value,
+                })
+              }
+              value={values.personal_details?.mother?.name}
+              error={errors.personal_details?.mother?.name}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Occupation"}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Mobile Number"}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details", {
+                  ...values.personal_details.mother.mobile,
+                  mobile: e.target.value,
+                })
+              }
+              value={values.personal_details?.mother?.mobile}
+              error={errors.personal_details?.mother?.mobile}
+            />
+          </div>
+
+          <div className="col-span-12">
+            <h1 className="font-bold text-[22px]">Communication Skill:</h1>
+            <div className="grid grid-cols-12">
+              <div className="md:col-span-4 col-span-12">
+                <h2 className="font-bold text-lg">English</h2>
+
+                <div className="flex gap-4">
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[0].english.speak">
+                      Speak
+                    </label>
+                    <input
+                      id="communication[0].english.speak"
+                      value={values.communication[0]?.english?.speak}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[0].enlish.read">Read</label>
+                    <input
+                      id="communication[0].english.read"
+                      value={values.communication[0]?.english?.read}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[0].english.write">
+                      Write
+                    </label>
+                    <input
+                      id="communication[0].english.write"
+                      value={values.communication[0]?.english?.write}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-4 col-span-12">
+                <h2 className="font-bold text-lg">Hindi</h2>
+
+                <div className="flex gap-4">
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[1].hindi.speak">Speak</label>
+                    <input
+                      id="communication[1].hindi.speak"
+                      value={values.communication[1]?.hindi?.speak}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[1].enlish.read">Read</label>
+                    <input
+                      id="communication[1].hindi.read"
+                      value={values.communication[1]?.hindi?.read}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  <div className="input_group flex gap-2">
+                    <label htmlFor="communication[1].hindi.write">Write</label>
+                    <input
+                      id="communication[1].hindi.write"
+                      value={values.communication[1]?.hindi?.write}
+                      type="checkbox"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="md:col-span-4 col-span-12">
+                <h2 className="font-bold text-lg">Others</h2>
+
+                <input
+                  type="text"
+                  name={`communication[2].others.type`}
+                  id={`communication[2].others.type`}
+                  className="focus:outline-0 border"
+                  value={values.communication[2]?.others?.type}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+
+                {values.communication[2]?.others?.type ? (
+                  <div className="flex gap-4">
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[2].others.speak">
+                        Speak
+                      </label>
+                      <input
+                        id="communication[2].others.speak"
+                        value={values.communication[2]?.others?.speak}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[2].enlish.read">Read</label>
+                      <input
+                        id="communication[2].others.read"
+                        value={values.communication[2]?.others?.read}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[2].others.write">
+                        Write
+                      </label>
+                      <input
+                        id="communication[2].others.write"
+                        value={values.communication[2]?.others?.write}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="md:col-span-6 col-span-12">
+          <h1 className="font-bold text-[22px]">Address Details:</h1>
+        </div>
+        <div className="md:col-span-6 col-span-12">
+          <h1 className="font-bold text-[1rem] mb-4">Present Address</h1>
+        </div>
+
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Flat/House No"}
+              name="address.current.flat_house"
+              id="address.current.flat_house"
+              value={values.address.current?.flat_house}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Street/Lane"}
+              name="address.current.street_lane"
+              id="address.current.street_lane"
+              value={values.address.current?.street_lane}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Area/Locality"}
+              name="address.current.area_locality"
+              id="address.current.area_locality"
+              value={values.address.current?.area_locality}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Nearest Landmark"}
+              name="address.current.landmark"
+              id="address.current.landmark"
+              value={values.address.current?.landmark}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12 flex gap-2">
+            <Input
+              type="select"
+              selectoptions={country}
+              label={"Country"}
+              name="address.current.country"
+              id="address.current.country"
+              value={values.address.current?.country}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4 flex-1"
+              style={{ "--color--": "#525252" }}
+            />
+
+            {values.address.current?.country === "Other" ? (
+              <Input
+                type="text"
+                label={"Country Name"}
+                name="address.current.country_name"
+                id="address.current.country_name"
+                value={values.address.current?.country_name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="my-4 flex-1"
+                style={{ "--color--": "#525252" }}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            {values.address.current?.country === "Other" ? (
+              <Input
+                type="text"
+                label={"State Name"}
+                name="address.current.state"
+                id="address.current.state"
+                value={values.address.current?.state}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="my-4 flex-1"
+                style={{ "--color--": "#525252" }}
+              />
+            ) : (
+              <Input
+                type="select"
+                selectoptions={state}
+                label={"State"}
+                name="address.current.state"
+                id="address.current.state"
+                value={values.address.current?.state}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="my-4"
+                style={{ "--color--": "#525252" }}
+              />
+            )}
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"City"}
+              className="my-4"
+              name="address.current.city"
+              id="address.current.city"
+              value={values.address.current?.city}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="number"
+              label={"Pincode"}
+              name="address.current.pincode"
+              id="address.current.pincode"
+              value={values.address.current?.pincode}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4"
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+        </div>
+
+        <div className="col-span-12 flex gap-2">
+          <input
+            type="checkbox"
+            checked={isSameCurrentAddress}
+            value={isSameCurrentAddress}
+            id="isSameCurrentAddress"
+            onChange={(e) => {
+              setFieldValue("address.permanent", { ...values.address.current });
+              setIsSameCurrentAddress(e.target.checked);
+            }}
+          />
+          <label htmlFor="isSameCurrentAddress">Same as current</label>
+        </div>
+
+        {!isSameCurrentAddress ? (
+          <>
+            <h1 className="font-bold text-[1rem] mb-4">Permanent Address</h1>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Flat/House No"}
+                  name="address.permanent.flat_house"
+                  id="address.permanent.flat_house"
+                  value={values.address.permanent?.flat_house}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Street/Lane"}
+                  name="address.permanent.street_lane"
+                  id="address.permanent.street_lane"
+                  value={values.address.permanent?.street_lane}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Area/Locality"}
+                  name="address.permanent.area_locality"
+                  id="address.permanent.area_locality"
+                  value={values.address.permanent?.area_locality}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Nearest Landmark"}
+                  name="address.permanent.landmark"
+                  id="address.permanent.landmark"
+                  value={values.address.permanent?.landmark}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12 flex gap-2">
+                <Input
+                  type="select"
+                  selectoptions={country}
+                  label={"Country"}
+                  name="address.permanent.country"
+                  id="address.permanent.country"
+                  value={values.address.permanent?.country}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4 flex-1"
+                  style={{ "--color--": "#525252" }}
+                />
+
+                {values.address.permanent?.country === "Other" ? (
+                  <Input
+                    type="text"
+                    label={"Country Name"}
+                    name="address.permanent.country_name"
+                    id="address.permanent.country_name"
+                    value={values.address.permanent?.country_name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="my-4 flex-1"
+                    style={{ "--color--": "#525252" }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {values.address.permanent?.country === "Other" ? (
+                  <Input
+                    type="text"
+                    label={"State Name"}
+                    name="address.permanent.state"
+                    id="address.permanent.state"
+                    value={values.address.permanent?.state}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="my-4 flex-1"
+                    style={{ "--color--": "#525252" }}
+                  />
+                ) : (
+                  <Input
+                    type="select"
+                    selectoptions={state}
+                    label={"State"}
+                    name="address.permanent.state"
+                    id="address.permanent.state"
+                    value={values.address.permanent?.state}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="my-4"
+                    style={{ "--color--": "#525252" }}
+                  />
+                )}
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"City"}
+                  className="my-4"
+                  name="address.permanent.city"
+                  id="address.permanent.city"
+                  value={values.address.permanent?.city}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="number"
+                  label={"Pincode"}
+                  name="address.permanent.pincode"
+                  id="address.permanent.pincode"
+                  value={values.address.permanent?.pincode}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+
+        <div className="md:col-span-12">
+          <h1 className="font-bold text-[22px]">Academic Details:</h1>
+          <h1 className="font-bold text-[1rem] mb-4">Note:</h1>
+          <ul className="list-[square] mx-3 px-3">
+            <li>Exam</li>
+            <li>Year of Passing</li>
+            <li>
+              Board or University && Subject(in case of Graduation &
+              Post-Graduation)
+            </li>
+            <li>Institution</li>
+            <li>
+              Percentage Marks (Please Convert your CGPA to percentage){" "}
+              <span> -(All Subjects)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="grid grid-cols-12 gap-4">
+          <p className="col-span-12 my-2 text-2xl font-bold">High School</p>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Exam"}
+              className="my-4"
+              id={`academic_details[${0}].exam`}
+              name={`academic_details[${0}].exam`}
+              value={values.academic_details[0]?.exam}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={year}
+              label={"Year"}
+              className="my-4"
+              id={`academic_details[${0}].year`}
+              name={`academic_details[${0}].year`}
+              value={values.academic_details[0]?.year}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={schoolBoards}
+              label={"Board"}
+              className="my-4"
+              id={`academic_details[${0}].board`}
+              name={`academic_details[${0}].board`}
+              value={values.academic_details[0]?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"School Name"}
+              className="my-4"
+              id={`academic_details[${0}].school`}
+              name={`academic_details[${0}].school`}
+              value={values.academic_details[0]?.school}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="col-span-6">
+            <Input
+              type="number"
+              label={"Percentage"}
+              className="my-4"
+              id={`academic_details[${0}].percentage`}
+              name={`academic_details[${0}].percentage`}
+              value={values.academic_details[0]?.percentage}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={["English", "Others"]}
+              label={"Medium of Education"}
+              className="my-4"
+              id={`academic_details[${0}].medium`}
+              name={`academic_details[${0}].medium`}
+              value={values.academic_details[0]?.medium}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 gap-4">
+          <p className="col-span-12 my-2 text-2xl font-bold">Senior Secondry</p>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Exam"}
+              className="my-4"
+              id={`academic_details[${1}].exam`}
+              name={`academic_details[${1}].exam`}
+              value={values.academic_details[1]?.exam}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={year}
+              label={"Year"}
+              className="my-4"
+              id={`academic_details[${1}].year`}
+              name={`academic_details[${1}].year`}
+              value={values.academic_details[1]?.year}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={schoolBoards}
+              label={"Board"}
+              className="my-4"
+              id={`academic_details[${1}].board`}
+              name={`academic_details[${1}].board`}
+              value={values.academic_details[1]?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"School Name"}
+              className="my-4"
+              id={`academic_details[${1}].school`}
+              name={`academic_details[${1}].school`}
+              value={values.academic_details[1]?.school}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="col-span-6">
+            <Input
+              type="number"
+              label={"Percentage"}
+              className="my-4"
+              id={`academic_details[${1}].percentage`}
+              name={`academic_details[${1}].percentage`}
+              value={values.academic_details[1]?.percentage}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={["English", "Others"]}
+              label={"Medium of Education"}
+              className="my-4"
+              id={`academic_details[${1}].medium`}
+              name={`academic_details[${1}].medium`}
+              value={values.academic_details[1]?.medium}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 gap-4">
+          <p className="col-span-12 my-2 text-2xl font-bold">Gradution</p>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Exam"}
+              className="my-4"
+              id={`academic_details[${2}].exam`}
+              name={`academic_details[${2}].exam`}
+              value={values.academic_details[2]?.exam}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={year}
+              label={"Year"}
+              className="my-4"
+              id={`academic_details[${2}].year`}
+              name={`academic_details[${2}].year`}
+              value={values.academic_details[2]?.year}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={schoolBoards}
+              label={"Board"}
+              className="my-4"
+              id={`academic_details[${2}].board`}
+              name={`academic_details[${2}].board`}
+              value={values.academic_details[2]?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"School Name"}
+              className="my-4"
+              id={`academic_details[${2}].school`}
+              name={`academic_details[${2}].school`}
+              value={values.academic_details[2]?.school}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="col-span-6">
+            <Input
+              type="number"
+              label={"Percentage"}
+              className="my-4"
+              id={`academic_details[${2}].percentage`}
+              name={`academic_details[${2}].percentage`}
+              value={values.academic_details[2]?.percentage}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={["English", "Others"]}
+              label={"Medium of Education"}
+              className="my-4"
+              id={`academic_details[${2}].medium`}
+              name={`academic_details[${2}].medium`}
+              value={values.academic_details[2]?.medium}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+
+          <div className="font-bold text-[1rem] mb-4 md:col-span-12 flex gap-1">
+            <input
+              type="checkbox"
+              value={false}
+              id={`academic_details[${2}].isPursuing`}
+              name={`academic_details[${2}].isPursuing`}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <label htmlFor={`academic_details[${2}].isPursuing`}>
+              Check If Pursuing
+            </label>
+          </div>
+        </div>
+
+        {!values.academic_details[2]?.isPursuing ? (
+          <div className="grid grid-cols-12 gap-4">
+            <p className="col-span-12 my-2 text-2xl font-bold">
+              Post Gradution
+            </p>
+
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="text"
+                label={"Exam"}
+                className="my-4"
+                id={`academic_details[${3}].exam`}
+                name={`academic_details[${3}].exam`}
+                value={values.academic_details[3]?.exam}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={year}
+                label={"Year"}
+                className="my-4"
+                id={`academic_details[${3}].year`}
+                name={`academic_details[${3}].year`}
+                value={values.academic_details[3]?.year}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={schoolBoards}
+                label={"Board"}
+                className="my-4"
+                id={`academic_details[${3}].board`}
+                name={`academic_details[${3}].board`}
+                value={values.academic_details[3]?.board}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="text"
+                label={"School Name"}
+                className="my-4"
+                id={`academic_details[${3}].school`}
+                name={`academic_details[${3}].school`}
+                value={values.academic_details[3]?.school}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="col-span-6">
+              <Input
+                type="number"
+                label={"Percentage"}
+                className="my-4"
+                id={`academic_details[${3}].percentage`}
+                name={`academic_details[${3}].percentage`}
+                value={values.academic_details[3]?.percentage}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={["English", "Others"]}
+                label={"Medium of Education"}
+                className="my-4"
+                id={`academic_details[${3}].medium`}
+                name={`academic_details[${3}].medium`}
+                value={values.academic_details[3]?.medium}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        {/* <div onClick={handleAddfield} className="mb-4">
+          <IoIosAddCircleOutline className="text-4xl cursor-pointer text-white rounded-full bg-blue-600" />
+        </div> */}
+
+        <div className="md:col-span-12">
+          <h1 className="font-bold text-[22px]">Work Experience:</h1>
+        </div>
+        <div className="col-span-12">
+          If you are a fresher then enter 0(zero) as total work Experience{" "}
+        </div>
+        <div className="grid grid-cols-12 gap-4">
+          <div className="md:col-span-6 col-span-12">
+            <h1 className="font-bold text-[1rem] mb-4">
+              Total Work Experience(In Months) *
+            </h1>
+            <Input
+              type="text"
+              label={"Work Experience"}
+              className="my-4"
+              name="total_experience"
+              id="total_experience"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.total_experience}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <h1 className="font-bold text-[1rem] mb-4">
+              Your Total Work Experience(Auto Calculate)
+            </h1>
+            <Input
+              type="text"
+              // label={"0 yearn and 0 mog"}
+              className="my-4"
+              disabled
+              value={`${parseInt(values.total_experience / 12)} year and ${
+                values.total_experience % 12
+              } months`}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+        </div>
+        <div className="">
+          <div className="col-span-12 font-bold text-[1rem] mb-4">
+            PROVIDE YOUR LAST THREE WORK EXPERIENCES:
+            <span className="text-color:red">*</span>
+          </div>
+
+          <div className="wrp">
+            <h2 className="font-bold text-lg">Latest Job</h2>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Work Experience"}
+                  className="my-4"
+                  id={`work_experience[${0}].work`}
+                  name={`work_experience[${0}].work`}
+                  value={values.work_experience[0]?.work}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Designation"}
+                  className="my-4"
+                  id={`work_experience[${0}].designation`}
+                  name={`work_experience[${0}].designation`}
+                  value={values.work_experience[0]?.designation}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Organisation"}
+                  className="my-4"
+                  id={`work_experience[${0}].organistion`}
+                  name={`work_experience[${0}].organistion`}
+                  value={values.work_experience[0]?.organistion}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  required={true}
+                  label={"Date of Joining"}
+                  className="my-4"
+                  id={`work_experience[${0}].joining_date`}
+                  name={`work_experience[${0}].joining_date`}
+                  value={values.work_experience[0]?.joining_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  label={"Date of Leaving"}
+                  className="my-4"
+                  id={`work_experience[${0}].leaving_date`}
+                  name={`work_experience[${0}].leaving_date`}
+                  value={values.work_experience[0]?.leaving_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Salary drawn in Rs/Month 1:"}
+                  className="my-4"
+                  id={`work_experience[${0}].salary`}
+                  name={`work_experience[${0}].salary`}
+                  value={values.work_experience[0]?.salary}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Reason for Leaving"}
+                  className="my-4"
+                  id={`work_experience[${0}].reason`}
+                  name={`work_experience[${0}].reason`}
+                  value={values.work_experience[0]?.reason}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Nature of The Job"}
+                  className="my-4"
+                  id={`work_experience[${0}].job_nature`}
+                  name={`work_experience[${0}].job_nature`}
+                  value={values.work_experience[0]?.job_nature}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="font-bold text-[1rem] mb-4 col-span-12 flex gap-1">
+                <input
+                  type="checkbox"
+                  id={`work_experience[${0}].isWorking`}
+                  name={`work_experience[${0}].isWorking`}
+                  value={values.work_experience[0]?.isWorking}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  checked={values.work_experience[1]?.isPursuing}
+                />
+                <label htmlFor={`work_experience[${0}].isWorking`}>
+                  Currently Working Here!
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="wrp">
+            <h2 className="font-bold text-lg">Previous Job 1</h2>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Work Experience"}
+                  className="my-4"
+                  id={`work_experience[${1}].work`}
+                  name={`work_experience[${1}].work`}
+                  value={values.work_experience[1]?.work}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Designation"}
+                  className="my-4"
+                  id={`work_experience[${1}].designation`}
+                  name={`work_experience[${1}].designation`}
+                  value={values.work_experience[1]?.designation}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Organisation"}
+                  className="my-4"
+                  id={`work_experience[${1}].organistion`}
+                  name={`work_experience[${1}].organistion`}
+                  value={values.work_experience[1]?.organistion}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  label={"Date of Joining"}
+                  className="my-4"
+                  id={`work_experience[${1}].joining_date`}
+                  name={`work_experience[${1}].joining_date`}
+                  value={values.work_experience[1]?.joining_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  label={"Date of Leaving"}
+                  className="my-4"
+                  id={`work_experience[${1}].leaving_date`}
+                  name={`work_experience[${1}].leaving_date`}
+                  value={values.work_experience[1]?.leaving_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Salary drawn in Rs/Month 1:"}
+                  className="my-4"
+                  id={`work_experience[${1}].salary`}
+                  name={`work_experience[${1}].salary`}
+                  value={values.work_experience[1]?.salary}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Reason for Leaving"}
+                  className="my-4"
+                  id={`work_experience[${1}].reason`}
+                  name={`work_experience[${1}].reason`}
+                  value={values.work_experience[1]?.reason}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Nature of The Job"}
+                  className="my-4"
+                  id={`work_experience[${1}].job_nature`}
+                  name={`work_experience[${1}].job_nature`}
+                  value={values.work_experience[1]?.job_nature}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="wrp">
+            <h2 className="font-bold text-lg">Previous Job 2</h2>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Work Experience"}
+                  className="my-4"
+                  id={`work_experience[${2}].work`}
+                  name={`work_experience[${2}].work`}
+                  value={values.work_experience[2]?.work}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Designation"}
+                  className="my-4"
+                  id={`work_experience[${2}].designation`}
+                  name={`work_experience[${2}].designation`}
+                  value={values.work_experience[2]?.designation}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Organisation"}
+                  className="my-4"
+                  id={`work_experience[${2}].organistion`}
+                  name={`work_experience[${2}].organistion`}
+                  value={values.work_experience[2]?.organistion}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  label={"Date of Joining"}
+                  className="my-4"
+                  id={`work_experience[${2}].joining_date`}
+                  name={`work_experience[${2}].joining_date`}
+                  value={values.work_experience[2]?.joining_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="date"
+                  label={"Date of Leaving"}
+                  className="my-4"
+                  id={`work_experience[${2}].leaving_date`}
+                  name={`work_experience[${2}].leaving_date`}
+                  value={values.work_experience[2]?.leaving_date}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Salary drawn in Rs/Month 1:"}
+                  className="my-4"
+                  id={`work_experience[${2}].salary`}
+                  name={`work_experience[${2}].salary`}
+                  value={values.work_experience[2]?.salary}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Reason for Leaving"}
+                  className="my-4"
+                  id={`work_experience[${2}].reason`}
+                  name={`work_experience[${2}].reason`}
+                  value={values.work_experience[2]?.reason}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+              <div className="md:col-span-6 col-span-12">
+                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+                <Input
+                  type="text"
+                  label={"Nature of The Job"}
+                  className="my-4"
+                  id={`work_experience[${2}].job_nature`}
+                  name={`work_experience[${2}].job_nature`}
+                  value={values.work_experience[2]?.job_nature}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex">
+          <h2>HAVE YOU WORKED ON CMS PAYROLL BEFORE </h2>
+          <div className="flex gap-2 ml-1">
+            <label htmlFor="">Yes</label>
+            <input
+              type="radio"
+              value="yes"
+              name="before_working_in_payroll"
+              id="before_working_in_payroll-yes"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            <label htmlFor="">No</label>
+            <input
+              type="radio"
+              value="no"
+              name="before_working_in_payroll"
+              id="before_working_in_payroll-no"
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-12 gap-4 mb-2">
+          <div className="col-span-12">
+            <h1 className="font-bold text-[1rem] mb-4">
+              Earliest Date you can join<span>*</span>:
+            </h1>
+            Earliest Date you can join (Date Format : DD-MM-YYYY, e.g.
+            10-JUN-2021)
+            <Input
+              type="date"
+              label="Date"
+              required={true}
+              name="earliest_date_join"
+              value={values.earliest_date_join}
+              id="earliest_date_join-no"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              className="my-4 md:w-1/2 w-full"
+            />
+          </div>
+
+          <div className="font-bold text-[1rem] mb-4 col-span-12">
+            <div className="flex">
+              <h2>Do you have a blood relative working in CMS?</h2>
+              <div className="flex gap-2 ml-1">
+                <label htmlFor="cms_working-yes">Yes</label>
+                <input
+                  type="radio"
+                  id="cms_working-yes"
+                  name="cms_working"
+                  onClick={() => setIsBloodRelative(true)}
+                  checked={isBloodRelative}
+                  value="yes"
+                />
+                <label htmlFor="cms_working-no">No</label>
+                <input
+                  type="radio"
+                  id="cms_working-no"
+                  name="cms_working"
+                  checked={!isBloodRelative}
+                  onClick={() => setIsBloodRelative(false)}
+                  value="no"
+                />
+              </div>
+            </div>
+          </div>
+
+          {isBloodRelative ? (
+            <>
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Name of Relative "}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Designation"}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+
+              <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="select"
+                  selectoptions={admission}
+                  label={"Campus"}
+                  className="my-4"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+
+              <div className="md:col-span-6 col-span-12"></div>
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="font-bold text-[1rem] col-span-12">
+          Declaration:<span>*</span>
+          <div className="flex gap-2">
+            <input
+              type="checkbox"
+              name="declaration"
+              id="declaration"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.declaration}
+              checked={values.declaration}
+            />
+            <label htmlFor="declaration">
+              I declare that the entries in this application form are true to
+              the best of my knowledge abd belief.
+            </label>
+          </div>
+        </div>
+
+        <div className="col-span-12 mb-2">
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+          >
+            Save & Update
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default NonVacancy;

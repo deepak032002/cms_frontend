@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Vacancy from "../Vacancy";
-import NonVacancy from "../NonVacancy";
+import Vacancy from "../../components/Vacancy";
+import NonVacancy from "../../components/NonVacancy";
 import color from "../../assets/images/color-logo.jpg";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -17,7 +17,7 @@ const VacancyWrapper = () => {
   const token = useSelector((state) => state.auth.token);
   useEffect(() => {
     if (!token) {
-      navigate("/");
+      navigate("/vacancy");
     }
   }, []);
 

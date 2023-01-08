@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
-import SignUp from "./components/pages/SignUp";
-import LoginUp from "./components/pages/LoginUp";
+import SignUp from "./pages/SignUp";
+import LoginUp from "./pages/LoginUp";
 import { Routes, Route } from "react-router-dom";
-import VacancyWrapper from "./components/VacancyWrapper";
+import VacancyWrapper from "./pages/VacancyWrapper";
 function App() {
   return (
     <div className="App">

@@ -21,6 +21,7 @@ const Input = ({
   onFocus,
   disabled,
   required,
+  defaultValue
 }) => {
   const elemId = useId();
   useEffect(() => {
@@ -55,7 +56,7 @@ const Input = ({
           value={value}
           className={`w-full p-[10px] rounded-[5px] text-[1.2rem] bg-transparent border border-[#525252] outline-none`}
         >
-          <option>{label}</option>
+          <option value="">{label}</option>
           {selectoptions.map((item, id) => {
             return (
               <option key={new Date().getTime() + id + elemId} value={item}>
@@ -65,7 +66,7 @@ const Input = ({
           })}
         </select>
         <span className="text-red-600">
-          {error && error ? <div>{error}</div> : null}
+          {error ? <div>{error}</div> : ""}
         </span>
       </div>
     );
@@ -140,6 +141,7 @@ const Input = ({
           <input
             placeholder={type === "date" ? "" : " "}
             // required={required}
+            defaultValue={defaultValue}
             autoFocus={autoFocus}
             onFocus={onFocus}
             style={style || { "--color--": "#525252" }}

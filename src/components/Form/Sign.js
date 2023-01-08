@@ -1,54 +1,115 @@
-import { useState } from 'react';
-import { signupFields } from "../constants/formFields"
 import FormAction from "./FormAction";
 import Input from "./Input";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { signUpApi } from "../../api/auth";
+import { toast } from "react-toastify";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const fields=signupFields;
-let fieldsState={};
+export default function Sign() {
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const handleSignUp = async (values, action) => {
+    const res = await signUpApi(values);
+    console.log(res);
 
-fields.forEach(field => fieldsState[field.id]='');
+    if (res?.code === "ERR_BAD_REQUEST" && res?.response.status === 409) {
+      toast.error(res.response.data.message);
+    }
 
-export default function Sign(){
-  const [signupState,setSignupState]=useState(fieldsState);
+    if (res?.status === 201) {
+      toast.success("Successfully Registered!");
+      navigate("/");
+    }
+  };
 
-  const handleChange=(e)=>setSignupState({...signupState,[e.target.id]:e.target.value});
+  const formikSignUp = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirm_password: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .required("This field is required!")
+        .min(3, "Atleast enter 3 character"),
+      email: Yup.string()
+        .email("Enter valid email!")
+        .required("This field is required!"),
+      password: Yup.string().required("This field is required!").min(6),
+      confirm_password: Yup.string()
+        .required("This field is required!")
+        .min(6)
+        .oneOf(
+          [Yup.ref("password"), null],
+          "Password and confirm password should be match!"
+        ),
+    }),
 
-  const handleSubmit=(e)=>{
-    e.preventDefault();
-    console.log(signupState)
-    createAccount()
+    onSubmit: (values, action) => {
+      handleSignUp(values, action);
+    },
+  });
+
+  if (token) {
+    return <Navigate to="/agreement" />;
   }
 
-  //handle Signup API Integration here
-  const createAccount=()=>{
+  return (
+    <form className="mt-8 space-y-6" onSubmit={formikSignUp.handleSubmit}>
+      <div className="">
+        <Input
+          handleChange={formikSignUp.handleChange}
+          value={formikSignUp.values.name}
+          labelText={"Name"}
+          id={"name"}
+          name={"name"}
+          error={formikSignUp.errors?.name}
+          type={"text"}
+          isRequired={true}
+          placeholder={"Name"}
+        />
 
-  }
+        <Input
+          handleChange={formikSignUp.handleChange}
+          value={formikSignUp.values.email}
+          labelText={"Email"}
+          id={"email"}
+          name={"email"}
+          error={formikSignUp.errors?.email}
+          type={"email"}
+          isRequired={true}
+          placeholder={"Email"}
+        />
 
-    return(
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-        <div className="">
-        {
-                fields.map(field=>
-                        <Input
-                            key={field.id}
-                            handleChange={handleChange}
-                            value={signupState[field.id]}
-                            labelText={field.labelText}
-                            labelFor={field.labelFor}
-                            id={field.id}
-                            name={field.name}
-                            type={field.type}
-                            isRequired={field.isRequired}
-                            placeholder={field.placeholder}
-                    />
-                
-                )
-            }
-          <FormAction handleSubmit={handleSubmit} text="Sign" />
-        </div>
+        <Input
+          handleChange={formikSignUp.handleChange}
+          value={formikSignUp.values.password}
+          labelText={"Password"}
+          id={"password"}
+          name={"password"}
+          error={formikSignUp.errors?.password}
+          type={"password"}
+          isRequired={true}
+          placeholder={"Password"}
+        />
 
-         
+        <Input
+          handleChange={formikSignUp.handleChange}
+          value={formikSignUp.values.confirm_password}
+          labelText={"Password"}
+          id={"confirm_password"}
+          name={"confirm_password"}
+          error={formikSignUp.errors?.confirm_password}
+          type={"password"}
+          isRequired={true}
+          placeholder={"Confirm Password"}
+        />
 
-      </form>
-    )
+        <FormAction handleSubmit={formikSignUp.handleSubmit} text="Sign Ups" />
+      </div>
+    </form>
+  );
 }

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import Vacancy from "../../components/Vacancy";
 import NonVacancy from "../../components/NonVacancy";
 import color from "../../assets/images/color-logo.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const VacancyWrapper = () => {
   const [isShowNewStudentForm, setIsShowNewStudentForm] = useState(false);
@@ -15,11 +14,11 @@ const VacancyWrapper = () => {
 
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
-  useEffect(() => {
-    if (!token) {
-      navigate("/vacancy");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!token) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   return (
     <div>

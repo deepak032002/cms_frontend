@@ -1,8 +1,6 @@
 import * as Yup from "yup";
 
-export const staffTeachingSchema = Yup.object({
-  academic: Yup.string().required("This field is required"),
-  subject: Yup.string().required("This field is required"),
+const comman = {
   campus_prefrence: Yup.array()
     .of(
       Yup.object().shape({
@@ -91,4 +89,15 @@ export const staffTeachingSchema = Yup.object({
     designation: Yup.string(),
     campus: Yup.string(),
   }),
+};
+
+export const staffTeachingSchema = Yup.object({
+  academic: Yup.string().required("This field is required"),
+  subject: Yup.string().required("This field is required"),
+  ...comman,
+});
+
+export const staffNonTeachingSchema = Yup.object({
+  designation: Yup.string().required("This field is required"),
+  ...comman,
 });

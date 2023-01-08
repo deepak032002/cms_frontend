@@ -3,6 +3,8 @@ import Input from "./Input";
 import { staffTeachingSchema } from "../utils/yupSchema";
 
 import { useFormik } from "formik";
+import { vacancyTeachingForm } from "../api/vacancyapply";
+import { useSelector } from "react-redux";
 
 const admission = [
   "Playgroup",
@@ -111,6 +113,12 @@ const Vacancy = () => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
+  const token = useSelector((state) => state.auth.token);
+
+  const handleVacancyTeaching = async (data, action) => {
+    const res = vacancyTeachingForm(data, token);
+    console.log(res);
+  };
 
   useEffect(() => {
     const years = [];
@@ -161,17 +169,19 @@ const Vacancy = () => {
         current: {},
       },
       academic_details: [],
-      other_qualification: [],
       work_experience: [],
       total_experience: 0,
       earliest_date_join: "",
       before_working_in_payroll: "no",
       blood_relative: {},
       declaration: false,
+      isShortlisted: false,
+      paymentConfirmation: false
     },
     validationSchema: staffTeachingSchema,
+
     onSubmit: (values, action) => {
-      console.log(values);
+      handleVacancyTeaching(values, action);
     },
   });
 
@@ -402,6 +412,36 @@ const Vacancy = () => {
               }
               onBlur={handleBlur}
               error={errors.personal_details?.image}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="number"
+              label={"Mobile"}
+              className="my-4"
+              name="personal_details.mobile"
+              id="personal_details.mobile"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.mobile}
+              error={errors.personal_details?.mobile}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Email"}
+              className="my-4"
+              name="personal_details.email"
+              id="personal_details.email"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.email}
+              error={errors.personal_details?.email}
             />
           </div>
 

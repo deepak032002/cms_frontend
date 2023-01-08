@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { store } from "../../store";
 
 const initialState = {
-  token: "abc"
+  token: "abc",
 };
 
 const authSlice = createSlice({
@@ -12,7 +11,7 @@ const authSlice = createSlice({
     setToken: (store, action) => {
       store.token = action.payload;
     },
-    removeToken: () => {
+    removeToken: (store) => {
       store.token = "";
     },
   },

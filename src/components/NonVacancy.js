@@ -1,26 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Input from "./Input";
+import { staffNonTeachingSchema } from "../utils/yupSchema";
 
 import { useFormik } from "formik";
-
-const admission = [
-  "Playgroup",
-  "Montessorie",
-  "Nursery",
-  "Kg",
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-];
+import { vacancyNonTeachingForm } from "../api/vacancyapply";
+import { useSelector } from "react-redux";
 
 const campusPreference = [
   "Head Office",
@@ -102,10 +86,16 @@ const schoolBoards = [
   "Others",
 ];
 
-const NonVacancy = () => {
+const Vacancy = () => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
+  const token = useSelector((state) => state.auth.token);
+
+  const handleVacancyNonTeaching = async (data, action) => {
+    const res = vacancyNonTeachingForm(data, token);
+    console.log(res);
+  };
 
   useEffect(() => {
     const years = [];
@@ -155,17 +145,19 @@ const NonVacancy = () => {
         current: {},
       },
       academic_details: [],
-      other_qualification: [],
       work_experience: [],
       total_experience: 0,
       earliest_date_join: "",
       before_working_in_payroll: "no",
       blood_relative: {},
       declaration: false,
+      isShortlisted: false,
+      paymentConfirmation: false,
     },
-    // validationSchema: staffRegistrationSchema,
+    validationSchema: staffNonTeachingSchema,
+
     onSubmit: (values, action) => {
-      console.log(values);
+      handleVacancyNonTeaching(values, action);
     },
   });
 
@@ -184,8 +176,8 @@ const NonVacancy = () => {
               onChange={handleChange}
               value={values.designation}
               onBlur={handleBlur}
-              error={errors.academic}
               id="designation"
+              error={errors.designation}
               selectoptions={["Developer"]}
             />
           </div>
@@ -202,13 +194,17 @@ const NonVacancy = () => {
               type="select"
               label={"Preferred Campus 1"}
               className="my-4"
-              name={`campus_prefrence[${0}].campus_1`}
+              name={`campus_prefrence[${0}].campus`}
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              id={`campus_prefrence[${0}].campus_1`}
-              value={values.campus_prefrence[0]?.campus_1}
-              // error={errors?.campus_prefrence[0]?.campus_1}
+              id={`campus_prefrence[${0}].campus`}
+              value={values.campus_prefrence[0]?.campus}
+              error={
+                Array.isArray(errors.campus_prefrence)
+                  ? errors.campus_prefrence[0]?.campus
+                  : ""
+              }
               selectoptions={campusPreference}
             />
           </div>
@@ -217,13 +213,17 @@ const NonVacancy = () => {
               type="select"
               label={"Preferred Campus 2"}
               className="my-4"
-              name="campus_prefrence[1].campus_2"
+              name="campus_prefrence[1].campus"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              id="campus_prefrence[1].campus_3"
-              value={values?.campus_prefrence[1]?.campus_2}
-              // error={errors?.campus_prefrence[1]?.campus_1}
+              id="campus_prefrence[1].campus"
+              value={values?.campus_prefrence[1]?.campus}
+              error={
+                Array.isArray(errors.campus_prefrence)
+                  ? errors.campus_prefrence[1]?.campus
+                  : ""
+              }
               selectoptions={campusPreference}
             />
           </div>
@@ -232,13 +232,17 @@ const NonVacancy = () => {
               type="select"
               label={"Preferred Campus 3"}
               className="my-4"
-              name="campus_prefrence[2].campus_3"
+              name="campus_prefrence[2].campus"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              id="campus_prefrence[2].campus_3"
-              value={values?.campus_prefrence[2]?.campus_3}
-              // error={errors?.campus_prefrence[2]?.campus_3}
+              id="campus_prefrence[2].campus"
+              value={values?.campus_prefrence[2]?.campus}
+              error={
+                Array.isArray(errors.campus_prefrence)
+                  ? errors.campus_prefrence[2]?.campus
+                  : ""
+              }
               selectoptions={campusPreference}
             />
           </div>
@@ -251,16 +255,13 @@ const NonVacancy = () => {
               type="text"
               label={"FirstName"}
               className="my-4"
-              name="first_name"
+              name="personal_details.first_name"
+              id="personal_details.first_name"
               style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  first_name: e.target.value,
-                })
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.first_name}
-              error={errors.first_name}
+              error={errors.personal_details?.first_name}
             />
           </div>
 
@@ -269,14 +270,11 @@ const NonVacancy = () => {
               type="text"
               label={"Middle Name"}
               className="my-4"
-              name="middle"
               style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  middle_name: e.target.value,
-                })
-              }
+              name="personal_details.middle_name"
+              id="personal_details.middle_name"
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.middle_name}
               error={errors.personal_details?.middle_name}
             />
@@ -287,16 +285,13 @@ const NonVacancy = () => {
               type="text"
               label={"Last Name"}
               className="my-4"
-              name="lastName"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  last_name: e.target.value,
-                })
-              }
+              name="personal_details.last_name"
+              id="personal_details.last_name"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.last_name}
               error={errors.personal_details?.last_name}
-              style={{ "--color--": "#525252" }}
             />
           </div>
 
@@ -304,15 +299,13 @@ const NonVacancy = () => {
             <Input
               type="date"
               label="Date of Birth"
-              name="dob"
               required={true}
               className="my-4"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  dob: e.target.value,
-                })
-              }
+              name="personal_details.dob"
+              id="personal_details.dob"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.dob}
               error={errors.personal_details?.dob}
             />
@@ -325,13 +318,10 @@ const NonVacancy = () => {
               label={"Marital Status"}
               className="my-4 flex-1"
               style={{ "--color--": "#525252" }}
-              name="admission"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  marital_status: e.target.value,
-                })
-              }
+              name="personal_details.marital_status"
+              id="personal_details.marital_status"
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.marital_status}
               error={errors.personal_details?.marital_status}
             />
@@ -341,16 +331,13 @@ const NonVacancy = () => {
                 type="text"
                 label={"Spouse Name"}
                 className="my-4 flex-1"
-                name="spouse name"
-                onChange={(e) =>
-                  setFieldValue("personal_details", {
-                    ...values.personal_details,
-                    spouse_name: e.target.value,
-                  })
-                }
+                name="personal_details.spouse"
+                id="personal_details.spouse"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 value={values.personal_details?.spouse}
                 error={errors.personal_details?.spouse}
-                style={{ "--color--": "#525252" }}
               />
             ) : (
               <></>
@@ -361,15 +348,12 @@ const NonVacancy = () => {
             <Input
               type="text"
               label={"Aadhaar Number"}
-              name="aadhaar"
               className="my-4"
+              name="personal_details.aadhar_number"
+              id="personal_details.aadhar_number"
               style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  aadhar_number: e.target.value,
-                })
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.aadhar_number}
               error={errors.personal_details?.aadhar_number}
             />
@@ -379,18 +363,46 @@ const NonVacancy = () => {
             <Input
               type="file"
               label="Photo"
-              name="fileupload"
               accept=".png,.jpg,.jpeg"
-              id={"fileupload"}
               className="my-4"
+              name="personal_details.image"
+              id="personal_details.image"
+              style={{ "--color--": "#525252" }}
               onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details,
-                  image: e.target.files[0],
-                })
+                setFieldValue("personal_details.image", e.target.files[0])
               }
-              // value={values.personal_details?.image}
+              onBlur={handleBlur}
               error={errors.personal_details?.image}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="number"
+              label={"Mobile"}
+              className="my-4"
+              name="personal_details.mobile"
+              id="personal_details.mobile"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.mobile}
+              error={errors.personal_details?.mobile}
+            />
+          </div>
+
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="text"
+              label={"Email"}
+              className="my-4"
+              name="personal_details.email"
+              id="personal_details.email"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.email}
+              error={errors.personal_details?.email}
             />
           </div>
 
@@ -452,14 +464,11 @@ const NonVacancy = () => {
               type="text"
               label={"Father's Name"}
               className="my-4"
+              name="personal_details.father.name"
+              id="personal_details.father.name"
               style={{ "--color--": "#525252" }}
-              name="fathersname"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details.father,
-                  name: e.target.value,
-                })
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.father?.name}
               error={errors.personal_details?.father?.name}
             />
@@ -468,14 +477,12 @@ const NonVacancy = () => {
           <div className="md:col-span-4 col-span-12 ">
             <Input
               type="number"
-              label="Phone Number"
-              name="mobile"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details.father.mobile,
-                  mobile: e.target.value,
-                })
-              }
+              label="Mobile Number"
+              name="personal_details.father.mobile"
+              id="personal_details.father.mobile"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.father?.mobile}
               error={errors.personal_details?.father?.mobile}
               className="my-4"
@@ -488,12 +495,10 @@ const NonVacancy = () => {
               label={"Occupation"}
               className="my-4"
               style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details.father.occupation,
-                  occupation: e.target.value,
-                })
-              }
+              name="personal_details.father.occupation"
+              id="personal_details.father.occupation"
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.father?.occupation}
               error={errors.personal_details?.father?.occupation}
             />
@@ -504,14 +509,11 @@ const NonVacancy = () => {
               type="text"
               label={"Mother's Name"}
               className="my-4"
+              name="personal_details.mother.name"
+              id="personal_details.mother.name"
               style={{ "--color--": "#525252" }}
-              name="mothersname"
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details.mother.name,
-                  name: e.target.value,
-                })
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.mother?.name}
               error={errors.personal_details?.mother?.name}
             />
@@ -522,22 +524,26 @@ const NonVacancy = () => {
               type="text"
               label={"Occupation"}
               className="my-4"
+              name="personal_details.mother.occupation"
+              id="personal_details.mother.occupation"
               style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.mother?.occupation}
+              error={errors.personal_details?.mother?.occupation}
             />
           </div>
 
           <div className="md:col-span-4 col-span-12">
             <Input
-              type="text"
+              type="number"
               label={"Mobile Number"}
               className="my-4"
+              name="personal_details.mother.mobile"
+              id="personal_details.mother.mobile"
               style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details", {
-                  ...values.personal_details.mother.mobile,
-                  mobile: e.target.value,
-                })
-              }
+              onChange={handleChange}
+              onBlur={handleBlur}
               value={values.personal_details?.mother?.mobile}
               error={errors.personal_details?.mother?.mobile}
             />
@@ -697,6 +703,7 @@ const NonVacancy = () => {
               name="address.current.flat_house"
               id="address.current.flat_house"
               value={values.address.current?.flat_house}
+              error={errors.address?.current?.flat_house}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4"
@@ -710,6 +717,7 @@ const NonVacancy = () => {
               name="address.current.street_lane"
               id="address.current.street_lane"
               value={values.address.current?.street_lane}
+              error={errors.address?.current?.street_lane}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4"
@@ -723,6 +731,7 @@ const NonVacancy = () => {
               name="address.current.area_locality"
               id="address.current.area_locality"
               value={values.address.current?.area_locality}
+              error={errors.address?.current?.area_locality}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4"
@@ -736,6 +745,7 @@ const NonVacancy = () => {
               name="address.current.landmark"
               id="address.current.landmark"
               value={values.address.current?.landmark}
+              error={errors.address?.current?.landmark}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4"
@@ -750,6 +760,7 @@ const NonVacancy = () => {
               name="address.current.country"
               id="address.current.country"
               value={values.address.current?.country}
+              error={errors.address?.current?.country}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4 flex-1"
@@ -763,6 +774,7 @@ const NonVacancy = () => {
                 name="address.current.country_name"
                 id="address.current.country_name"
                 value={values.address.current?.country_name}
+                error={errors.address?.current?.country_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="my-4 flex-1"
@@ -780,6 +792,7 @@ const NonVacancy = () => {
                 name="address.current.state"
                 id="address.current.state"
                 value={values.address.current?.state}
+                error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="my-4 flex-1"
@@ -793,6 +806,7 @@ const NonVacancy = () => {
                 name="address.current.state"
                 id="address.current.state"
                 value={values.address.current?.state}
+                error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className="my-4"
@@ -808,6 +822,7 @@ const NonVacancy = () => {
               name="address.current.city"
               id="address.current.city"
               value={values.address.current?.city}
+              error={errors.address?.current?.city}
               onChange={handleChange}
               onBlur={handleBlur}
               style={{ "--color--": "#525252" }}
@@ -820,6 +835,7 @@ const NonVacancy = () => {
               name="address.current.pincode"
               id="address.current.pincode"
               value={values.address.current?.pincode}
+              error={errors.address?.current?.pincode}
               onChange={handleChange}
               onBlur={handleBlur}
               className="my-4"
@@ -853,6 +869,7 @@ const NonVacancy = () => {
                   name="address.permanent.flat_house"
                   id="address.permanent.flat_house"
                   value={values.address.permanent?.flat_house}
+                  error={errors.address?.permanent?.flat_house}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4"
@@ -866,6 +883,7 @@ const NonVacancy = () => {
                   name="address.permanent.street_lane"
                   id="address.permanent.street_lane"
                   value={values.address.permanent?.street_lane}
+                  error={errors.address?.permanent?.street_lane}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4"
@@ -879,6 +897,7 @@ const NonVacancy = () => {
                   name="address.permanent.area_locality"
                   id="address.permanent.area_locality"
                   value={values.address.permanent?.area_locality}
+                  error={errors.address?.permanent?.area_locality}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4"
@@ -892,6 +911,7 @@ const NonVacancy = () => {
                   name="address.permanent.landmark"
                   id="address.permanent.landmark"
                   value={values.address.permanent?.landmark}
+                  error={errors.address?.permanent?.landmark}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4"
@@ -906,6 +926,7 @@ const NonVacancy = () => {
                   name="address.permanent.country"
                   id="address.permanent.country"
                   value={values.address.permanent?.country}
+                  error={errors.address?.permanent?.country}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4 flex-1"
@@ -919,6 +940,7 @@ const NonVacancy = () => {
                     name="address.permanent.country_name"
                     id="address.permanent.country_name"
                     value={values.address.permanent?.country_name}
+                    error={errors.address?.permanent?.country_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="my-4 flex-1"
@@ -936,6 +958,7 @@ const NonVacancy = () => {
                     name="address.permanent.state"
                     id="address.permanent.state"
                     value={values.address.permanent?.state}
+                    error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="my-4 flex-1"
@@ -949,6 +972,7 @@ const NonVacancy = () => {
                     name="address.permanent.state"
                     id="address.permanent.state"
                     value={values.address.permanent?.state}
+                    error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="my-4"
@@ -964,6 +988,7 @@ const NonVacancy = () => {
                   name="address.permanent.city"
                   id="address.permanent.city"
                   value={values.address.permanent?.city}
+                  error={errors.address?.permanent?.city}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   style={{ "--color--": "#525252" }}
@@ -976,6 +1001,7 @@ const NonVacancy = () => {
                   name="address.permanent.pincode"
                   id="address.permanent.pincode"
                   value={values.address.permanent?.pincode}
+                  error={errors.address?.permanent?.pincode}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="my-4"
@@ -1013,6 +1039,8 @@ const NonVacancy = () => {
             <Input
               type="text"
               label={"Exam"}
+              disabled
+              defaultValue={"High School"}
               className="my-4"
               id={`academic_details[${0}].exam`}
               name={`academic_details[${0}].exam`}
@@ -1031,6 +1059,11 @@ const NonVacancy = () => {
               id={`academic_details[${0}].year`}
               name={`academic_details[${0}].year`}
               value={values.academic_details[0]?.year}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[0]?.year
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1045,6 +1078,11 @@ const NonVacancy = () => {
               id={`academic_details[${0}].board`}
               name={`academic_details[${0}].board`}
               value={values.academic_details[0]?.board}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[0]?.board
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1058,6 +1096,11 @@ const NonVacancy = () => {
               id={`academic_details[${0}].school`}
               name={`academic_details[${0}].school`}
               value={values.academic_details[0]?.school}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[0]?.school
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1071,6 +1114,11 @@ const NonVacancy = () => {
               id={`academic_details[${0}].percentage`}
               name={`academic_details[${0}].percentage`}
               value={values.academic_details[0]?.percentage}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[0]?.percentage
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1085,6 +1133,11 @@ const NonVacancy = () => {
               id={`academic_details[${0}].medium`}
               name={`academic_details[${0}].medium`}
               value={values.academic_details[0]?.medium}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[0]?.medium
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1098,7 +1151,9 @@ const NonVacancy = () => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="text"
-              label={"Exam"}
+              label={"Senior Secondary"}
+              disabled
+              defaultValue={"High School"}
               className="my-4"
               id={`academic_details[${1}].exam`}
               name={`academic_details[${1}].exam`}
@@ -1117,6 +1172,11 @@ const NonVacancy = () => {
               id={`academic_details[${1}].year`}
               name={`academic_details[${1}].year`}
               value={values.academic_details[1]?.year}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[1]?.year
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1131,6 +1191,11 @@ const NonVacancy = () => {
               id={`academic_details[${1}].board`}
               name={`academic_details[${1}].board`}
               value={values.academic_details[1]?.board}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[1]?.board
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1144,6 +1209,11 @@ const NonVacancy = () => {
               id={`academic_details[${1}].school`}
               name={`academic_details[${1}].school`}
               value={values.academic_details[1]?.school}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[1]?.school
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1157,6 +1227,11 @@ const NonVacancy = () => {
               id={`academic_details[${1}].percentage`}
               name={`academic_details[${1}].percentage`}
               value={values.academic_details[1]?.percentage}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[1]?.percentage
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1171,6 +1246,11 @@ const NonVacancy = () => {
               id={`academic_details[${1}].medium`}
               name={`academic_details[${1}].medium`}
               value={values.academic_details[1]?.medium}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[1]?.medium
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1179,7 +1259,7 @@ const NonVacancy = () => {
         </div>
 
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">Gradution</p>
+          <p className="col-span-12 my-2 text-2xl font-bold">Graduation</p>
 
           <div className="md:col-span-6 col-span-12">
             <Input
@@ -1203,6 +1283,11 @@ const NonVacancy = () => {
               id={`academic_details[${2}].year`}
               name={`academic_details[${2}].year`}
               value={values.academic_details[2]?.year}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[2]?.year
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1217,6 +1302,11 @@ const NonVacancy = () => {
               id={`academic_details[${2}].board`}
               name={`academic_details[${2}].board`}
               value={values.academic_details[2]?.board}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[2]?.board
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1230,6 +1320,11 @@ const NonVacancy = () => {
               id={`academic_details[${2}].school`}
               name={`academic_details[${2}].school`}
               value={values.academic_details[2]?.school}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[2]?.school
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1243,6 +1338,11 @@ const NonVacancy = () => {
               id={`academic_details[${2}].percentage`}
               name={`academic_details[${2}].percentage`}
               value={values.academic_details[2]?.percentage}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[2]?.percentage
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1257,6 +1357,11 @@ const NonVacancy = () => {
               id={`academic_details[${2}].medium`}
               name={`academic_details[${2}].medium`}
               value={values.academic_details[2]?.medium}
+              error={
+                Array.isArray(errors?.academic_details)
+                  ? errors?.academic_details[2]?.medium
+                  : ""
+              }
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1281,13 +1386,15 @@ const NonVacancy = () => {
         {!values.academic_details[2]?.isPursuing ? (
           <div className="grid grid-cols-12 gap-4">
             <p className="col-span-12 my-2 text-2xl font-bold">
-              Post Gradution
+              Post Graduation
             </p>
 
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="text"
-                label={"Exam"}
+                label={"Post Graduation"}
+                disabled
+                defaultValue={"Post Graduation"}
                 className="my-4"
                 id={`academic_details[${3}].exam`}
                 name={`academic_details[${3}].exam`}
@@ -1306,6 +1413,11 @@ const NonVacancy = () => {
                 id={`academic_details[${3}].year`}
                 name={`academic_details[${3}].year`}
                 value={values.academic_details[3]?.year}
+                error={
+                  Array.isArray(errors?.academic_details)
+                    ? errors?.academic_details[3]?.year
+                    : ""
+                }
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1320,6 +1432,11 @@ const NonVacancy = () => {
                 id={`academic_details[${3}].board`}
                 name={`academic_details[${3}].board`}
                 value={values.academic_details[3]?.board}
+                error={
+                  Array.isArray(errors?.academic_details)
+                    ? errors?.academic_details[3]?.board
+                    : ""
+                }
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1333,6 +1450,11 @@ const NonVacancy = () => {
                 id={`academic_details[${3}].school`}
                 name={`academic_details[${3}].school`}
                 value={values.academic_details[3]?.school}
+                error={
+                  Array.isArray(errors?.academic_details)
+                    ? errors?.academic_details[3]?.school
+                    : ""
+                }
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1346,6 +1468,11 @@ const NonVacancy = () => {
                 id={`academic_details[${3}].percentage`}
                 name={`academic_details[${3}].percentage`}
                 value={values.academic_details[3]?.percentage}
+                error={
+                  Array.isArray(errors?.academic_details)
+                    ? errors?.academic_details[3]?.percentage
+                    : ""
+                }
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1360,6 +1487,11 @@ const NonVacancy = () => {
                 id={`academic_details[${3}].medium`}
                 name={`academic_details[${3}].medium`}
                 value={values.academic_details[3]?.medium}
+                error={
+                  Array.isArray(errors?.academic_details)
+                    ? errors?.academic_details[3]?.medium
+                    : ""
+                }
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1431,6 +1563,11 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].work`}
                   name={`work_experience[${0}].work`}
                   value={values.work_experience[0]?.work}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.work
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1444,6 +1581,11 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].designation`}
                   name={`work_experience[${0}].designation`}
                   value={values.work_experience[0]?.designation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.designation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1454,9 +1596,14 @@ const NonVacancy = () => {
                   type="text"
                   label={"Organisation"}
                   className="my-4"
-                  id={`work_experience[${0}].organistion`}
-                  name={`work_experience[${0}].organistion`}
-                  value={values.work_experience[0]?.organistion}
+                  id={`work_experience[${0}].organisation`}
+                  name={`work_experience[${0}].organisation`}
+                  value={values.work_experience[0]?.organisation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.organisation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1471,6 +1618,11 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].joining_date`}
                   name={`work_experience[${0}].joining_date`}
                   value={values.work_experience[0]?.joining_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.joining_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1484,6 +1636,11 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
                   value={values.work_experience[0]?.leaving_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.leaving_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1497,6 +1654,11 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].salary`}
                   name={`work_experience[${0}].salary`}
                   value={values.work_experience[0]?.salary}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.salary
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1511,25 +1673,17 @@ const NonVacancy = () => {
                   id={`work_experience[${0}].reason`}
                   name={`work_experience[${0}].reason`}
                   value={values.work_experience[0]?.reason}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[0]?.reason
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
-                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
-                <Input
-                  type="text"
-                  label={"Nature of The Job"}
-                  className="my-4"
-                  id={`work_experience[${0}].job_nature`}
-                  name={`work_experience[${0}].job_nature`}
-                  value={values.work_experience[0]?.job_nature}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  style={{ "--color--": "#525252" }}
-                />
-              </div>
+
               <div className="font-bold text-[1rem] mb-4 col-span-12 flex gap-1">
                 <input
                   type="checkbox"
@@ -1558,6 +1712,11 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].work`}
                   name={`work_experience[${1}].work`}
                   value={values.work_experience[1]?.work}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.work
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1571,6 +1730,11 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].designation`}
                   name={`work_experience[${1}].designation`}
                   value={values.work_experience[1]?.designation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.designation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1581,9 +1745,14 @@ const NonVacancy = () => {
                   type="text"
                   label={"Organisation"}
                   className="my-4"
-                  id={`work_experience[${1}].organistion`}
-                  name={`work_experience[${1}].organistion`}
-                  value={values.work_experience[1]?.organistion}
+                  id={`work_experience[${1}].organisation`}
+                  name={`work_experience[${1}].organisation`}
+                  value={values.work_experience[1]?.organisation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.organisation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1597,6 +1766,11 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
                   value={values.work_experience[1]?.joining_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.joining_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1610,6 +1784,11 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].leaving_date`}
                   name={`work_experience[${1}].leaving_date`}
                   value={values.work_experience[1]?.leaving_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.leaving_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1623,6 +1802,11 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].salary`}
                   name={`work_experience[${1}].salary`}
                   value={values.work_experience[1]?.salary}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.salary
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1637,13 +1821,17 @@ const NonVacancy = () => {
                   id={`work_experience[${1}].reason`}
                   name={`work_experience[${1}].reason`}
                   value={values.work_experience[1]?.reason}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[1]?.reason
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
-                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+              {/* <div className="md:col-span-6 col-span-12">
                 <Input
                   type="text"
                   label={"Nature of The Job"}
@@ -1655,7 +1843,7 @@ const NonVacancy = () => {
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -1670,6 +1858,11 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].work`}
                   name={`work_experience[${2}].work`}
                   value={values.work_experience[2]?.work}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.work
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1683,6 +1876,11 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].designation`}
                   name={`work_experience[${2}].designation`}
                   value={values.work_experience[2]?.designation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.designation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1693,9 +1891,14 @@ const NonVacancy = () => {
                   type="text"
                   label={"Organisation"}
                   className="my-4"
-                  id={`work_experience[${2}].organistion`}
-                  name={`work_experience[${2}].organistion`}
-                  value={values.work_experience[2]?.organistion}
+                  id={`work_experience[${2}].organisation`}
+                  name={`work_experience[${2}].organisation`}
+                  value={values.work_experience[2]?.organisation}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.organisation
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1709,6 +1912,11 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].joining_date`}
                   name={`work_experience[${2}].joining_date`}
                   value={values.work_experience[2]?.joining_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.joining_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1722,6 +1930,11 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}
                   value={values.work_experience[2]?.leaving_date}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.leaving_date
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1735,6 +1948,11 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].salary`}
                   name={`work_experience[${2}].salary`}
                   value={values.work_experience[2]?.salary}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.salary
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
@@ -1749,13 +1967,17 @@ const NonVacancy = () => {
                   id={`work_experience[${2}].reason`}
                   name={`work_experience[${2}].reason`}
                   value={values.work_experience[2]?.reason}
+                  error={
+                    Array.isArray(errors?.work_experience)
+                      ? errors?.work_experience[2]?.reason
+                      : ""
+                  }
                   onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
-                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
+              {/* <div className="md:col-span-6 col-span-12">
                 <Input
                   type="text"
                   label={"Nature of The Job"}
@@ -1767,7 +1989,7 @@ const NonVacancy = () => {
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -1809,6 +2031,7 @@ const NonVacancy = () => {
               required={true}
               name="earliest_date_join"
               value={values.earliest_date_join}
+              error={errors.earliest_date_join}
               id="earliest_date_join-no"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1848,6 +2071,12 @@ const NonVacancy = () => {
                 <Input
                   type="text"
                   label={"Name of Relative "}
+                  name="blood_relative.name"
+                  id="blood_relative.name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.blood_relative?.name}
+                  error={errors.blood_relative?.name}
                   className="my-4"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1857,6 +2086,12 @@ const NonVacancy = () => {
                 <Input
                   type="text"
                   label={"Designation"}
+                  name="blood_relative.designation"
+                  id="blood_relative.designation"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.blood_relative?.designation}
+                  error={errors.blood_relative?.designation}
                   className="my-4"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1865,7 +2100,13 @@ const NonVacancy = () => {
               <div className="md:col-span-6 col-span-12">
                 <Input
                   type="select"
-                  selectoptions={admission}
+                  selectoptions={campusPreference}
+                  name="blood_relative.campus"
+                  id="blood_relative.campus"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.blood_relative?.campus}
+                  error={errors.blood_relative?.campus}
                   label={"Campus"}
                   className="my-4"
                   style={{ "--color--": "#525252" }}
@@ -1900,7 +2141,8 @@ const NonVacancy = () => {
         <div className="col-span-12 mb-2">
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            disabled={!values.declaration}
+            className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
           >
             Save & Update
           </button>
@@ -1910,4 +2152,4 @@ const NonVacancy = () => {
   );
 };
 
-export default NonVacancy;
+export default Vacancy;

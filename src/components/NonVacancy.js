@@ -3,8 +3,10 @@ import Input from "./Input";
 import { staffNonTeachingSchema } from "../utils/yupSchema";
 
 import { useFormik } from "formik";
-import { vacancyNonTeachingForm } from "../api/vacancyapply";
+import { vacancyTeachingForm } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const campusPreference = [
   "Head Office",
@@ -86,15 +88,22 @@ const schoolBoards = [
   "Others",
 ];
 
-const Vacancy = () => {
+const NonVacancy = () => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const token = useSelector((state) => state.auth.token);
+  const navigate = useNavigate();
 
-  const handleVacancyNonTeaching = async (data, action) => {
-    const res = vacancyNonTeachingForm(data, token);
+  const handleVacancyTeaching = async (data, action) => {
+    console.log("sd");
+    const res = vacancyTeachingForm(data, token);
     console.log(res);
+
+    if (res?.status === 201) {
+      toast.success("Your Form Submitted!");
+      navigate("/confirmation");
+    }
   };
 
   useEffect(() => {
@@ -144,7 +153,7 @@ const Vacancy = () => {
         permanent: {},
         current: {},
       },
-      academic_details: [],
+      academic_details: {},
       work_experience: [],
       total_experience: 0,
       earliest_date_join: "",
@@ -155,9 +164,8 @@ const Vacancy = () => {
       paymentConfirmation: false,
     },
     validationSchema: staffNonTeachingSchema,
-
     onSubmit: (values, action) => {
-      handleVacancyNonTeaching(values, action);
+      handleVacancyTeaching(values, action);
     },
   });
 
@@ -176,9 +184,9 @@ const Vacancy = () => {
               onChange={handleChange}
               value={values.designation}
               onBlur={handleBlur}
-              id="designation"
+              id="subject"
               error={errors.designation}
-              selectoptions={["Developer"]}
+              selectoptions={["Developer", "DevOps"]}
             />
           </div>
         </div>
@@ -1037,33 +1045,14 @@ const Vacancy = () => {
 
           <div className="md:col-span-6 col-span-12">
             <Input
-              type="text"
-              label={"Exam"}
-              disabled
-              defaultValue={"High School"}
-              className="my-4"
-              id={`academic_details[${0}].exam`}
-              name={`academic_details[${0}].exam`}
-              value={values.academic_details[0]?.exam}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Input
               type="select"
               selectoptions={year}
               label={"Year"}
               className="my-4"
-              id={`academic_details[${0}].year`}
-              name={`academic_details[${0}].year`}
-              value={values.academic_details[0]?.year}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[0]?.year
-                  : ""
-              }
+              id={`academic_details.high_school.year`}
+              name={`academic_details.high_school.year`}
+              value={values.academic_details?.high_school?.year}
+              error={errors?.academic_details?.high_school?.year}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1075,14 +1064,10 @@ const Vacancy = () => {
               selectoptions={schoolBoards}
               label={"Board"}
               className="my-4"
-              id={`academic_details[${0}].board`}
-              name={`academic_details[${0}].board`}
-              value={values.academic_details[0]?.board}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[0]?.board
-                  : ""
-              }
+              id={`academic_details.high_school.board`}
+              name={`academic_details.high_school.board`}
+              value={values.academic_details?.high_school?.board}
+              error={errors?.academic_details?.high_school?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1093,14 +1078,10 @@ const Vacancy = () => {
               type="text"
               label={"School Name"}
               className="my-4"
-              id={`academic_details[${0}].school`}
-              name={`academic_details[${0}].school`}
-              value={values.academic_details[0]?.school}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[0]?.school
-                  : ""
-              }
+              id={`academic_details.high_school.school`}
+              name={`academic_details.high_school.school`}
+              value={values.academic_details?.high_school?.school}
+              error={errors?.academic_details?.high_school?.school}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1111,14 +1092,10 @@ const Vacancy = () => {
               type="number"
               label={"Percentage"}
               className="my-4"
-              id={`academic_details[${0}].percentage`}
-              name={`academic_details[${0}].percentage`}
-              value={values.academic_details[0]?.percentage}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[0]?.percentage
-                  : ""
-              }
+              id={`academic_details.high_school.percentage`}
+              name={`academic_details.high_school.percentage`}
+              value={values.academic_details?.high_school?.percentage}
+              error={errors?.academic_details?.high_school?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1130,14 +1107,10 @@ const Vacancy = () => {
               selectoptions={["English", "Others"]}
               label={"Medium of Education"}
               className="my-4"
-              id={`academic_details[${0}].medium`}
-              name={`academic_details[${0}].medium`}
-              value={values.academic_details[0]?.medium}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[0]?.medium
-                  : ""
-              }
+              id={`academic_details.high_school.medium`}
+              name={`academic_details.high_school.medium`}
+              value={values.academic_details?.high_school?.medium}
+              error={errors?.academic_details?.high_school?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1147,36 +1120,16 @@ const Vacancy = () => {
 
         <div className="grid grid-cols-12 gap-4">
           <p className="col-span-12 my-2 text-2xl font-bold">Senior Secondry</p>
-
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="text"
-              label={"Senior Secondary"}
-              disabled
-              defaultValue={"High School"}
-              className="my-4"
-              id={`academic_details[${1}].exam`}
-              name={`academic_details[${1}].exam`}
-              value={values.academic_details[1]?.exam}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
               selectoptions={year}
               label={"Year"}
               className="my-4"
-              id={`academic_details[${1}].year`}
-              name={`academic_details[${1}].year`}
-              value={values.academic_details[1]?.year}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[1]?.year
-                  : ""
-              }
+              id={`academic_details.senior_secondary.year`}
+              name={`academic_details.senior_secondary.year`}
+              value={values.academic_details?.senior_secondary?.year}
+              error={errors?.academic_details?.senior_secondary?.year}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1188,14 +1141,10 @@ const Vacancy = () => {
               selectoptions={schoolBoards}
               label={"Board"}
               className="my-4"
-              id={`academic_details[${1}].board`}
-              name={`academic_details[${1}].board`}
-              value={values.academic_details[1]?.board}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[1]?.board
-                  : ""
-              }
+              id={`academic_details.senior_secondary.board`}
+              name={`academic_details.senior_secondary.board`}
+              value={values.academic_details?.senior_secondary?.board}
+              error={errors?.academic_details?.senior_secondary?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1206,14 +1155,10 @@ const Vacancy = () => {
               type="text"
               label={"School Name"}
               className="my-4"
-              id={`academic_details[${1}].school`}
-              name={`academic_details[${1}].school`}
-              value={values.academic_details[1]?.school}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[1]?.school
-                  : ""
-              }
+              id={`academic_details.senior_secondary.school`}
+              name={`academic_details.senior_secondary.school`}
+              value={values.academic_details?.senior_secondary?.school}
+              error={errors?.academic_details?.senior_secondary?.school}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1224,14 +1169,10 @@ const Vacancy = () => {
               type="number"
               label={"Percentage"}
               className="my-4"
-              id={`academic_details[${1}].percentage`}
-              name={`academic_details[${1}].percentage`}
-              value={values.academic_details[1]?.percentage}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[1]?.percentage
-                  : ""
-              }
+              id={`academic_details.senior_secondary.percentage`}
+              name={`academic_details.senior_secondary.percentage`}
+              value={values.academic_details?.senior_secondary?.percentage}
+              error={errors?.academic_details?.senior_secondary?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1243,14 +1184,10 @@ const Vacancy = () => {
               selectoptions={["English", "Others"]}
               label={"Medium of Education"}
               className="my-4"
-              id={`academic_details[${1}].medium`}
-              name={`academic_details[${1}].medium`}
-              value={values.academic_details[1]?.medium}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[1]?.medium
-                  : ""
-              }
+              id={`academic_details.senior_secondary.medium`}
+              name={`academic_details.senior_secondary.medium`}
+              value={values.academic_details?.senior_secondary?.medium}
+              error={errors?.academic_details?.senior_secondary?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1260,34 +1197,16 @@ const Vacancy = () => {
 
         <div className="grid grid-cols-12 gap-4">
           <p className="col-span-12 my-2 text-2xl font-bold">Graduation</p>
-
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="text"
-              label={"Exam"}
-              className="my-4"
-              id={`academic_details[${2}].exam`}
-              name={`academic_details[${2}].exam`}
-              value={values.academic_details[2]?.exam}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
               selectoptions={year}
               label={"Year"}
               className="my-4"
-              id={`academic_details[${2}].year`}
-              name={`academic_details[${2}].year`}
-              value={values.academic_details[2]?.year}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[2]?.year
-                  : ""
-              }
+              id={`academic_details.graduation.year`}
+              name={`academic_details.graduation.year`}
+              value={values.academic_details?.graduation?.year}
+              error={errors?.academic_details?.graduation?.year}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1299,14 +1218,10 @@ const Vacancy = () => {
               selectoptions={schoolBoards}
               label={"Board"}
               className="my-4"
-              id={`academic_details[${2}].board`}
-              name={`academic_details[${2}].board`}
-              value={values.academic_details[2]?.board}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[2]?.board
-                  : ""
-              }
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1317,14 +1232,10 @@ const Vacancy = () => {
               type="text"
               label={"School Name"}
               className="my-4"
-              id={`academic_details[${2}].school`}
-              name={`academic_details[${2}].school`}
-              value={values.academic_details[2]?.school}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[2]?.school
-                  : ""
-              }
+              id={`academic_details.graduation.school`}
+              name={`academic_details.graduation.school`}
+              value={values.academic_details?.graduation?.school}
+              error={errors?.academic_details?.graduation?.school}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1335,14 +1246,10 @@ const Vacancy = () => {
               type="number"
               label={"Percentage"}
               className="my-4"
-              id={`academic_details[${2}].percentage`}
-              name={`academic_details[${2}].percentage`}
-              value={values.academic_details[2]?.percentage}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[2]?.percentage
-                  : ""
-              }
+              id={`academic_details.graduation.percentage`}
+              name={`academic_details.graduation.percentage`}
+              value={values.academic_details?.graduation?.percentage}
+              error={errors?.academic_details?.graduation?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1354,14 +1261,10 @@ const Vacancy = () => {
               selectoptions={["English", "Others"]}
               label={"Medium of Education"}
               className="my-4"
-              id={`academic_details[${2}].medium`}
-              name={`academic_details[${2}].medium`}
-              value={values.academic_details[2]?.medium}
-              error={
-                Array.isArray(errors?.academic_details)
-                  ? errors?.academic_details[2]?.medium
-                  : ""
-              }
+              id={`academic_details.graduation.medium`}
+              name={`academic_details.graduation.medium`}
+              value={values.academic_details?.graduation?.medium}
+              error={errors?.academic_details?.graduation?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1372,18 +1275,21 @@ const Vacancy = () => {
             <input
               type="checkbox"
               value={false}
-              id={`academic_details[${2}].isPursuing`}
-              name={`academic_details[${2}].isPursuing`}
-              onChange={handleChange}
+              id={`academic_details.graduation.isPursuing`}
+              name={`academic_details.graduation.isPursuing`}
+              onChange={(e) => {
+                setFieldValue("academic_details.post_graduation", {});
+                handleChange(e);
+              }}
               onBlur={handleBlur}
             />
-            <label htmlFor={`academic_details[${2}].isPursuing`}>
+            <label htmlFor={`academic_details.isPursuing`}>
               Check If Pursuing
             </label>
           </div>
         </div>
 
-        {!values.academic_details[2]?.isPursuing ? (
+        {!values.academic_details.graduation?.isPursuing ? (
           <div className="grid grid-cols-12 gap-4">
             <p className="col-span-12 my-2 text-2xl font-bold">
               Post Graduation
@@ -1391,33 +1297,14 @@ const Vacancy = () => {
 
             <div className="md:col-span-6 col-span-12">
               <Input
-                type="text"
-                label={"Post Graduation"}
-                disabled
-                defaultValue={"Post Graduation"}
-                className="my-4"
-                id={`academic_details[${3}].exam`}
-                name={`academic_details[${3}].exam`}
-                value={values.academic_details[3]?.exam}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                style={{ "--color--": "#525252" }}
-              />
-            </div>
-            <div className="md:col-span-6 col-span-12">
-              <Input
                 type="select"
                 selectoptions={year}
                 label={"Year"}
                 className="my-4"
-                id={`academic_details[${3}].year`}
-                name={`academic_details[${3}].year`}
-                value={values.academic_details[3]?.year}
-                error={
-                  Array.isArray(errors?.academic_details)
-                    ? errors?.academic_details[3]?.year
-                    : ""
-                }
+                id={`academic_details.post_graduation.year`}
+                name={`academic_details.post_graduation.year`}
+                value={values.academic_details?.post_graduation?.year}
+                error={errors?.academic_details?.post_graduation?.year}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1429,14 +1316,10 @@ const Vacancy = () => {
                 selectoptions={schoolBoards}
                 label={"Board"}
                 className="my-4"
-                id={`academic_details[${3}].board`}
-                name={`academic_details[${3}].board`}
-                value={values.academic_details[3]?.board}
-                error={
-                  Array.isArray(errors?.academic_details)
-                    ? errors?.academic_details[3]?.board
-                    : ""
-                }
+                id={`academic_details.post_graduation.board`}
+                name={`academic_details.post_graduation.board`}
+                value={values.academic_details?.post_graduation?.board}
+                error={errors?.academic_details?.post_graduation?.board}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1447,14 +1330,10 @@ const Vacancy = () => {
                 type="text"
                 label={"School Name"}
                 className="my-4"
-                id={`academic_details[${3}].school`}
-                name={`academic_details[${3}].school`}
-                value={values.academic_details[3]?.school}
-                error={
-                  Array.isArray(errors?.academic_details)
-                    ? errors?.academic_details[3]?.school
-                    : ""
-                }
+                id={`academic_details.post_graduation.school`}
+                name={`academic_details.post_graduation.school`}
+                value={values.academic_details?.post_graduation?.school}
+                error={errors?.academic_details?.post_graduation?.school}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1465,14 +1344,10 @@ const Vacancy = () => {
                 type="number"
                 label={"Percentage"}
                 className="my-4"
-                id={`academic_details[${3}].percentage`}
-                name={`academic_details[${3}].percentage`}
-                value={values.academic_details[3]?.percentage}
-                error={
-                  Array.isArray(errors?.academic_details)
-                    ? errors?.academic_details[3]?.percentage
-                    : ""
-                }
+                id={`academic_details.post_graduation.percentage`}
+                name={`academic_details.post_graduation.percentage`}
+                value={values.academic_details?.post_graduation?.percentage}
+                error={errors?.academic_details?.post_graduation?.percentage}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1484,14 +1359,10 @@ const Vacancy = () => {
                 selectoptions={["English", "Others"]}
                 label={"Medium of Education"}
                 className="my-4"
-                id={`academic_details[${3}].medium`}
-                name={`academic_details[${3}].medium`}
-                value={values.academic_details[3]?.medium}
-                error={
-                  Array.isArray(errors?.academic_details)
-                    ? errors?.academic_details[3]?.medium
-                    : ""
-                }
+                id={`academic_details.post_graduation.medium`}
+                name={`academic_details.post_graduation.medium`}
+                value={values.academic_details?.post_graduation?.medium}
+                error={errors?.academic_details?.post_graduation?.medium}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -1683,7 +1554,19 @@ const Vacancy = () => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-
+              {/* <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Nature of The Job"}
+                  className="my-4"
+                  id={`work_experience[${0}].job_nature`}
+                  name={`work_experience[${0}].job_nature`}
+                  value={values.work_experience[0]?.job_nature}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div> */}
               <div className="font-bold text-[1rem] mb-4 col-span-12 flex gap-1">
                 <input
                   type="checkbox"
@@ -2152,4 +2035,4 @@ const Vacancy = () => {
   );
 };
 
-export default Vacancy;
+export default NonVacancy;

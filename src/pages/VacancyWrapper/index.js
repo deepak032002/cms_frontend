@@ -3,7 +3,8 @@ import Vacancy from "../../components/Vacancy";
 import NonVacancy from "../../components/NonVacancy";
 import color from "../../assets/images/color-logo.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { removeToken } from "../../redux/features/authSlice";
 
 const VacancyWrapper = () => {
   const [isShowNewStudentForm, setIsShowNewStudentForm] = useState(false);
@@ -14,14 +15,24 @@ const VacancyWrapper = () => {
 
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
-  // useEffect(() => {
-  //   if (!token) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(removeToken());
+    navigate("/");
+  };
 
   return (
     <div>
+      <div className="w-full">
+        <button
+          className="bg-red-500 px-3 py-1 text-white block ml-auto mt-1 mr-3 rounded-md hover:bg-red-600"
+          onClick={handleLogout}
+        >
+          LogOut
+        </button>
+      </div>
+
       <div className="flex justify-center mb-6">
         <Link
           to="/"

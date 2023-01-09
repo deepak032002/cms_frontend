@@ -3,7 +3,7 @@ const api_url = process.env.REACT_APP_URL;
 
 export const vacancyTeachingForm = async (data, token) => {
   try {
-    const res = await axios.post(`${api_url}/teaching/`, data, {
+    const res = await axios.post(`${api_url}/form/`, data, {
       headers: {
         Authorisation: token,
         "Content-Type": "multipart/form-data"
@@ -17,7 +17,7 @@ export const vacancyTeachingForm = async (data, token) => {
 
 export const vacancyNonTeachingForm = async (data, token) => {
     try {
-      const res = await axios.post(`${api_url}/nonteaching/`, data, {
+      const res = await axios.post(`${api_url}/form/`, data, {
         headers: {
           Authorisation: token,
           "Content-Type": "multipart/form-data"

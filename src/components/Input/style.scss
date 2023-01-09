@@ -36,12 +36,14 @@
   transition: 0.1s;
 }
 
-.inputBox input[type="date"]:valid ~ span,
-.inputBox input[type="date"]:focus ~ span,
 .inputBox input[type="text"]:not(:placeholder-shown) ~ span,
 .inputBox input[type="text"]:focus ~ span,
-.inputBox input[type="file"]:not(:placeholder-shown) ~ span,
-.inputBox input[type="file"]:focus ~ span {
+.inputBox input[type="number"]:not(:placeholder-shown) ~ span,
+.inputBox input[type="number"]:focus ~ span,
+.inputBox input[type="file"]:valid ~ span,
+.inputBox input[type="file"]:focus ~ span,
+.inputBox input[type="date"]:valid ~ span,
+.inputBox input[type="date"]:focus ~ span {
   transform: translateX(10px) translateY(-7px);
   font-size: 0.65em;
   padding: 0 10px;

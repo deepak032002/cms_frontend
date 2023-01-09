@@ -21,7 +21,7 @@ const Input = ({
   onFocus,
   disabled,
   required,
-  defaultValue
+  defaultValue,
 }) => {
   const elemId = useId();
   useEffect(() => {
@@ -65,9 +65,7 @@ const Input = ({
             );
           })}
         </select>
-        <span className="text-red-600">
-          {error ? <div>{error}</div> : ""}
-        </span>
+        <span className="text-red-600">{error ? <div>{error}</div> : ""}</span>
       </div>
     );
   }
@@ -140,7 +138,7 @@ const Input = ({
         <div className={`inputBox`}>
           <input
             placeholder={type === "date" ? "" : " "}
-            // required={required}
+            required={type === "date" ? required : false}
             defaultValue={defaultValue}
             autoFocus={autoFocus}
             onFocus={onFocus}

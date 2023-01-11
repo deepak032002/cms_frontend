@@ -3,7 +3,7 @@ import Input from "./Input";
 import { staffTeachingSchema } from "../utils/yupSchema";
 
 import { setNestedObjectValues, useFormik } from "formik";
-import { formPost } from "../api/vacancyapply";
+import { formPost, formUpdate } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -116,6 +116,24 @@ const NonVacancy = () => {
     }
   };
 
+  const handleVacancyTeachingUpdate = async (data, action) => {
+    console.log(token);
+    const res = await formUpdate(data, token);
+
+    if (res?.status === 200) {
+      toast.success("Successfully Updated!");
+      navigate("/payment");
+    }
+
+    if (res.code === "ERR_NETWORK") {
+      toast.error("Network Error!");
+    }
+
+    if (res.code === "ERR_BAD_REQUEST" || res.code === "ERR_BAD_RESPONSE") {
+      toast.error("Bad Request!");
+    }
+  };
+
   const {
     values,
     errors,
@@ -126,9 +144,8 @@ const NonVacancy = () => {
     setValues,
   } = useFormik({
     initialValues: {
-      category: "teaching",
-      academic: "",
-      subject: "",
+      category: "non-teaching",
+      designation: "",
       campus_prefrence: [{}, {}, {}],
       personal_details: {
         first_name: "",
@@ -169,7 +186,11 @@ const NonVacancy = () => {
     },
     validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      handleVacancyTeaching(values, action);
+      if (values?.registrationNum) {
+        handleVacancyTeachingUpdate(values, action);
+      } else {
+        handleVacancyTeaching(values, action);
+      }
     },
   });
 
@@ -193,31 +214,16 @@ const NonVacancy = () => {
           <div className="md:col-span-4 col-span-12">
             <Input
               type="select"
-              label={"Select Academic"}
+              label={"Select Designation"}
               className="my-4"
-              name="academic"
+              name="designation"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              value={values.academic}
+              value={values.designation}
               onBlur={handleBlur}
-              error={errors.academic}
-              id="academic"
-              selectoptions={academicSection}
-            />
-          </div>
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Select Subject"}
-              className="my-4"
-              name="subject"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              value={values.subject}
-              onBlur={handleBlur}
-              id="subject"
-              error={errors.subject}
-              selectoptions={subjects}
+              error={errors.designation}
+              id="designation"
+              selectoptions={["Developer", "Designer"]}
             />
           </div>
         </div>
@@ -350,7 +356,7 @@ const NonVacancy = () => {
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.personal_details?.dob}
+              value={values.personal_details?.dob.slice(0, 10)}
               error={errors.personal_details?.dob}
             />
           </div>

@@ -1,17 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const Payment = () => {
   const [data, setData] = useState("");
+
+  const params = useParams();
+
+  const { orderId } = params;
+
   useEffect(() => {
     (async () => {
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/paymentInitiator`,
         {
           merchant_id: "1918298",
-          order_id: "HJKSHDUSDNSIUNNADU",
+          order_id: orderId,
           currency: "INR",
-          amount: "500",
+          amount: "600",
         }
       );
       setData(res.data);

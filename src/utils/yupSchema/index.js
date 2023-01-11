@@ -23,14 +23,12 @@ export const staffTeachingSchema = Yup.object({
       ),
     father: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.number("Only enter numbers")
-        .required("This is required")
-        .max(12),
+      mobile: Yup.number("Only enter numbers").required("This is required"),
       occupation: Yup.string().required("This is required"),
     }),
     mother: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.string().max(12),
+      mobile: Yup.string(),
     }),
     mobile: Yup.number("Only enter numbers").required("This is required"),
     email: Yup.string().required("This is required").email("Enter valid email"),
@@ -138,14 +136,12 @@ export const staffNonTeachingSchema = Yup.object({
       ),
     father: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.number("Only enter numbers")
-        .required("This is required")
-        .max(12),
+      mobile: Yup.number("Only enter numbers").required("This is required"),
       occupation: Yup.string().required("This is required"),
     }),
     mother: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.string().max(12),
+      mobile: Yup.string(),
     }),
     mobile: Yup.number("Only enter numbers").required("This is required"),
     email: Yup.string().required("This is required").email("Enter valid email"),

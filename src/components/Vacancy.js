@@ -3,7 +3,7 @@ import Input from "./Input";
 import { staffTeachingSchema } from "../utils/yupSchema";
 
 import { setNestedObjectValues, useFormik } from "formik";
-import { formPost } from "../api/vacancyapply";
+import { formPost, formUpdate } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -99,8 +99,9 @@ const Vacancy = () => {
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
-
+  
   const handleVacancyTeaching = async (data, action) => {
+    console.log(token ,'sdufhfia');
     const res = await formPost(data, token);
     if (res?.status === 201) {
       toast.success("Successfully submitted!");
@@ -115,6 +116,24 @@ const Vacancy = () => {
       toast.error("Bad Request!");
     }
   };
+
+  const handleVacancyTeachingUpdate = async (data, action) => {
+    console.log(token);
+    const res = await formUpdate(data, token);
+
+    if (res?.status === 200) {
+      toast.success("Successfully Updated!");
+      navigate("/payment");
+    }
+
+    if (res.code === "ERR_NETWORK") {
+      toast.error("Network Error!");
+    }
+
+    if (res.code === "ERR_BAD_REQUEST" || res.code === "ERR_BAD_RESPONSE") {
+      toast.error("Bad Request!");
+    }
+  };  
 
   const {
     values,
@@ -169,7 +188,11 @@ const Vacancy = () => {
     },
     validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      handleVacancyTeaching(values, action);
+      if (values?.registrationNum) {
+        handleVacancyTeachingUpdate(values, action);
+      } else {
+        handleVacancyTeaching(values, action);
+      }
     },
   });
 
@@ -187,6 +210,7 @@ const Vacancy = () => {
 
   return (
     <div>
+      {/* {console.log(values)} */}
       <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
         <h1 className="font-bold text-[22px]">Post Details</h1>
         <div className="grid grid-cols-12 gap-4">
@@ -350,7 +374,7 @@ const Vacancy = () => {
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.personal_details?.dob}
+              value={values.personal_details?.dob.slice(0, 10)}
               error={errors.personal_details?.dob}
             />
           </div>

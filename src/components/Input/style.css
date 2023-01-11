@@ -1,0 +1,88 @@
+.inputBox {
+  position: relative;
+}
+
+.inputBox input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #525252;
+  border-radius: 5px;
+  outline: none;
+  color: #525252;
+  font-size: 1em;
+}
+
+.inputBox label {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #525252;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1em;
+}
+
+.inputBox input[type=date]:required:invalid::-webkit-datetime-edit {
+  color: transparent;
+}
+
+.inputBox span {
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 1em;
+  color: #525252;
+  text-transform: capitalize;
+  transition: 0.1s;
+}
+
+.inputBox input[type=text]:not(:-moz-placeholder-shown) ~ span, .inputBox input[type=number]:not(:-moz-placeholder-shown) ~ span {
+  transform: translateX(10px) translateY(-7px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  background-color: var(--color--);
+  color: #ffffff;
+  border-radius: 2px;
+  letter-spacing: 0.2em;
+}
+
+.inputBox input[type=text]:not(:-ms-input-placeholder) ~ span, .inputBox input[type=number]:not(:-ms-input-placeholder) ~ span {
+  transform: translateX(10px) translateY(-7px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  background-color: var(--color--);
+  color: #ffffff;
+  border-radius: 2px;
+  letter-spacing: 0.2em;
+}
+
+.inputBox input[type=text]:not(:placeholder-shown) ~ span,
+.inputBox input[type=text]:focus ~ span,
+.inputBox input[type=number]:not(:placeholder-shown) ~ span,
+.inputBox input[type=number]:focus ~ span,
+.inputBox input[type=file]:valid ~ span,
+.inputBox input[type=file]:focus ~ span,
+.inputBox input[type=date]:valid ~ span,
+.inputBox input[type=date]:focus ~ span {
+  transform: translateX(10px) translateY(-7px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  background-color: var(--color--);
+  color: #ffffff;
+  border-radius: 2px;
+  letter-spacing: 0.2em;
+}
+
+.inputBox input:not(:-moz-placeholder-shown) {
+  border: 1px solid var(--color--);
+}
+
+.inputBox input:not(:-ms-input-placeholder) {
+  border: 1px solid var(--color--);
+}
+
+.inputBox input:not(:placeholder-shown),
+.inputBox input:focus {
+  border: 1px solid var(--color--);
+}/*# sourceMappingURL=style.css.map */

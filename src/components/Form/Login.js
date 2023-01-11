@@ -5,7 +5,7 @@ import Input from "./Input";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { loginApi } from "../../api/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../redux/features/authSlice";
 
@@ -22,9 +22,9 @@ export default function Login() {
     }
 
     if (res?.status === 200) {
-      toast.success("Successfully Registered!");
+      toast.success("Successfully LoggedIn!");
       dispatch(setToken(res.data.token));
-      navigate("/agreement");
+      navigate("/info");
     }
   };
 
@@ -46,7 +46,7 @@ export default function Login() {
   });
 
   if (token) {
-    return <Navigate to="/agreement" />;
+    return <Navigate to="/info" />;
   }
 
   return (

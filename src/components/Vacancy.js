@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import { staffTeachingSchema } from "../utils/yupSchema";
 
-import { useFormik } from "formik";
-import { vacancyTeachingForm } from "../api/vacancyapply";
+import { setNestedObjectValues, useFormik } from "formik";
+import { formPost } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const campusPreference = [
   "Head Office",
@@ -95,19 +97,24 @@ const Vacancy = () => {
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const token = useSelector((state) => state.auth.token);
+  const form = useSelector((state) => state.form.form);
+  const navigate = useNavigate();
 
   const handleVacancyTeaching = async (data, action) => {
-    const res = await vacancyTeachingForm(data, token);
-    console.log(res);
-  };
-
-  useEffect(() => {
-    const years = [];
-    for (let i = 1950; i <= new Date().getFullYear(); i++) {
-      years.push(i);
+    const res = await formPost(data, token);
+    if (res?.status === 201) {
+      toast.success("Successfully submitted!");
+      navigate("/payment");
     }
-    setYear(years);
-  }, []);
+
+    if (res.code === "ERR_NETWORK") {
+      toast.error("Network Error!");
+    }
+
+    if (res.code === "ERR_BAD_REQUEST" || res.code === "ERR_BAD_RESPONSE") {
+      toast.error("Bad Request!");
+    }
+  };
 
   const {
     values,
@@ -116,6 +123,7 @@ const Vacancy = () => {
     handleBlur,
     handleSubmit,
     setFieldValue,
+    setValues,
   } = useFormik({
     initialValues: {
       category: "teaching",
@@ -165,6 +173,18 @@ const Vacancy = () => {
     },
   });
 
+  useEffect(() => {
+    const years = [];
+    for (let i = 1950; i <= new Date().getFullYear(); i++) {
+      years.push(i);
+    }
+
+    if (Object.keys(form).length > 0) {
+      setValues(form);
+    }
+    setYear(years);
+  }, []);
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
@@ -207,65 +227,70 @@ const Vacancy = () => {
           placement into that respective campus. Placement is based on the
           vacancy and other factors.
         </p>
-        <div className="grid grid-cols-12 gap-4">
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Preferred Campus 1"}
-              className="my-4"
-              name={`campus_prefrence[${0}].campus`}
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id={`campus_prefrence[${0}].campus`}
-              value={values.campus_prefrence[0]?.campus}
-              error={
-                Array.isArray(errors.campus_prefrence)
-                  ? errors.campus_prefrence[0]?.campus
-                  : ""
-              }
-              selectoptions={campusPreference}
-            />
+
+        {Array.isArray(values.campus_prefrence) ? (
+          <div className="grid grid-cols-12 gap-4">
+            <div className="md:col-span-4 col-span-12">
+              <Input
+                type="select"
+                label={"Preferred Campus 1"}
+                className="my-4"
+                name={`campus_prefrence[${0}].campus`}
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id={`campus_prefrence[${0}].campus`}
+                value={values.campus_prefrence[0]?.campus}
+                error={
+                  Array.isArray(errors.campus_prefrence)
+                    ? errors.campus_prefrence[0]?.campus
+                    : ""
+                }
+                selectoptions={campusPreference}
+              />
+            </div>
+            <div className="md:col-span-4 col-span-12">
+              <Input
+                type="select"
+                label={"Preferred Campus 2"}
+                className="my-4"
+                name="campus_prefrence[1].campus"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="campus_prefrence[1].campus"
+                value={values?.campus_prefrence[1]?.campus}
+                error={
+                  Array.isArray(errors.campus_prefrence)
+                    ? errors.campus_prefrence[1]?.campus
+                    : ""
+                }
+                selectoptions={campusPreference}
+              />
+            </div>
+            <div className="md:col-span-4 col-span-12">
+              <Input
+                type="select"
+                label={"Preferred Campus 3"}
+                className="my-4"
+                name="campus_prefrence[2].campus"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                id="campus_prefrence[2].campus"
+                value={values?.campus_prefrence[2]?.campus}
+                error={
+                  Array.isArray(errors.campus_prefrence)
+                    ? errors.campus_prefrence[2]?.campus
+                    : ""
+                }
+                selectoptions={campusPreference}
+              />
+            </div>
           </div>
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Preferred Campus 2"}
-              className="my-4"
-              name="campus_prefrence[1].campus"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id="campus_prefrence[1].campus"
-              value={values?.campus_prefrence[1]?.campus}
-              error={
-                Array.isArray(errors.campus_prefrence)
-                  ? errors.campus_prefrence[1]?.campus
-                  : ""
-              }
-              selectoptions={campusPreference}
-            />
-          </div>
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Preferred Campus 3"}
-              className="my-4"
-              name="campus_prefrence[2].campus"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              id="campus_prefrence[2].campus"
-              value={values?.campus_prefrence[2]?.campus}
-              error={
-                Array.isArray(errors.campus_prefrence)
-                  ? errors.campus_prefrence[2]?.campus
-                  : ""
-              }
-              selectoptions={campusPreference}
-            />
-          </div>
-        </div>
+        ) : (
+          <></>
+        )}
 
         <h1 className="font-bold text-[22px]">Personal Details</h1>
         <div className="grid grid-cols-12 gap-4">
@@ -434,7 +459,7 @@ const Vacancy = () => {
                   id="personal_details.gender"
                   name="personal_details.gender"
                   checked={
-                    values.personal_details.gender === "male" ? true : false
+                    values.personal_details?.gender === "male" ? true : false
                   }
                   value={"male"}
                   onChange={handleChange}
@@ -448,7 +473,7 @@ const Vacancy = () => {
                   id="personal_details.gender"
                   name="personal_details.gender"
                   checked={
-                    values.personal_details.gender === "female" ? true : false
+                    values.personal_details?.gender === "female" ? true : false
                   }
                   value={"female"}
                   onChange={handleChange}
@@ -462,7 +487,7 @@ const Vacancy = () => {
                   id="personal_details.gender"
                   name="personal_details.gender"
                   checked={
-                    values.personal_details.gender === "others" ? true : false
+                    values.personal_details?.gender === "others" ? true : false
                   }
                   value={"others"}
                   onChange={handleChange}
@@ -473,10 +498,8 @@ const Vacancy = () => {
             </div>
           </div>
         </div>
-
         <h1 className="font-bold text-[22px]">Parent Details</h1>
         <div className="grid grid-cols-12 gap-4"></div>
-
         <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-4 col-span-12">
             <Input
@@ -568,152 +591,181 @@ const Vacancy = () => {
             />
           </div>
 
-          <div className="col-span-12">
-            <h1 className="font-bold text-[22px]">Communication Skill:</h1>
-            <div className="grid grid-cols-12">
-              <div className="md:col-span-4 col-span-12">
-                <h2 className="font-bold text-lg">English</h2>
+          {Array.isArray(values.communication) ? (
+            <div className="col-span-12">
+              <h1 className="font-bold text-[22px]">Communication Skill:</h1>
+              <div className="grid grid-cols-12">
+                <div className="md:col-span-4 col-span-12">
+                  <h2 className="font-bold text-lg">English</h2>
 
-                <div className="flex gap-4">
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[0].english.speak">
-                      Speak
-                    </label>
-                    <input
-                      id="communication[0].english.speak"
-                      value={values.communication[0]?.english?.speak}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[0].enlish.read">Read</label>
-                    <input
-                      id="communication[0].english.read"
-                      value={values.communication[0]?.english?.read}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[0].english.write">
-                      Write
-                    </label>
-                    <input
-                      id="communication[0].english.write"
-                      value={values.communication[0]?.english?.write}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:col-span-4 col-span-12">
-                <h2 className="font-bold text-lg">Hindi</h2>
-
-                <div className="flex gap-4">
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[1].hindi.speak">Speak</label>
-                    <input
-                      id="communication[1].hindi.speak"
-                      value={values.communication[1]?.hindi?.speak}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[1].enlish.read">Read</label>
-                    <input
-                      id="communication[1].hindi.read"
-                      value={values.communication[1]?.hindi?.read}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                  <div className="input_group flex gap-2">
-                    <label htmlFor="communication[1].hindi.write">Write</label>
-                    <input
-                      id="communication[1].hindi.write"
-                      value={values.communication[1]?.hindi?.write}
-                      type="checkbox"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:col-span-4 col-span-12">
-                <h2 className="font-bold text-lg">Others</h2>
-
-                <input
-                  type="text"
-                  name={`communication[2].others.type`}
-                  id={`communication[2].others.type`}
-                  className="focus:outline-0 border"
-                  value={values.communication[2]?.others?.type}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-
-                {values.communication[2]?.others?.type ? (
                   <div className="flex gap-4">
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[2].others.speak">
+                      <label htmlFor="communication[0].english.speak">
                         Speak
                       </label>
                       <input
-                        id="communication[2].others.speak"
-                        value={values.communication[2]?.others?.speak}
+                        id="communication[0].english.speak"
+                        value={values.communication[0]?.english?.speak}
+                        checked={Boolean(
+                          values.communication[0]?.english?.speak
+                        )}
                         type="checkbox"
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[2].enlish.read">Read</label>
+                      <label htmlFor="communication[0].enlish.read">Read</label>
                       <input
-                        id="communication[2].others.read"
-                        value={values.communication[2]?.others?.read}
+                        id="communication[0].english.read"
+                        value={values.communication[0]?.english?.read}
+                        checked={Boolean(
+                          values.communication[0]?.english?.read
+                        )}
                         type="checkbox"
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[2].others.write">
+                      <label htmlFor="communication[0].english.write">
                         Write
                       </label>
                       <input
-                        id="communication[2].others.write"
-                        value={values.communication[2]?.others?.write}
+                        id="communication[0].english.write"
+                        value={values.communication[0]?.english?.write}
+                        checked={Boolean(
+                          values.communication[0]?.english?.write
+                        )}
                         type="checkbox"
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
                   </div>
-                ) : (
-                  <></>
-                )}
+                </div>
+
+                <div className="md:col-span-4 col-span-12">
+                  <h2 className="font-bold text-lg">Hindi</h2>
+
+                  <div className="flex gap-4">
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[1].hindi.speak">
+                        Speak
+                      </label>
+                      <input
+                        id="communication[1].hindi.speak"
+                        value={values.communication[1]?.hindi?.speak}
+                        checked={Boolean(values.communication[1]?.hindi?.speak)}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[1].enlish.read">Read</label>
+                      <input
+                        id="communication[1].hindi.read"
+                        value={values.communication[1]?.hindi?.read}
+                        checked={Boolean(values.communication[1]?.hindi?.read)}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[1].hindi.write">
+                        Write
+                      </label>
+                      <input
+                        id="communication[1].hindi.write"
+                        value={values.communication[1]?.hindi?.write}
+                        checked={Boolean(values.communication[1]?.hindi?.write)}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="md:col-span-4 col-span-12">
+                  <h2 className="font-bold text-lg">Others</h2>
+
+                  <input
+                    type="text"
+                    name={`communication[2].others.type`}
+                    id={`communication[2].others.type`}
+                    className="focus:outline-0 border"
+                    value={values.communication[2]?.others?.type}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+
+                  {values.communication[2]?.others?.type ? (
+                    <div className="flex gap-4">
+                      <div className="input_group flex gap-2">
+                        <label htmlFor="communication[2].others.speak">
+                          Speak
+                        </label>
+                        <input
+                          id="communication[2].others.speak"
+                          value={values.communication[2]?.others?.speak}
+                          checked={Boolean(
+                            values.communication[2]?.others?.speak
+                          )}
+                          type="checkbox"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      <div className="input_group flex gap-2">
+                        <label htmlFor="communication[2].enlish.read">
+                          Read
+                        </label>
+                        <input
+                          id="communication[2].others.read"
+                          value={values.communication[2]?.others?.read}
+                          checked={Boolean(
+                            values.communication[2]?.others?.read
+                          )}
+                          type="checkbox"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                      <div className="input_group flex gap-2">
+                        <label htmlFor="communication[2].others.write">
+                          Write
+                        </label>
+                        <input
+                          id="communication[2].others.write"
+                          value={values.communication[2]?.others?.write}
+                          checked={Boolean(
+                            values.communication[2]?.others?.write
+                          )}
+                          type="checkbox"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
         </div>
-
         <div className="md:col-span-6 col-span-12">
           <h1 className="font-bold text-[22px]">Address Details:</h1>
         </div>
         <div className="md:col-span-6 col-span-12">
           <h1 className="font-bold text-[1rem] mb-4">Present Address</h1>
         </div>
-
         <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-6 col-span-12">
             <Input
@@ -721,7 +773,7 @@ const Vacancy = () => {
               label={"Flat/House No"}
               name="address.current.flat_house"
               id="address.current.flat_house"
-              value={values.address.current?.flat_house}
+              value={values.address?.current?.flat_house}
               error={errors.address?.current?.flat_house}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -735,7 +787,7 @@ const Vacancy = () => {
               label={"Street/Lane"}
               name="address.current.street_lane"
               id="address.current.street_lane"
-              value={values.address.current?.street_lane}
+              value={values.address?.current?.street_lane}
               error={errors.address?.current?.street_lane}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -749,7 +801,7 @@ const Vacancy = () => {
               label={"Area/Locality"}
               name="address.current.area_locality"
               id="address.current.area_locality"
-              value={values.address.current?.area_locality}
+              value={values.address?.current?.area_locality}
               error={errors.address?.current?.area_locality}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -763,7 +815,7 @@ const Vacancy = () => {
               label={"Nearest Landmark"}
               name="address.current.landmark"
               id="address.current.landmark"
-              value={values.address.current?.landmark}
+              value={values.address?.current?.landmark}
               error={errors.address?.current?.landmark}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -778,7 +830,7 @@ const Vacancy = () => {
               label={"Country"}
               name="address.current.country"
               id="address.current.country"
-              value={values.address.current?.country}
+              value={values.address?.current?.country}
               error={errors.address?.current?.country}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -792,7 +844,7 @@ const Vacancy = () => {
                 label={"Country Name"}
                 name="address.current.country_name"
                 id="address.current.country_name"
-                value={values.address.current?.country_name}
+                value={values.address?.current?.country_name}
                 error={errors.address?.current?.country_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -810,7 +862,7 @@ const Vacancy = () => {
                 label={"State Name"}
                 name="address.current.state"
                 id="address.current.state"
-                value={values.address.current?.state}
+                value={values.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -824,7 +876,7 @@ const Vacancy = () => {
                 label={"State"}
                 name="address.current.state"
                 id="address.current.state"
-                value={values.address.current?.state}
+                value={values.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -840,7 +892,7 @@ const Vacancy = () => {
               className="my-4"
               name="address.current.city"
               id="address.current.city"
-              value={values.address.current?.city}
+              value={values.address?.current?.city}
               error={errors.address?.current?.city}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -853,7 +905,7 @@ const Vacancy = () => {
               label={"Pincode"}
               name="address.current.pincode"
               id="address.current.pincode"
-              value={values.address.current?.pincode}
+              value={values.address?.current?.pincode}
               error={errors.address?.current?.pincode}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -862,7 +914,6 @@ const Vacancy = () => {
             />
           </div>
         </div>
-
         <div className="col-span-12 flex gap-2">
           <input
             type="checkbox"
@@ -870,13 +921,14 @@ const Vacancy = () => {
             value={isSameCurrentAddress}
             id="isSameCurrentAddress"
             onChange={(e) => {
-              setFieldValue("address.permanent", { ...values.address.current });
+              setFieldValue("address.permanent", {
+                ...values.address?.current,
+              });
               setIsSameCurrentAddress(e.target.checked);
             }}
           />
           <label htmlFor="isSameCurrentAddress">Same as current</label>
         </div>
-
         {!isSameCurrentAddress ? (
           <>
             <h1 className="font-bold text-[1rem] mb-4">Permanent Address</h1>
@@ -1032,7 +1084,6 @@ const Vacancy = () => {
         ) : (
           <></>
         )}
-
         <div className="md:col-span-12">
           <h1 className="font-bold text-[22px]">Academic Details:</h1>
           <h1 className="font-bold text-[1rem] mb-4">Note:</h1>
@@ -1050,7 +1101,6 @@ const Vacancy = () => {
             </li>
           </ul>
         </div>
-
         <div className="grid grid-cols-12 gap-4">
           <p className="col-span-12 my-2 text-2xl font-bold">High School</p>
 
@@ -1062,7 +1112,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.high_school.year`}
               name={`academic_details.high_school.year`}
-              value={values.academic_details?.high_school?.year}
+              value={values?.academic_details?.high_school?.year}
               error={errors?.academic_details?.high_school?.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1077,7 +1127,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.high_school.board`}
               name={`academic_details.high_school.board`}
-              value={values.academic_details?.high_school?.board}
+              value={values?.academic_details?.high_school?.board}
               error={errors?.academic_details?.high_school?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1091,7 +1141,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.high_school.school`}
               name={`academic_details.high_school.school`}
-              value={values.academic_details?.high_school?.school}
+              value={values?.academic_details?.high_school?.school}
               error={errors?.academic_details?.high_school?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1105,7 +1155,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.high_school.percentage`}
               name={`academic_details.high_school.percentage`}
-              value={values.academic_details?.high_school?.percentage}
+              value={values?.academic_details?.high_school?.percentage}
               error={errors?.academic_details?.high_school?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1120,7 +1170,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.high_school.medium`}
               name={`academic_details.high_school.medium`}
-              value={values.academic_details?.high_school?.medium}
+              value={values?.academic_details?.high_school?.medium}
               error={errors?.academic_details?.high_school?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1128,7 +1178,6 @@ const Vacancy = () => {
             />
           </div>
         </div>
-
         <div className="grid grid-cols-12 gap-4">
           <p className="col-span-12 my-2 text-2xl font-bold">Senior Secondry</p>
           <div className="md:col-span-6 col-span-12">
@@ -1139,7 +1188,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.senior_secondary.year`}
               name={`academic_details.senior_secondary.year`}
-              value={values.academic_details?.senior_secondary?.year}
+              value={values?.academic_details?.senior_secondary?.year}
               error={errors?.academic_details?.senior_secondary?.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1154,7 +1203,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.senior_secondary.board`}
               name={`academic_details.senior_secondary.board`}
-              value={values.academic_details?.senior_secondary?.board}
+              value={values?.academic_details?.senior_secondary?.board}
               error={errors?.academic_details?.senior_secondary?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1168,7 +1217,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.senior_secondary.school`}
               name={`academic_details.senior_secondary.school`}
-              value={values.academic_details?.senior_secondary?.school}
+              value={values?.academic_details?.senior_secondary?.school}
               error={errors?.academic_details?.senior_secondary?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1182,7 +1231,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.senior_secondary.percentage`}
               name={`academic_details.senior_secondary.percentage`}
-              value={values.academic_details?.senior_secondary?.percentage}
+              value={values?.academic_details?.senior_secondary?.percentage}
               error={errors?.academic_details?.senior_secondary?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1197,7 +1246,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.senior_secondary.medium`}
               name={`academic_details.senior_secondary.medium`}
-              value={values.academic_details?.senior_secondary?.medium}
+              value={values?.academic_details?.senior_secondary?.medium}
               error={errors?.academic_details?.senior_secondary?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1205,7 +1254,6 @@ const Vacancy = () => {
             />
           </div>
         </div>
-
         <div className="grid grid-cols-12 gap-4">
           <p className="col-span-12 my-2 text-2xl font-bold">Graduation</p>
           <div className="md:col-span-6 col-span-12">
@@ -1216,7 +1264,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.graduation.year`}
               name={`academic_details.graduation.year`}
-              value={values.academic_details?.graduation?.year}
+              value={values?.academic_details?.graduation?.year}
               error={errors?.academic_details?.graduation?.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1231,7 +1279,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.graduation.board`}
               name={`academic_details.graduation.board`}
-              value={values.academic_details?.graduation?.board}
+              value={values?.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1245,7 +1293,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.graduation.school`}
               name={`academic_details.graduation.school`}
-              value={values.academic_details?.graduation?.school}
+              value={values?.academic_details?.graduation?.school}
               error={errors?.academic_details?.graduation?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1259,7 +1307,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.graduation.percentage`}
               name={`academic_details.graduation.percentage`}
-              value={values.academic_details?.graduation?.percentage}
+              value={values?.academic_details?.graduation?.percentage}
               error={errors?.academic_details?.graduation?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1274,7 +1322,7 @@ const Vacancy = () => {
               className="my-4"
               id={`academic_details.graduation.medium`}
               name={`academic_details.graduation.medium`}
-              value={values.academic_details?.graduation?.medium}
+              value={values?.academic_details?.graduation?.medium}
               error={errors?.academic_details?.graduation?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1288,6 +1336,9 @@ const Vacancy = () => {
               value={false}
               id={`academic_details.graduation.isPursuing`}
               name={`academic_details.graduation.isPursuing`}
+              checked={Boolean(
+                values?.academic_details?.graduation?.isPursuing
+              )}
               onChange={(e) => {
                 setFieldValue("academic_details.post_graduation", {});
                 handleChange(e);
@@ -1299,8 +1350,7 @@ const Vacancy = () => {
             </label>
           </div>
         </div>
-
-        {!values.academic_details.graduation?.isPursuing ? (
+        {!values?.academic_details.graduation?.isPursuing ? (
           <div className="grid grid-cols-12 gap-4">
             <p className="col-span-12 my-2 text-2xl font-bold">
               Post Graduation
@@ -1314,7 +1364,7 @@ const Vacancy = () => {
                 className="my-4"
                 id={`academic_details.post_graduation.year`}
                 name={`academic_details.post_graduation.year`}
-                value={values.academic_details?.post_graduation?.year}
+                value={values?.academic_details?.post_graduation?.year}
                 error={errors?.academic_details?.post_graduation?.year}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1329,7 +1379,7 @@ const Vacancy = () => {
                 className="my-4"
                 id={`academic_details.post_graduation.board`}
                 name={`academic_details.post_graduation.board`}
-                value={values.academic_details?.post_graduation?.board}
+                value={values?.academic_details?.post_graduation?.board}
                 error={errors?.academic_details?.post_graduation?.board}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1343,7 +1393,7 @@ const Vacancy = () => {
                 className="my-4"
                 id={`academic_details.post_graduation.school`}
                 name={`academic_details.post_graduation.school`}
-                value={values.academic_details?.post_graduation?.school}
+                value={values?.academic_details?.post_graduation?.school}
                 error={errors?.academic_details?.post_graduation?.school}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1357,7 +1407,7 @@ const Vacancy = () => {
                 className="my-4"
                 id={`academic_details.post_graduation.percentage`}
                 name={`academic_details.post_graduation.percentage`}
-                value={values.academic_details?.post_graduation?.percentage}
+                value={values?.academic_details?.post_graduation?.percentage}
                 error={errors?.academic_details?.post_graduation?.percentage}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1372,7 +1422,7 @@ const Vacancy = () => {
                 className="my-4"
                 id={`academic_details.post_graduation.medium`}
                 name={`academic_details.post_graduation.medium`}
-                value={values.academic_details?.post_graduation?.medium}
+                value={values?.academic_details?.post_graduation?.medium}
                 error={errors?.academic_details?.post_graduation?.medium}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1383,11 +1433,9 @@ const Vacancy = () => {
         ) : (
           <></>
         )}
-
         {/* <div onClick={handleAddfield} className="mb-4">
           <IoIosAddCircleOutline className="text-4xl cursor-pointer text-white rounded-full bg-blue-600" />
         </div> */}
-
         <div className="md:col-span-12">
           <h1 className="font-bold text-[22px]">Work Experience:</h1>
         </div>
@@ -1565,19 +1613,6 @@ const Vacancy = () => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              {/* <div className="md:col-span-6 col-span-12">
-                <Input
-                  type="text"
-                  label={"Nature of The Job"}
-                  className="my-4"
-                  id={`work_experience[${0}].job_nature`}
-                  name={`work_experience[${0}].job_nature`}
-                  value={values.work_experience[0]?.job_nature}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  style={{ "--color--": "#525252" }}
-                />
-              </div> */}
               <div className="font-bold text-[1rem] mb-4 col-span-12 flex gap-1">
                 <input
                   type="checkbox"
@@ -1586,8 +1621,9 @@ const Vacancy = () => {
                   value={values.work_experience[0]?.isWorking}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  checked={values.work_experience[1]?.isPursuing}
+                  checked={Boolean(values.work_experience[0]?.isWorking)}
                 />
+
                 <label htmlFor={`work_experience[${0}].isWorking`}>
                   Currently Working Here!
                 </label>
@@ -1707,7 +1743,6 @@ const Vacancy = () => {
                 />
               </div>
               <div className="md:col-span-6 col-span-12">
-                {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
@@ -1725,19 +1760,6 @@ const Vacancy = () => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              {/* <div className="md:col-span-6 col-span-12">
-                <Input
-                  type="text"
-                  label={"Nature of The Job"}
-                  className="my-4"
-                  id={`work_experience[${1}].job_nature`}
-                  name={`work_experience[${1}].job_nature`}
-                  value={values.work_experience[1]?.job_nature}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  style={{ "--color--": "#525252" }}
-                />
-              </div> */}
             </div>
           </div>
 
@@ -1887,7 +1909,6 @@ const Vacancy = () => {
             </div>
           </div>
         </div>
-
         <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex">
           <h2>HAVE YOU WORKED ON CMS PAYROLL BEFORE </h2>
           <div className="flex gap-2 ml-1">
@@ -1897,6 +1918,9 @@ const Vacancy = () => {
               value="yes"
               name="before_working_in_payroll"
               id="before_working_in_payroll-yes"
+              checked={
+                values?.before_working_in_payroll === "yes" ? true : false
+              }
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -1906,12 +1930,14 @@ const Vacancy = () => {
               value="no"
               name="before_working_in_payroll"
               id="before_working_in_payroll-no"
+              checked={
+                values?.before_working_in_payroll === "no" ? true : false
+              }
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </div>
         </div>
-
         <div className="grid grid-cols-12 gap-4 mb-2">
           <div className="col-span-12">
             <h1 className="font-bold text-[1rem] mb-4">
@@ -1924,7 +1950,7 @@ const Vacancy = () => {
               label="Date"
               required={true}
               name="earliest_date_join"
-              value={values.earliest_date_join}
+              value={values.earliest_date_join?.slice(0, 10)}
               error={errors.earliest_date_join}
               id="earliest_date_join-no"
               onChange={handleChange}
@@ -2031,7 +2057,6 @@ const Vacancy = () => {
             </label>
           </div>
         </div>
-
         <div className="col-span-12 mb-2">
           <button
             type="submit"
@@ -2046,4 +2071,4 @@ const Vacancy = () => {
   );
 };
 
-export default Vacancy;
+export default React.memo(Vacancy);

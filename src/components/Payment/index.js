@@ -14,10 +14,11 @@ const Payment = () => {
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/paymentInitiator`,
         {
-          merchant_id: "1918298",
-          order_id: orderId,
-          currency: "INR",
-          amount: "600",
+          order_id: `CMS-${
+            Math.floor(Math.random() * (10000000000 - 999999999 + 1)) +
+            999999999
+          }`,
+          billing_name: "Deepak Verma",
         }
       );
       setData(res.data);

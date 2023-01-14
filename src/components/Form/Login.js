@@ -22,9 +22,9 @@ export default function Login() {
     }
 
     if (res?.status === 200) {
-      toast.success("Successfully LoggedIn!");
+      toast.success("Successfully Logged In!");
       dispatch(setToken(res.data.token));
-      navigate("/info");
+      navigate("/welcome");
     }
   };
 
@@ -46,9 +46,8 @@ export default function Login() {
   });
 
   if (token) {
-    return <Navigate to="/info" />;
+    return <Navigate to="/welcome" />;
   }
-
   return (
     <form className="mt-8 space-y-6" onSubmit={formikLogin.handleSubmit}>
       <div className="-space-y-px">

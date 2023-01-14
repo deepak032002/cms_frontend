@@ -11,8 +11,12 @@ const formSlice = createSlice({
     setForm: (store, action) => {
       store.form = action.payload;
     },
+
+    removeForm: (store, action) => {
+      store.form = "";
+    },
   },
 });
 
-export const { setForm } = formSlice.actions;
+export const { setForm, removeForm } = formSlice.actions;
 export default formSlice.reducer;

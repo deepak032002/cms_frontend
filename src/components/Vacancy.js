@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import { staffTeachingSchema } from "../utils/yupSchema";
 
-import { setNestedObjectValues, useFormik } from "formik";
+import { useFormik } from "formik";
 import { formPost, formUpdate } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -96,44 +96,57 @@ const Vacancy = () => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
-  
+
   const handleVacancyTeaching = async (data, action) => {
-    console.log(token ,'sdufhfia');
+    setIsLoading(true);
     const res = await formPost(data, token);
     if (res?.status === 201) {
       toast.success("Successfully submitted!");
-      navigate("/payment");
+      navigate(
+        `/payment/CMS-${
+          Math.floor(Math.random() * (10000000000 - 999999999 + 1)) + 999999999
+        }`
+      );
     }
 
     if (res.code === "ERR_NETWORK") {
       toast.error("Network Error!");
+      setIsLoading(false);
     }
 
     if (res.code === "ERR_BAD_REQUEST" || res.code === "ERR_BAD_RESPONSE") {
       toast.error("Bad Request!");
+      setIsLoading(false);
     }
   };
 
   const handleVacancyTeachingUpdate = async (data, action) => {
-    console.log(token);
+    setIsLoading(true);
     const res = await formUpdate(data, token);
 
     if (res?.status === 200) {
       toast.success("Successfully Updated!");
-      navigate("/payment");
+      navigate(
+        `/payment/CMS-${
+          Math.floor(Math.random() * (10000000000 - 999999999 + 1)) + 999999999
+        }`
+      );
     }
 
     if (res.code === "ERR_NETWORK") {
       toast.error("Network Error!");
+      setIsLoading(false);
     }
 
     if (res.code === "ERR_BAD_REQUEST" || res.code === "ERR_BAD_RESPONSE") {
       toast.error("Bad Request!");
+      setIsLoading(false);
     }
-  };  
+  };
 
   const {
     values,
@@ -206,7 +219,7 @@ const Vacancy = () => {
       setValues(form);
     }
     setYear(years);
-  }, []);
+  }, [form]);
 
   return (
     <div>
@@ -2082,13 +2095,23 @@ const Vacancy = () => {
           </div>
         </div>
         <div className="col-span-12 mb-2">
-          <button
-            type="submit"
-            disabled={!values.declaration}
-            className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-          >
-            Save & Update
-          </button>
+          {isLoading ? (
+            <button
+              type="submit"
+              disabled={true}
+              className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            >
+              Loading...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={!values.declaration}
+              className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+            >
+              Save & Update
+            </button>
+          )}
         </div>
       </form>
     </div>

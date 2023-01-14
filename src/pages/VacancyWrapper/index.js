@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import Vacancy from "../../components/Vacancy";
 import NonVacancy from "../../components/NonVacancy";
 import color from "../../assets/images/color-logo.jpg";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeToken } from "../../redux/features/authSlice";
 import { getForm } from "../../api/vacancyapply";
-import { setForm } from "../../redux/features/form";
+import { removeForm, setForm } from "../../redux/features/form";
 
 const VacancyWrapper = () => {
   const [isShowTeachingForm, setIsShowTeachingForm] = useState(true);
   const [isDisableBtn, setIsDisableBtn] = useState(false);
+
+  const { type } = useParams();
 
   const handleToggleForm = (arg) => {
     setIsShowTeachingForm(arg);
@@ -18,31 +20,29 @@ const VacancyWrapper = () => {
 
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
+  const form = useSelector((state) => state.form.form);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(removeToken());
+    dispatch(removeForm());
     navigate("/");
   };
 
   useEffect(() => {
-    (async () => {
-      const res = await getForm(token);
-      console.log(res);
-      if (res?.code !== "ERR_BAD_REQUEST") {
-        dispatch(setForm(res));
-        if (res.data.form.category === "teaching") {
-          setIsShowTeachingForm(true);
-          setIsDisableBtn(false);
-        } else {
-          setIsShowTeachingForm(false);
-          setIsDisableBtn(true);
-        }
+    if (type === "edit") {
+      setIsDisableBtn(true);
+      if (form?.category === "teaching") {
+        setIsShowTeachingForm(true);
       } else {
-        dispatch(setForm({}));
+        setIsShowTeachingForm(false);
       }
-    })();
-  }, [token, dispatch]);
+    } else {
+      dispatch(setForm(""));
+      setIsShowTeachingForm(true);
+      setIsDisableBtn(false);
+    }
+  }, [dispatch, form, type]);
 
   if (!token) {
     return <Navigate to="/" />;
@@ -85,7 +85,7 @@ const VacancyWrapper = () => {
           Teaching
         </button>
         <button
-          disabled={!isDisableBtn}
+          disabled={isDisableBtn}
           onClick={() => handleToggleForm(false)}
           className={`border border-r-0 rounded-r-[12px] flex-1 py-2 disabled:pointer-events-none disabled:cursor-not-allowed hover:bg-blue-500 hover:text-white ${
             !isShowTeachingForm ? "bg-blue-500 text-white" : ""

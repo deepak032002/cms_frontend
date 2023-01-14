@@ -54,7 +54,7 @@ export default function Sign() {
   });
 
   if (token) {
-    return <Navigate to="/agreement" />;
+    return <Navigate to="/welcome" />;
   }
 
   return (

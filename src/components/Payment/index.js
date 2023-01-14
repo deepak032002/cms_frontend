@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const Payment = () => {
   const [data, setData] = useState("");
 
   const params = useParams();
-
+  const token = useSelector((state) => state.auth.token);
   const { orderId } = params;
 
   useEffect(() => {
@@ -14,11 +15,13 @@ const Payment = () => {
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/paymentInitiator`,
         {
-          order_id: `CMS-${
-            Math.floor(Math.random() * (10000000000 - 999999999 + 1)) +
-            999999999
-          }`,
+          order_id: orderId,
           billing_name: "Deepak Verma",
+        },
+        {
+          headers: {
+            Authorisation: token,
+          },
         }
       );
       setData(res.data);

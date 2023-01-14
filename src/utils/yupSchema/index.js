@@ -28,7 +28,7 @@ export const staffTeachingSchema = Yup.object({
     }),
     mother: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.string(),
+      mobile: Yup.string().nullable(),
     }),
     mobile: Yup.number("Only enter numbers").required("This is required"),
     email: Yup.string().required("This is required").email("Enter valid email"),

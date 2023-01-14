@@ -67,21 +67,22 @@ const changeUrlToByte = async (url) => {
 
 export const getForm = async (token) => {
   try {
-    const res = await axios.get(`${api_url}/form`, {
+    const res = await axios.get(`${api_url}/form/`, {
       headers: {
         Authorisation: token,
       },
     });
 
-    const form = {
+    const image = await changeUrlToByte(res.data.form.personal_details.image);
+
+    return {
       ...res.data.form,
       personal_details: {
         ...res.data.form.personal_details,
-        image: await changeUrlToByte(res.data.form.personal_details.image),
+        image_url: res.data.form.personal_details.image,
+        image: image,
       },
     };
-
-    return form;
   } catch (error) {
     return error;
   }

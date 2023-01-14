@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Info from "./components/Info";
 import WelcomePage from "./components/WelcomePage";
+import SuccessfullPaymentComponent from "./components/SuccessfullPaymentComponent";
 
 const App = () => {
   return (
@@ -19,6 +20,10 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/vacancy/:type" element={<VacancyWrapper />} />
         <Route path="/info" element={<Info />} />
+        <Route
+          path="/paymentSuccess"
+          element={<SuccessfullPaymentComponent />}
+        />
         <Route path="/payment/:orderId" element={<Payment />} />
         <Route path="*" element={<>404 Page</>} />
       </Routes>

@@ -8,20 +8,24 @@ import { loginApi } from "../../api/auth";
 import { useNavigate, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "../../redux/features/authSlice";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const token = useSelector((state) => state.auth.token);
   const handleLogin = async (data, action) => {
+    setIsLoading(true);
     const res = await loginApi(data);
-    console.log(res);
 
     if (res?.code === "ERR_BAD_REQUEST" && res?.response.status === 409) {
       toast.error(res.response.data.message);
+      setIsLoading(false);
     }
 
     if (res?.status === 200) {
+      setIsLoading(false);
       toast.success("Successfully Logged In!");
       dispatch(setToken(res.data.token));
       navigate("/welcome");
@@ -77,7 +81,12 @@ export default function Login() {
       </div>
 
       <FormExtra />
-      <FormAction handleSubmit={formikLogin.handleSubmit} text="Login" />
+
+      {isLoading ? (
+        <FormAction handleSubmit={formikLogin.handleSubmit} text="Loading..." />
+      ) : (
+        <FormAction handleSubmit={formikLogin.handleSubmit} text="Login" />
+      )}
     </form>
   );
 }

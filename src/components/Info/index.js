@@ -97,7 +97,7 @@ const Info = () => {
       </div> */}
 
       <Link
-        to="/vacancy"
+        to="/vacancy/new"
         className="bg-blue-500 px-4 py-1 my-9 hover:bg-blue-500 my-3 block mx-auto w-fit rounded-md text-white"
       >
         Agree & Proceed

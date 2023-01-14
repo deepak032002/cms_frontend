@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/color-logo.jpg";
 import { removeToken } from "../../redux/features/authSlice";
 import { FaUserAlt } from "react-icons/fa";
@@ -25,6 +25,10 @@ const WelcomePage = () => {
     })();
   }, [dispatch, token]);
 
+  if (!token) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="welcome_page_wrp">
       <div className="header flex justify-between items-center py-6 px-3">
@@ -42,7 +46,7 @@ const WelcomePage = () => {
         </button>
       </div>
 
-      {form ? (
+      {Object.keys(form).length > 0 ? (
         <div className="body">
           <h1 className="col-span-12 text-4xl font-bold w-[80%] mx-auto">
             Your Form-
@@ -116,7 +120,7 @@ const WelcomePage = () => {
       ) : (
         <div className="w-full flex items-center justify-center my-2 h-full">
           <Link
-            to="/vacancy/new"
+            to="/info"
             className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
           >
             New Form

@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { FaUserAlt } from "react-icons/fa";
-import { setForm } from "../../redux/features/form";
+import { BsCheck } from "react-icons/bs";
 import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
-import Header from "../header";
+import logo from "../../assets/images/color-logo.jpg";
+import Header from "../Header";
+import ReactToPrint from "react-to-print";
 
 const PreviewForm = () => {
   //   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(true);
+  const printRef = useRef();
   const form = useSelector((state) => state.form.form);
   const token = useSelector((state) => state.auth.token);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const res = await getForm(token);
-      //   if (res?.code !== "ERR_BAD_REQUEST") {
-      //     dispatch(setForm(res));
-      //   } else {
-      //     dispatch(setForm(""));
-      //   }
-      setIsLoading(false);
-    })();
-  }, [token]);
 
   if (!token) {
     return <Navigate to="/" />;
@@ -35,301 +22,374 @@ const PreviewForm = () => {
     <div className="Preview_page_wrp">
       <Header />
 
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          {Object.keys(form).length > 0 ? (
-            <div className="body ">
-              <h2 className="col-span-12 text-4xl font-bold w-[80%] mx-auto">
-                Applicant's Details:
-                {/* <Loader /> */}
-              </h2>
-              {/* {!form?.paymentConfirmation ? (
-                <p className="text-red-500 text-sm w-[80%] mx-auto">
-                  Please proceed for payment to confirm your form
-                </p>
-              ) : (
-                <p className="text-green-500 text-sm w-[80%] mx-auto">
-                  Your Payment is confirmed please download your form
-                </p>
-              )} */}
-              <div className="shadow-md grid my-3 w-[80%] p-4 mx-auto grid-cols-12 border-solid border-2 border-black">
-                <div className="md:col-span-8">
-                  <p>
-                    Application No.:<span>{form.registrationNum}</span>{" "}
-                  </p>
-                  <p className="capitalize">Applied For - {form.category}</p>
-                  <p>
-                    Campus Preference:{form.campus_preference}
-                    <table class="border border-separate border-spacing-2 my-2 border-slate-400 ...">
-                      <thead>
-                        <tr>
-                          <th class="border border-slate-300 ...">
-                            Preference 1
-                          </th>
-                          <th class="border border-slate-300 ...">
-                            Preference 2
-                          </th>
-                          <th class="border border-slate-300 ...">
-                            Preference 3
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="border border-slate-300 ...">Indiana</td>
-                          <td class="border border-slate-300 ...">Indiana</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </p>
-                  <p>
-                    Name - {form.personal_details.first_name}{" "}
-                    {form.personal_details.middle_name}{" "}
-                    {form.personal_details.last_name}
-                  </p>
-                  <p>Email - {form.personal_details.email}</p>
-                  <p>DOB: {form.personal_details.dob}</p>
-                  <p>Gender: {form.personal_details.gender}</p>
-                  <p>Mobile - {form.personal_details.mobile}</p>
-                  <p>Languages:</p>
+      <div
+        ref={printRef}
+        className="table_body w-[98%] mx-auto p-2 border-collapse shadow-md"
+      >
+        <header className="flex items-center justify-center flex-col">
+          <img src={logo} alt="" />
+          <h2 className="text-lg font-semibold">
+            Recruitment Form-Non-Teaching Staff
+          </h2>
+        </header>
+        <table className="table-fixed w-full border-collapse border-black">
+          <tr className="w-full">
+            <td className="border px-2">
+              <span className="font-bold"> Registration No.-</span>{" "}
+              {form?.registrationNum}
+            </td>
 
-                  <p>
-                    Address - {form.address.current.flat_house}{" "}
-                    {form.address.current.street_lane}{" "}
-                    {form.address.current.city} {form.address.current.state}{" "}
-                    {form.address.current.country}{" "}
-                    {form.address.current.pincode}
-                  </p>
-                  <div className="md:col-span-4">
-                    {form.personal_details.image_url ? (
-                      <img
-                        src={form.personal_details.image_url}
-                        className="aspect-[9/16] w-[9rem] h-[10rem] shadow-lg border-black border"
-                        alt="logo"
-                      />
-                    ) : (
-                      <div className="border">
-                        <FaUserAlt />
-                      </div>
-                    )}
+            <td className="border px-2">
+              <span className="font-bold">Designation-</span> {form?.category}
+              {form?.designation}
+            </td>
+
+            <td className="border px-2 w-[15%]" rowSpan={7}>
+              <img src={form?.personal_details?.image_url} alt="" />
+            </td>
+          </tr>
+
+          <tr className="w-full">
+            <td className="border px-2 w-full" colSpan={2}>
+              <span className="font-bold">Campus Prefrence-</span>
+            </td>
+          </tr>
+          <tr>
+            <td className="border px-2" colSpan={"2"}>
+              <div className="flex">
+                {form?.campus_prefrence.map((item, index) => {
+                  return (
+                    <span key={new Date().getTime() + index} className="flex-1">
+                      {index + 1}. {item.campus}
+                    </span>
+                  );
+                })}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td className="border px-2">
+              <span className="font-bold">Name:</span>{" "}
+              {form?.personal_details?.first_name}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Email:</span>{" "}
+              {form?.personal_details?.email}
+            </td>
+          </tr>
+          <tr>
+            <td className="border px-2">
+              <span className="font-bold">Contact:</span>{" "}
+              {form?.personal_details?.mobile}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Date of Birth:</span>{" "}
+              {new Date(form?.personal_details?.dob).toLocaleDateString(
+                undefined,
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }
+              )}
+            </td>
+          </tr>
+
+          <tr className="w-full">
+            <td className="border w-full px-2" colSpan={2}>
+              <span className="font-bold">Languages:</span>
+            </td>
+          </tr>
+          <tr className="w-full">
+            <td className="border px-2" colSpan={"2"}>
+              <div className="flex">
+                {form?.communication.map((item, index) => {
+                  return (
+                    <span
+                      key={new Date().getTime() + index + 1}
+                      className="flex-1 flex capitalize"
+                    >
+                      <span className="font-bold mr-1">
+                        {Object.keys(item).toString()}
+                      </span>
+                      :
+                      {Object.keys(item[Object.keys(item).toString()]).map(
+                        (item, index) => {
+                          return (
+                            <span
+                              className="mx-2 capitalize"
+                              key={new Date().getTime() + index + 2}
+                            >
+                              <span className="flex gap-1 items-center justify-center">
+                                {item} <BsCheck className="text-green-500" />
+                              </span>
+                            </span>
+                          );
+                        }
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td className="border px-2">
+              <div>
+                <h3 className="font-bold">Present Address:</h3>
+                <div className="grid grid-cols-2 text-sm">
+                  <div className="col-span-1">
+                    <p>
+                      <span className="font-bold">House No.</span>{" "}
+                      {form?.address?.current?.flat_house}
+                    </p>
+                    <p>
+                      <span className="font-bold">Street</span>{" "}
+                      {form?.address?.current?.street_lane}
+                    </p>
+                    <p>
+                      <span className="font-bold">City</span>{" "}
+                      {form?.address?.current?.city}
+                    </p>
+                  </div>
+                  <div className="col-span-1">
+                    <p>
+                      <span className="font-bold">Country</span>{" "}
+                      {form?.address?.current?.country}
+                    </p>
+                    <p>
+                      <span className="font-bold">State</span>{" "}
+                      {form?.address?.current?.state}
+                    </p>
+                    <p>
+                      <span className="font-bold">Pincode</span>{" "}
+                      {form?.address?.current?.pincode}
+                    </p>
                   </div>
                 </div>
-
-                <div className="md:col-span-12">
-                  <p>
-                    Academic Qualification
-                    <table class="border-collapse border border-slate-400 ...">
-                      <thead>
-                        <tr>
-                          <th class="border border-slate-300 ...">
-                            High School{form.high_school}
-                          </th>
-
-                          <th class="border border-slate-300 ...">
-                            School/Institute/University Name
-                          </th>
-                          <th class="border border-slate-300 ...">
-                            Year of Passing
-                          </th>
-                          <th class="border border-slate-300 ...">Board</th>
-                          <th class="border border-slate-300 ...">
-                            Aggregate % Marks
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="border border-slate-300 ...">Indiana</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="border border-slate-300 ...">Ohio</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="border border-slate-300 ...">Michigan</td>
-                          <td class="border border-slate-300 ...">Detroit</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </p>
-                </div>
-                <div className="md:col-span-12 my-4">
-                  <p>
-                    <table class="border-collapse border border-slate-400 ...">
-                      <thead>
-                        <tr>
-                          <th class="border border-slate-300 ...">College</th>
-                          <th class="border border-slate-300 ...">Exam</th>
-                          <th class="border border-slate-300 ...">
-                            School/Institute/University Name
-                          </th>
-                          <th class="border border-slate-300 ...">
-                            Year of Passing
-                          </th>
-                          <th class="border border-slate-300 ...">Board</th>
-                          <th class="border border-slate-300 ...">
-                            Aggregate % Marks
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="border border-slate-300 ...">Indiana</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="border border-slate-300 ...">Ohio</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="border border-slate-300 ...">Michigan</td>
-                          <td class="border border-slate-300 ...">Detroit</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">Columbus</td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                          <td class="border border-slate-300 ...">
-                            Indianapolis
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </p>
-                </div>
-                <h2 className="col-span-12 text-sm font-bold w-[80%] mx-2">
-                  WORKED ON CMS PAYROLL BEFORE?
-                </h2>
-                <h2 className="col-span-12 text-sm font-bold w-[80%] mx-2">
-                  Total Work Experience:{form.total_experience}
-                </h2>
-                <div className="md:col-span-3">
-                  <p>Branch Code: N/A</p>
-                  <p>Reason for Leaving</p>
-                  <p>Name of the Relative:</p>
-                </div>
-                <div className="md:col-span-3">
-                  <p>Last Designation</p>
-                  <p>Earliest Date You can Join: {form.earliest_date_join}</p>
-                  <p>Staff Category:</p>
-                </div>
-                <div className="md:col-span-3">
-                  <p>Date of Joining:</p>
-                  <p>Do You a blood Relative in CMS?</p>
-                  <p>Designation</p>
-                </div>
-                <div className="md:col-span-3">
-                  <p>Date of Leaving: {""}</p>
-                  <p></p>
-                  <p>Campus:</p>
+              </div>
+            </td>
+            <td className="border px-2" colSpan={2}>
+              <div>
+                <h3 className="font-bold">Permanent Address:</h3>
+                <div className="grid grid-cols-2 text-sm">
+                  <div className="col-span-1">
+                    <p>
+                      <span className="font-bold">House No.</span>{" "}
+                      {form?.address?.permanent?.flat_house}
+                    </p>
+                    <p>
+                      <span className="font-bold">Street</span>{" "}
+                      {form?.address?.permanent?.street_lane}
+                    </p>
+                    <p>
+                      <span className="font-bold">City</span>{" "}
+                      {form?.address?.permanent?.city}
+                    </p>
+                  </div>
+                  <div className="col-span-1">
+                    <p>
+                      <span className="font-bold">Country</span>{" "}
+                      {form?.address?.permanent?.country}
+                    </p>
+                    <p>
+                      <span className="font-bold">State</span>{" "}
+                      {form?.address?.permanent?.state}
+                    </p>
+                    <p>
+                      <span className="font-bold">Pincode</span>{" "}
+                      {form?.address?.permanent?.pincode}
+                    </p>
+                  </div>
                 </div>
               </div>
+            </td>
+          </tr>
 
-              <div className="col-span-12 flex items-center justify-center gap-4 my-4">
-                {form?.paymentConfirmation ? (
-                  <button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1">
-                    Preview
-                  </button>
-                ) : (
-                  <>
-                    <Link
-                      to={`/payment/CMS-${
-                        Math.floor(
-                          Math.random() * (10000000000 - 999999999 + 1)
-                        ) + 999999999
-                      }`}
-                      className="bg-red-600 text-white hover:bg-red-700 rounded-md px-3 py-1"
-                    >
-                      Payment
-                    </Link>
+          <h3 className="font-bold my-2 text-xl">Academic Qualification-</h3>
+          <tr>
+            <td colSpan={3}>
+              <tr className="flex w-full border-collapse">
+                <th className="border flex-1">Exam</th>
+                <th className="border flex-1">
+                  School/Institute/University Name
+                </th>
+                <th className="border flex-1">Year of Passing</th>
+                <th className="border flex-1">Board</th>
+                <th className="border flex-1">Aggregate % Marks</th>
+              </tr>
+              <tr className="flex w-full border-collapse">
+                <td className="border text-center flex-1">X</td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.high_school?.school}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.high_school?.year}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.high_school?.board}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.high_school?.percentage}
+                </td>
+              </tr>
+              <tr className="flex w-full border-collapse">
+                <td className="border text-center flex-1">XII</td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.senior_secondary?.school}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.senior_secondary?.year}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.senior_secondary?.board}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.senior_secondary?.percentage}
+                </td>
+              </tr>
+              <tr className="flex w-full border-collapse">
+                <td className="border text-center flex-1">Graduation</td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.graduation?.school}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.graduation?.year}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.graduation?.board}
+                </td>
+                <td className="border text-center flex-1">
+                  {form?.academic_details.graduation?.percentage}
+                </td>
+              </tr>
 
-                    <Link
-                      to={"/printpdf"}
-                      className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
-                    >
-                      Print Pdf
-                    </Link>
+              {form?.academic_details.post_graduation ? (
+                <tr className="flex w-full border-collapse">
+                  <td className="border text-center flex-1">Graduation</td>
+                  <td className="border text-center flex-1">
+                    {form?.academic_details.post_graduation?.school}
+                  </td>
+                  <td className="border text-center flex-1">
+                    {form?.academic_details.post_graduation?.year}
+                  </td>
+                  <td className="border text-center flex-1">
+                    {form?.academic_details.post_graduation?.board}
+                  </td>
+                  <td className="border text-center flex-1">
+                    {form?.academic_details.post_graduation?.percentage}
+                  </td>
+                </tr>
+              ) : (
+                <></>
+              )}
+            </td>
+          </tr>
 
-                    <Link
-                      to="/vacancy/edit"
-                      className="bg-green-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
-                    >
-                      Edit
-                    </Link>
-                  </>
-                )}
+          <h3 className="font-bold my-2 text-xl">Work Experience-</h3>
+          <p>
+            <span className="font-bold">Total Experience:</span>{" "}
+            {`${parseInt(form?.total_experience / 12)} year and ${
+              form?.total_experience % 12
+            } months`}
+          </p>
+
+          <tr>
+            <td colSpan={3}>
+              <tr className="flex w-full border-collapse">
+                <th className="border flex-1">Designation</th>
+                <th className="border flex-1">Organisation</th>
+                <th className="border flex-1">Date of Joining</th>
+                <th className="border flex-1">Date of Leaving</th>
+                <th className="border flex-1">Salary Drawn</th>
+                <th className="border flex-1">Reason Of Leaving</th>
+                {/* <th className="border flex-1">Nature of the job</th> */}
+              </tr>
+
+              {form?.work_experience.map((item, index) => {
+                return (
+                  <tr
+                    key={new Date().getTime() + index + 3}
+                    className="flex w-full border-collapse"
+                  >
+                    <td className="border text-center flex-1">
+                      {item?.designation}
+                    </td>
+                    <td className="border text-center flex-1">
+                      {item?.organisation}
+                    </td>
+                    <td className="border text-center flex-1">
+                      {item?.joining_date}
+                    </td>
+                    <td className="border text-center flex-1">
+                      {item?.leaving_date}
+                    </td>
+                    <td className="border text-center flex-1">
+                      {item?.salary}
+                    </td>
+                    <td className="border text-center flex-1">
+                      {item?.reason}
+                    </td>
+                    {/* <td className="border text-center flex-1">
+                      Nature of the job
+                    </td> */}
+                  </tr>
+                );
+              })}
+            </td>
+          </tr>
+          <tr>
+            <td className="border" colSpan={3}>
+              {/* Branch Code: N/A
+
+Last Designation in CMS: N/A
+
+Date of Joining: N/A
+
+Date of Leaving: N/A
+
+Reason for Leaving: N/A */}
+              <div>
+                <p>
+                  <span className="font-bold">
+                    Earlierst Date you can join:
+                  </span>
+
+                  {new Date(form?.earliest_date_join).toLocaleDateString(
+                    undefined,
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
+                </p>
+                <p>
+                  <span className="font-bold">Before Working in Payroll:</span>
+                  {form?.before_working_in_payroll}
+                </p>
               </div>
-            </div>
-          ) : (
-            <div className="w-full flex items-center justify-center my-2 h-full">
-              <Link
-                to="/info"
-                className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
-              >
-                New Form
-              </Link>
-            </div>
-          )}
-        </>
-      )}
+              {/* Name of the Relative: Akanshi Pal
+
+Staff Category: Non-Teaching
+
+Designation: JYEP- Educator
+
+Campus: Head Office */}
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <ReactToPrint
+        trigger={() => (
+          <button className="text-white bg-red-600 hover:bg-red-500 px-3 py-1 mx-auto my-3 block rounded-md">
+            Print
+          </button>
+        )}
+        content={() => printRef.current}
+      />
     </div>
   );
 };

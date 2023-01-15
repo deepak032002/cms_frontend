@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { setForm } from "../../redux/features/form";
 import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
-import Header from "../header";
+import Header from "../Header";
 import { toast } from "react-toastify";
 
 const WelcomePage = () => {
@@ -92,9 +92,12 @@ const WelcomePage = () => {
 
                 <div className="col-span-12 flex items-center justify-center gap-4">
                   {form?.paymentConfirmation ? (
-                    <button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1">
+                    <Link
+                      to="/previewform"
+                      className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
+                    >
                       Preview
-                    </button>
+                    </Link>
                   ) : (
                     <>
                       <Link

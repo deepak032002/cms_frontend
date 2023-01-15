@@ -6,6 +6,7 @@ import { setForm } from "../../redux/features/form";
 import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
 import Header from "../header";
+import { toast } from "react-toastify";
 
 const WelcomePage = () => {
   // const navigate = useNavigate();
@@ -18,9 +19,11 @@ const WelcomePage = () => {
     (async () => {
       setIsLoading(true);
       const res = await getForm(token);
-      if (res?.code !== "ERR_BAD_REQUEST") {
+      console.log(res);
+      if (res?.code !== "ERR_BAD_REQUEST" && res?.code !== "ERR_NETWORK") {
         dispatch(setForm(res));
       } else {
+        toast.error("Some Problem Occured!");
         dispatch(setForm(""));
       }
       setIsLoading(false);

@@ -35,7 +35,7 @@ const campusPreference = [
 
 const academicSection = ["Pre-Primary", "Primary", "Junior", "ICSE", "ISC"];
 
-const subjects = ["Computer", "Maths", "English", "Hindi", "Physics"];
+const subjects = ["Computer", "Maths", "English", "Hindi", "Physics","French"];
 
 const country = ["India", "Other"];
 

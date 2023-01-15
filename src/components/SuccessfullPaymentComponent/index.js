@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import Header from "../Header";
+import Header from "../header";
 import {
   BsFillPatchCheckFill,
   BsFillPatchExclamationFill,

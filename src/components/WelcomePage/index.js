@@ -5,7 +5,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { setForm } from "../../redux/features/form";
 import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
-import Header from "../Header";
+import Header from "../header";
 
 const WelcomePage = () => {
   // const navigate = useNavigate();

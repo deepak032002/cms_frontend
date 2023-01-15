@@ -10,6 +10,7 @@ import "./App.css";
 import Info from "./components/Info";
 import WelcomePage from "./components/WelcomePage";
 import SuccessfullPaymentComponent from "./components/SuccessfullPaymentComponent";
+import PreviewForm from "./components/PreviewForm";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LoginUp />} />
         <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/previewform" element={<PreviewForm/>}></Route>
         <Route path="/signup" element={<SignUp />} />
         <Route path="/vacancy/:type" element={<VacancyWrapper />} />
         <Route path="/info" element={<Info />} />

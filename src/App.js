@@ -27,6 +27,7 @@ const App = () => {
           element={<SuccessfullPaymentComponent />}
         />
         <Route path="/payment/:orderId" element={<Payment />} />
+        <Route path="/forget-password" element={<Payment />} />
         <Route path="*" element={<>404 Page</>} />
       </Routes>
 

@@ -12,6 +12,11 @@ export default function FormExtra(){
             Remember me
           </label>
         </div>
+        <div className="text-sm">
+          <a href="https://parents.cmsitportal.org/termsandConditions" className="font-medium text-purple-600 hover:text-purple-500">
+            T&C and Privacy Policy
+          </a>
+        </div>
 
         <div className="text-sm">
           <a href="#" className="font-medium text-purple-600 hover:text-purple-500">

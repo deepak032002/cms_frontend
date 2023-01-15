@@ -1979,6 +1979,80 @@ const NonVacancy = () => {
             />
           </div>
 
+          <div className="font-bold text-[1rem] col-span-12">
+            <h2>
+              Name and contact numbers of two prominent persons of the locality
+              or organisations you were associated with to whom veridication of
+              character could be referred:{" "}
+            </h2>
+          </div>
+          <div className="font-bold text-[1rem] col-span-12">
+            <h2>Reference 1</h2>
+          </div>
+          <div className="grid grid-cols-12 col-span-12 gap-4">
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="text"
+                label={"Name"}
+                className=""
+                name="personal_details.first_name"
+                id="personal_details.first_name"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.first_name}
+                error={errors.personal_details?.first_name}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="number"
+                label={"Mobile"}
+                className=""
+                name="personal_details.mobile"
+                id="personal_details.mobile"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.personal_details?.mobile}
+                error={errors.personal_details?.mobile}
+              />
+            </div>
+          </div>
+          <div className="font-bold text-[1rem] col-span-12">
+            <h2>Reference 2</h2>
+          </div>
+          <div className="grid grid-cols-12 col-span-12 gap-4">
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="text"
+                label={"Name"}
+                className=""
+                name="personal_details.first_name"
+                id="personal_details.first_name"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.first_name}
+                error={errors.personal_details?.first_name}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="number"
+                label={"Mobile"}
+                className=""
+                name="personal_details.mobile"
+                id="personal_details.mobile"
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.personal_details?.mobile}
+                error={errors.personal_details?.mobile}
+              />
+            </div>
+          </div>
+
           <div className="font-bold text-[1rem] mb-4 col-span-12">
             <div className="flex">
               <h2>Do you have a blood relative working in CMS?</h2>

@@ -10,6 +10,8 @@ const SuccessfullPaymentComponent = () => {
   const [searchParams] = useSearchParams();
 
   const status = searchParams.get("status");
+  const orderId = searchParams.get("orderNo");
+  const amount = searchParams.get("amount");
   console.log(status);
   return (
     <>
@@ -27,6 +29,8 @@ const SuccessfullPaymentComponent = () => {
             <p class="text-gray-600 my-2">
               Thank you for completing your secure online payment.
             </p>
+            <p>Order Id: {orderId}</p>
+            <p>Amount: {amount}</p>
             <p> Have a great day! </p>
             <div class="py-10 text-center">
               <Link
@@ -51,6 +55,8 @@ const SuccessfullPaymentComponent = () => {
             <p class="text-gray-600 my-2">
               Your payment has declined please try again!
             </p>
+            <p>Order Id: {orderId}</p>
+            <p>Amount: {amount}</p>
             <p> Have a great day! </p>
             <div class="py-10 text-center">
               <Link

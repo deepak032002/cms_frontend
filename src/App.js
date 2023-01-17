@@ -12,6 +12,8 @@ import WelcomePage from "./components/WelcomePage";
 import SuccessfullPaymentComponent from "./components/SuccessfullPaymentComponent";
 import PreviewForm from "./components/PreviewForm";
 import ForgetPassword from "./components/ForgetPassword";
+import EmailVerification from "./components/EmailVerification";
+import ResetPassword from "./components/ResetPassword";
 
 const App = () => {
   return (
@@ -29,7 +31,9 @@ const App = () => {
         />
         <Route path="/payment/:orderId" element={<Payment />} />
         <Route path="/forget-password" element={<Payment />} />
-        <Route path="/reset-password" element={<ForgetPassword />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/email-verification" element={<EmailVerification />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="*" element={<>404 Page</>} />
       </Routes>
 

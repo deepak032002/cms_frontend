@@ -1,32 +1,10 @@
 import React from "react";
 import Header from "../header";
 import { useFormik } from "formik";
-import { basicSchema } from "../../utils/emailSchema";
 
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  actions.resetForm();
-};
 
-const ForgetPassword = () => {
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: basicSchema,
-    onSubmit,
-  });
-  console.log(errors);
+const EmailVerification = () => {
+
   return (
     <div>
       <body className="bg-gray-200 font-sans text-gray-700">
@@ -37,15 +15,14 @@ const ForgetPassword = () => {
               <div className="p-8">
                 <div className="mb-5">
                   <label
-                    htmlFor="email"
+                    htmlfor="otp"
                     className="block mb-2 text-sm font-medium text-gray-600"
                   >
-                    Enter Your Email
+                    Enter Your OTP
                   </label>
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
+                    type="number"
+                    name="otp"
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                   />
                 </div>
@@ -62,4 +39,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default EmailVerification;

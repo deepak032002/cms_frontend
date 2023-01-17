@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Input from "./Input";
-import { staffTeachingSchema } from "../utils/yupSchema";
+import { staffNonTeachingSchema } from "../utils/yupSchema";
 
 import { useFormik } from "formik";
 import { formPost, formUpdate } from "../api/vacancyapply";
@@ -33,9 +33,75 @@ const campusPreference = [
   "Rajajipuram Campus III",
 ];
 
-const academicSection = ["Pre-Primary", "Primary", "Junior", "ICSE", "ISC"];
-
-const subjects = ["Computer", "Maths", "English", "Hindi", "Physics"];
+const designation = [
+  "Accountant",
+  "Accounts Manager",
+  "Admin Executive",
+  "Admin/Jr.Bursar",
+  "Admission Officer",
+  "Android App Developer",
+  "Automobile Maintenance Supervisor",
+  "Bagpipe Band Master",
+  "Biology Science Lab Assistant",
+  "Biotechnology Science Lab Assistant",
+  "Brass Band Master",
+  "Career Counsellor",
+  "Caretaker",
+  "Chemistry Science Lab Assistant",
+  "Chief Engineer - Construction",
+  "Clerk",
+  "Computer Lab Assistant",
+  "Coordinator - Alumni Connect",
+  "Counsellor",
+  "Data Analyst",
+  "Data Entry Operator",
+  "Director – Alumni",
+  "Editor",
+  "Electrical Engineer",
+  "Electrical Foreman",
+  "Electrical Supervisor",
+  "ERP Executive",
+  "Fire Operator",
+  "Head - Procurement",
+  "Head- Career Counselling",
+  "Interior Designer",
+  "IT Assistant",
+  "IT Engineer",
+  "IT Trainer",
+  "Junior Civil Engineer",
+  "Junior Electrical Engineer",
+  "Legal Counsel",
+  "Librarian",
+  "Life Guard",
+  "Manager- Marketing &amp; Communications",
+  "Manager SIMS",
+  "Marketing Executive",
+  "MIS Executive",
+  "Nodal Officer",
+  "Nurse",
+  "Office Assistant",
+  "PA to the Principal",
+  "Payroll Incharge",
+  "Physics Science Lab Assistant",
+  "Product Manager",
+  "Project Executor",
+  "Project Manager – Construction",
+  "Project Manager - Electrical",
+  "QA Tester",
+  "Receptionist",
+  "Recruiter",
+  "Robotics Science Lab Assistant",
+  "Social Media &amp; Content Writer",
+  "Social Media Executive",
+  "Sound Operator",
+  "Sound Recordist",
+  "Still Photographer/ Cameraman",
+  "Transport Incharge",
+  "Transport Manager",
+  "Video Editor",
+  "Video Librarian",
+  "Web Developer",
+];
 
 const country = ["India", "Other"];
 
@@ -90,6 +156,34 @@ const schoolBoards = [
   "Maharashtra State Board of Secondary and Higher Secondary Education",
   "Karnatak",
   "Others",
+];
+
+const university = [
+  "Indian Institute of Science",
+  "Jawaharlal Nehru University (JNU)",
+  "Jamia Milia Islamia",
+  "Jadavpur University",
+  "Amrita Vishwa Vidyapeetham",
+  "Banaras Hindu University (BHU)",
+  "Manipal Academy of Higher Education",
+  "Calcutta University",
+  "Vellore Institute of Technology",
+  "University of Hyderabad (UoH)",
+  "Aligarh Muslim University",
+  "Savitribai Phule Pune",
+  "University of Delhi",
+  "Institute of Chemical Technology",
+  "Bharathiar University",
+  "Homi Bhabha National Institute",
+  "Birla Institute of Technology & Science",
+  "SRM Institute of Science and Technology",
+  "Kalinga Institute of Industrial Technology",
+  "Anna University",
+  "Osmania University",
+  "Amity University",
+  "Shanmugha Arts Science Technology & Research Academy (SASTRA)",
+  "Tata Institute of Social Sciences",
+  "Dr. A.P.J. Abdul Kalam Technical University",
 ];
 
 const NonVacancy = () => {
@@ -198,7 +292,7 @@ const NonVacancy = () => {
       isShortlisted: false,
       paymentConfirmation: false,
     },
-    validationSchema: staffTeachingSchema,
+    validationSchema: staffNonTeachingSchema,
     onSubmit: (values, action) => {
       if (values?.registrationNum) {
         handleVacancyTeachingUpdate(values, action);
@@ -235,9 +329,9 @@ const NonVacancy = () => {
               onChange={handleChange}
               value={values.designation}
               onBlur={handleBlur}
-              error={errors.declaration}
+              error={errors.designation}
               id="academic"
-              selectoptions={["Developer", "Designer"]}
+              selectoptions={designation}
             />
           </div>
         </div>
@@ -324,9 +418,11 @@ const NonVacancy = () => {
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.first_name}
+              value={values.personal_details?.first_name}
               error={errors.personal_details?.first_name}
             />
+
+            {console.log(values.personal_details?.first_name)}
           </div>
 
           <div className="md:col-span-4 col-span-12">
@@ -1199,7 +1295,9 @@ const NonVacancy = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">Senior Secondry</p>
+          <p className="col-span-12 my-2 text-2xl font-bold">
+            Senior Secondary
+          </p>
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
@@ -1294,8 +1392,8 @@ const NonVacancy = () => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={schoolBoards}
-              label={"Board"}
+              selectoptions={university}
+              label={"University"}
               className="my-4"
               id={`academic_details.graduation.board`}
               name={`academic_details.graduation.board`}
@@ -1394,8 +1492,8 @@ const NonVacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={schoolBoards}
-                label={"Board"}
+                selectoptions={university}
+                label={"University"}
                 className="my-4"
                 id={`academic_details.post_graduation.board`}
                 name={`academic_details.post_graduation.board`}
@@ -1993,29 +2091,29 @@ const NonVacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="text"
-                label={"Name"}
+                label={"Reference Name 1"}
                 className=""
-                name="personal_details.first_name"
-                id="personal_details.first_name"
+                name="referenceName1"
+                id="referenceName1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.first_name}
-                error={errors.personal_details?.first_name}
+                value={values.referenceName1}
+                error={errors.referenceName1}
               />
             </div>
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="number"
-                label={"Mobile"}
+                label={"Reference Mobile 1"}
                 className=""
-                name="personal_details.mobile"
-                id="personal_details.mobile"
+                name="referenceMobile1"
+                id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.personal_details?.mobile}
-                error={errors.personal_details?.mobile}
+                value={values.referenceMobile1}
+                error={errors.referenceMobile1}
               />
             </div>
           </div>
@@ -2026,29 +2124,29 @@ const NonVacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="text"
-                label={"Name"}
+                label={"Reference Name 2"}
                 className=""
-                name="personal_details.first_name"
-                id="personal_details.first_name"
+                name="referenceName2"
+                id="referenceName2"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.first_name}
-                error={errors.personal_details?.first_name}
+                value={values.referenceName2}
+                error={errors.referenceName2}
               />
             </div>
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="number"
-                label={"Mobile"}
+                label={"Reference Mobile 2"}
                 className=""
-                name="personal_details.mobile"
-                id="personal_details.mobile"
+                name="referenceMobile2"
+                id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.personal_details?.mobile}
-                error={errors.personal_details?.mobile}
+                value={values.referenceMobile2}
+                error={errors.referenceMobile2}
               />
             </div>
           </div>
@@ -2111,7 +2209,7 @@ const NonVacancy = () => {
                 />
               </div>
 
-              <div className="md:col-span-6 col-span-12">
+              {/* <div className="md:col-span-6 col-span-12">
                 <Input
                   type="select"
                   selectoptions={campusPreference}
@@ -2127,7 +2225,7 @@ const NonVacancy = () => {
                 />
               </div>
 
-              <div className="md:col-span-6 col-span-12"></div>
+              <div className="md:col-span-6 col-span-12"></div> */}
             </>
           ) : (
             ""

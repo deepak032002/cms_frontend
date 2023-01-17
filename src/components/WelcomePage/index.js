@@ -19,13 +19,18 @@ const WelcomePage = () => {
     (async () => {
       setIsLoading(true);
       const res = await getForm(token);
-      console.log(res);
-      if (res?.code !== "ERR_BAD_REQUEST" && res?.code !== "ERR_NETWORK") {
-        dispatch(setForm(res));
+      // console.log(res);
+
+      if (res?.status === 200) {
+        dispatch(setForm(res.data.form));
       } else {
-        toast.error("Some Problem Occured!");
         dispatch(setForm(""));
       }
+
+      if (res?.code === "NETWORK_ERR") {
+        toast.error("Some error occured!");
+      }
+
       setIsLoading(false);
     })();
   }, [dispatch, token]);

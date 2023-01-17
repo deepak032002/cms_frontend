@@ -110,10 +110,10 @@ const PreviewForm = () => {
                       className="flex-1 flex capitalize"
                     >
                       <span className="font-bold mr-1">
-                        {Object.keys(item).toString()}
+                        {item && Object.keys(item).toString()}
                       </span>
                       :
-                      {Object.keys(item[Object.keys(item).toString()]).map(
+                      {item && Object.keys(item[Object.keys(item).toString()]).map(
                         (item, index) => {
                           return (
                             <span
@@ -267,7 +267,7 @@ const PreviewForm = () => {
 
               {form?.academic_details.post_graduation ? (
                 <tr className="flex w-full border-collapse">
-                  <td className="border text-center flex-1">Graduation</td>
+                  <td className="border text-center flex-1">Post Graduation</td>
                   <td className="border text-center flex-1">
                     {form?.academic_details.post_graduation?.school}
                   </td>

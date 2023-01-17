@@ -11,6 +11,7 @@ import Info from "./components/Info";
 import WelcomePage from "./components/WelcomePage";
 import SuccessfullPaymentComponent from "./components/SuccessfullPaymentComponent";
 import PreviewForm from "./components/PreviewForm";
+import ForgetPassword from "./components/ForgetPassword";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         />
         <Route path="/payment/:orderId" element={<Payment />} />
         <Route path="/forget-password" element={<Payment />} />
+        <Route path="/reset-password" element={<ForgetPassword />} />
         <Route path="*" element={<>404 Page</>} />
       </Routes>
 

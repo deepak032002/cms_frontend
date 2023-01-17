@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Header from "../header";
 import {
   BsFillPatchCheckFill,
   BsFillPatchExclamationFill,
 } from "react-icons/bs";
+import axios from "axios";
 
 const SuccessfullPaymentComponent = () => {
   const [searchParams] = useSearchParams();
 
   const status = searchParams.get("status");
-  console.log(status);
+  const orderId = searchParams.get("orderNo");
+  const amount = searchParams.get("amount");
+
+  useEffect(() => {
+    (async () => {
+      const res = await axios.post('/')
+    })();
+  }, []);
+
   return (
     <>
       <Header />
@@ -27,6 +36,8 @@ const SuccessfullPaymentComponent = () => {
             <p class="text-gray-600 my-2">
               Thank you for completing your secure online payment.
             </p>
+            <p>Order Id: {orderId}</p>
+            <p>Amount: {amount}</p>
             <p> Have a great day! </p>
             <div class="py-10 text-center">
               <Link
@@ -51,6 +62,8 @@ const SuccessfullPaymentComponent = () => {
             <p class="text-gray-600 my-2">
               Your payment has declined please try again!
             </p>
+            <p>Order Id: {orderId}</p>
+            <p>Amount: {amount}</p>
             <p> Have a great day! </p>
             <div class="py-10 text-center">
               <Link

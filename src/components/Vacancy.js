@@ -35,7 +35,7 @@ const campusPreference = [
 
 const academicSection = ["Pre-Primary", "Primary", "Junior", "ICSE", "ISC"];
 
-const subjects = ["Computer", "Maths", "English", "Hindi", "Physics","French"];
+const subjects = ["Computer", "Maths", "English", "Hindi", "Physics", "French"];
 
 const country = ["India", "Other"];
 
@@ -76,6 +76,34 @@ const state = [
   "Delhi",
   "Lakshadweep",
   "Puducherry",
+];
+
+const university = [
+  "Indian Institute of Science",
+  "Jawaharlal Nehru University (JNU)",
+  "Jamia Milia Islamia",
+  "Jadavpur University",
+  "Amrita Vishwa Vidyapeetham",
+  "Banaras Hindu University (BHU)",
+  "Manipal Academy of Higher Education",
+  "Calcutta University",
+  "Vellore Institute of Technology",
+  "University of Hyderabad (UoH)",
+  "Aligarh Muslim University",
+  "Savitribai Phule Pune",
+  "University of Delhi",
+  "Institute of Chemical Technology",
+  "Bharathiar University",
+  "Homi Bhabha National Institute",
+  "Birla Institute of Technology & Science",
+  "SRM Institute of Science and Technology",
+  "Kalinga Institute of Industrial Technology",
+  "Anna University",
+  "Osmania University",
+  "Amity University",
+  "Shanmugha Arts Science Technology & Research Academy (SASTRA)",
+  "Tata Institute of Social Sciences",
+  "Dr. A.P.J. Abdul Kalam Technical University",
 ];
 
 const schoolBoards = [
@@ -195,6 +223,10 @@ const Vacancy = () => {
       earliest_date_join: "",
       before_working_in_payroll: "no",
       blood_relative: {},
+      referenceMobile1: "",
+      referenceMobile2: "",
+      referenceName1: "",
+      referenceName2: "",
       declaration: false,
       isShortlisted: false,
       paymentConfirmation: false,
@@ -1216,7 +1248,9 @@ const Vacancy = () => {
           </div>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">Senior Secondry</p>
+          <p className="col-span-12 my-2 text-2xl font-bold">
+            Senior Secondary
+          </p>
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
@@ -1311,8 +1345,8 @@ const Vacancy = () => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={schoolBoards}
-              label={"Board"}
+              selectoptions={university}
+              label={"University"}
               className="my-4"
               id={`academic_details.graduation.board`}
               name={`academic_details.graduation.board`}
@@ -1411,8 +1445,8 @@ const Vacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={schoolBoards}
-                label={"Board"}
+                selectoptions={university}
+                label={"University"}
                 className="my-4"
                 id={`academic_details.post_graduation.board`}
                 name={`academic_details.post_graduation.board`}
@@ -2003,6 +2037,7 @@ const Vacancy = () => {
               character could be referred:{" "}
             </h2>
           </div>
+
           <div className="font-bold text-[1rem] col-span-12">
             <h2>Reference 1</h2>
           </div>
@@ -2010,29 +2045,29 @@ const Vacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="text"
-                label={"Name"}
+                label={"Reference Name 1"}
                 className=""
-                name="personal_details.first_name"
-                id="personal_details.first_name"
+                name="referenceName1"
+                id="referenceName1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.first_name}
-                error={errors.personal_details?.first_name}
+                value={values.referenceName1}
+                error={errors.referenceName1}
               />
             </div>
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="number"
-                label={"Mobile"}
+                label={"Reference Mobile 1"}
                 className=""
-                name="personal_details.mobile"
-                id="personal_details.mobile"
+                name="referenceMobile1"
+                id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.personal_details?.mobile}
-                error={errors.personal_details?.mobile}
+                value={values.referenceMobile1}
+                error={errors.referenceMobile1}
               />
             </div>
           </div>
@@ -2043,29 +2078,29 @@ const Vacancy = () => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="text"
-                label={"Name"}
+                label={"Reference Name 2"}
                 className=""
-                name="personal_details.first_name"
-                id="personal_details.first_name"
+                name="referenceName2"
+                id="referenceName2"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.first_name}
-                error={errors.personal_details?.first_name}
+                value={values.referenceName2}
+                error={errors.referenceName2}
               />
             </div>
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="number"
-                label={"Mobile"}
+                label={"Reference Mobile 2"}
                 className=""
-                name="personal_details.mobile"
-                id="personal_details.mobile"
+                name="referenceMobile2"
+                id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.personal_details?.mobile}
-                error={errors.personal_details?.mobile}
+                value={values.referenceMobile2}
+                error={errors.referenceMobile2}
               />
             </div>
           </div>
@@ -2128,7 +2163,7 @@ const Vacancy = () => {
                 />
               </div>
 
-              <div className="md:col-span-6 col-span-12">
+              {/* <div className="md:col-span-6 col-span-12">
                 <Input
                   type="select"
                   selectoptions={campusPreference}
@@ -2144,7 +2179,7 @@ const Vacancy = () => {
                 />
               </div>
 
-              <div className="md:col-span-6 col-span-12"></div>
+              <div className="md:col-span-6 col-span-12"></div> */}
             </>
           ) : (
             ""

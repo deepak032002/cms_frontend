@@ -1,8 +1,8 @@
 import * as Yup from "yup";
 
 export const staffTeachingSchema = Yup.object({
-  academic: Yup.string().required("This field is required"),
-  subject: Yup.string().required("This field is required"),
+  academic: Yup.string().required("This is required"),
+  subject: Yup.string().required("This is required"),
   campus_prefrence: Yup.array()
     .of(
       Yup.object().shape({
@@ -96,13 +96,21 @@ export const staffTeachingSchema = Yup.object({
   }),
   work_experience: Yup.array().of(
     Yup.object().shape({
-      work: Yup.string().required("This field is required"),
-      designation: Yup.string().required("This field is required!"),
-      organisation: Yup.string().required("This field is required!"),
-      joining_date: Yup.date().required("This field is required!"),
-      leaving_date: Yup.date().required("This field is required!"),
-      salary: Yup.string().required("This field is required!"),
-      reason: Yup.string().required("This field is required!"),
+      work: Yup.string(),
+      designation: Yup.string(),
+      organisation: Yup.string(),
+      joining_date: Yup.date(),
+      leaving_date: Yup.date().when("joining_date", (joining_date, schema) => {
+        if (joining_date) {
+          return schema.min(
+            joining_date,
+            "Leaving date must be after joining date"
+          );
+        }
+        return schema;
+      }),
+      salary: Yup.string(),
+      reason: Yup.string(),
     })
   ),
 
@@ -115,7 +123,7 @@ export const staffTeachingSchema = Yup.object({
 });
 
 export const staffNonTeachingSchema = Yup.object({
-  designation: Yup.string().required("This field is required"),
+  designation: Yup.string().required("This is required"),
   campus_prefrence: Yup.array()
     .of(
       Yup.object().shape({
@@ -141,7 +149,7 @@ export const staffNonTeachingSchema = Yup.object({
     }),
     mother: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.string(),
+      mobile: Yup.string().nullable(),
     }),
     mobile: Yup.number("Only enter numbers").required("This is required"),
     email: Yup.string().required("This is required").email("Enter valid email"),
@@ -209,13 +217,23 @@ export const staffNonTeachingSchema = Yup.object({
   }),
   work_experience: Yup.array().of(
     Yup.object().shape({
-      work: Yup.string().required("This field is required"),
-      designation: Yup.string().required("This field is required!"),
-      organisation: Yup.string().required("This field is required!"),
-      joining_date: Yup.date().required("This field is required!"),
-      leaving_date: Yup.date().required("This field is required!"),
-      salary: Yup.string().required("This field is required!"),
-      reason: Yup.string().required("This field is required!"),
+      work: Yup.string(),
+      designation: Yup.string(),
+      organisation: Yup.string(),
+      joining_date: Yup.date(),
+      leaving_date: Yup.date()
+        .required()
+        .when("joining_date", (joining_date, schema) => {
+          if (joining_date) {
+            return schema.min(
+              joining_date,
+              "Leaving date must be after joining date"
+            );
+          }
+          return schema;
+        }),
+      salary: Yup.string(),
+      reason: Yup.string(),
     })
   ),
 

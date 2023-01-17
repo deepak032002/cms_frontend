@@ -5,7 +5,9 @@ const ForgetPassword = () => {
   return (
     <div>
       <Header />
-      Forget Password
+      
+      
+
     </div>
   );
 };

@@ -31,7 +31,7 @@ const onSubmit = async (values, actions) => {
   console.log(errors);
   return (
     <div>
-      <body className="bg-gray-200 font-sans text-gray-700">
+      <body className="bg-white font-sans text-gray-700">
         <div className="container mx-auto p-8 flex">
           <div className="max-w-md w-full mx-auto">
             <Header />

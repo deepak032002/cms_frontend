@@ -5,7 +5,7 @@ import { BsCheck } from "react-icons/bs";
 import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
 import logo from "../../assets/images/color-logo.jpg";
-import Header from "../Header";
+import Header from "../Header2";
 import ReactToPrint from "react-to-print";
 
 const PreviewForm = () => {

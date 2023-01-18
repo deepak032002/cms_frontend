@@ -306,14 +306,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
       isShortlisted: false,
       paymentConfirmation: false,
     },
-    // validationSchema: staffTeachingSchema,
+    validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      console.log(values);
-      // if (values?.registrationNum) {
-      //   handleVacancyTeachingUpdate(values, action);
-      // } else {
-      //   handleVacancyTeaching(values, action);
-      // }
+      // console.log(values);
+      if (values?.registrationNum) {
+        handleVacancyTeachingUpdate(values, action);
+      } else {
+        handleVacancyTeaching(values, action);
+      }
     },
   });
 

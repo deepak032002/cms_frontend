@@ -78,6 +78,76 @@ const state = [
   "Puducherry",
 ];
 
+const designation = [
+  "Accountant",
+  "Accounts Manager",
+  "Admin Executive",
+  "Admin/Jr.Bursar",
+  "Admission Officer",
+  "Android App Developer",
+  "Automobile Maintenance Supervisor",
+  "Bagpipe Band Master",
+  "Biology Science Lab Assistant",
+  "Biotechnology Science Lab Assistant",
+  "Brass Band Master",
+  "Career Counsellor",
+  "Caretaker",
+  "Chemistry Science Lab Assistant",
+  "Chief Engineer - Construction",
+  "Clerk",
+  "Computer Lab Assistant",
+  "Coordinator - Alumni Connect",
+  "Counsellor",
+  "Data Analyst",
+  "Data Entry Operator",
+  "Director – Alumni",
+  "Editor",
+  "Electrical Engineer",
+  "Electrical Foreman",
+  "Electrical Supervisor",
+  "ERP Executive",
+  "Fire Operator",
+  "Head - Procurement",
+  "Head- Career Counselling",
+  "Interior Designer",
+  "IT Assistant",
+  "IT Engineer",
+  "IT Trainer",
+  "Junior Civil Engineer",
+  "Junior Electrical Engineer",
+  "Legal Counsel",
+  "Librarian",
+  "Life Guard",
+  "Manager- Marketing &amp; Communications",
+  "Manager SIMS",
+  "Marketing Executive",
+  "MIS Executive",
+  "Nodal Officer",
+  "Nurse",
+  "Office Assistant",
+  "PA to the Principal",
+  "Payroll Incharge",
+  "Physics Science Lab Assistant",
+  "Product Manager",
+  "Project Executor",
+  "Project Manager – Construction",
+  "Project Manager - Electrical",
+  "QA Tester",
+  "Receptionist",
+  "Recruiter",
+  "Robotics Science Lab Assistant",
+  "Social Media &amp; Content Writer",
+  "Social Media Executive",
+  "Sound Operator",
+  "Sound Recordist",
+  "Still Photographer/ Cameraman",
+  "Transport Incharge",
+  "Transport Manager",
+  "Video Editor",
+  "Video Librarian",
+  "Web Developer",
+];
+
 const university = [
   "Indian Institute of Science",
   "Jawaharlal Nehru University (JNU)",
@@ -120,7 +190,7 @@ const schoolBoards = [
   "Others",
 ];
 
-const Vacancy = () => {
+const Vacancy = ({ isShowTeachingForm }) => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
@@ -139,6 +209,11 @@ const Vacancy = () => {
           Math.floor(Math.random() * (10000000000 - 999999999 + 1)) + 999999999
         }`
       );
+    }
+
+    if (res?.response?.status === 400) {
+      console.log("");
+      setIsLoading(false);
     }
 
     if (res.code === "ERR_NETWORK") {
@@ -231,13 +306,14 @@ const Vacancy = () => {
       isShortlisted: false,
       paymentConfirmation: false,
     },
-    validationSchema: staffTeachingSchema,
+    // validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      if (values?.registrationNum) {
-        handleVacancyTeachingUpdate(values, action);
-      } else {
-        handleVacancyTeaching(values, action);
-      }
+      console.log(values);
+      // if (values?.registrationNum) {
+      //   handleVacancyTeachingUpdate(values, action);
+      // } else {
+      //   handleVacancyTeaching(values, action);
+      // }
     },
   });
 
@@ -253,43 +329,72 @@ const Vacancy = () => {
     setYear(years);
   }, [form]);
 
+  useEffect(() => {
+    setFieldValue("category", isShowTeachingForm ? "teaching" : "non-teaching");
+  }, [isShowTeachingForm]);
+
   return (
     <div>
-      {/* {console.log(values)} */}
       <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
         <h1 className="font-bold text-[22px]">Post Details</h1>
-        <div className="grid grid-cols-12 gap-4">
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Select Academic"}
-              className="my-4"
-              name="academic"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              value={values.academic}
-              onBlur={handleBlur}
-              error={errors.academic}
-              id="academic"
-              selectoptions={academicSection}
-            />
-          </div>
-          <div className="md:col-span-4 col-span-12">
-            <Input
-              type="select"
-              label={"Select Subject"}
-              className="my-4"
-              name="subject"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              value={values.subject}
-              onBlur={handleBlur}
-              id="subject"
-              error={errors.subject}
-              selectoptions={subjects}
-            />
-          </div>
-        </div>
+
+        {isShowTeachingForm ? (
+          <>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-4 col-span-12">
+                <Input
+                  type="select"
+                  label={"Select Academic"}
+                  className="my-4"
+                  name="academic"
+                  style={{ "--color--": "#525252" }}
+                  onChange={handleChange}
+                  value={values.academic}
+                  onBlur={handleBlur}
+                  error={errors.academic}
+                  id="academic"
+                  selectoptions={academicSection}
+                />
+              </div>
+              <div className="md:col-span-4 col-span-12">
+                <Input
+                  type="select"
+                  label={"Select Subject"}
+                  className="my-4"
+                  name="subject"
+                  style={{ "--color--": "#525252" }}
+                  onChange={handleChange}
+                  value={values.subject}
+                  onBlur={handleBlur}
+                  id="subject"
+                  error={errors.subject}
+                  selectoptions={subjects}
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="grid grid-cols-12 gap-4">
+              <div className="md:col-span-4 col-span-12">
+                <Input
+                  type="select"
+                  label={"Select Designation"}
+                  className="my-4"
+                  name="designation"
+                  style={{ "--color--": "#525252" }}
+                  onChange={handleChange}
+                  value={values.designation}
+                  onBlur={handleBlur}
+                  error={errors.designation}
+                  id="academic"
+                  selectoptions={designation}
+                />
+              </div>
+            </div>
+          </>
+        )}
+
         <h1 className="font-bold text-[22px]">Campus Preference</h1>
         <p>
           <strong>Note:</strong> Choosing campus preferences does not guarantee
@@ -1613,7 +1718,7 @@ const Vacancy = () => {
               <div className="md:col-span-6 col-span-12">
                 <Input
                   type="date"
-                  required={true}
+                  // required={true}
                   label={"Date of Joining"}
                   className="my-4"
                   id={`work_experience[${0}].joining_date`}
@@ -1633,6 +1738,7 @@ const Vacancy = () => {
                 <Input
                   type="date"
                   label={"Date of Leaving"}
+                  // required
                   className="my-4"
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
@@ -1764,6 +1870,7 @@ const Vacancy = () => {
                   type="date"
                   label={"Date of Joining"}
                   className="my-4"
+                  // required={true}
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
                   value={values.work_experience[1]?.joining_date}
@@ -1781,6 +1888,7 @@ const Vacancy = () => {
                 <Input
                   type="date"
                   label={"Date of Leaving"}
+                  // required={true}
                   className="my-4"
                   id={`work_experience[${1}].leaving_date`}
                   name={`work_experience[${1}].leaving_date`}
@@ -1896,6 +2004,7 @@ const Vacancy = () => {
                   type="date"
                   label={"Date of Joining"}
                   className="my-4"
+                  // required={true}
                   id={`work_experience[${2}].joining_date`}
                   name={`work_experience[${2}].joining_date`}
                   value={values.work_experience[2]?.joining_date}
@@ -1914,6 +2023,7 @@ const Vacancy = () => {
                   type="date"
                   label={"Date of Leaving"}
                   className="my-4"
+                  // required={true}
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}
                   value={values.work_experience[2]?.leaving_date}
@@ -1980,10 +2090,11 @@ const Vacancy = () => {
             </div>
           </div>
         </div>
+
         <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex">
           <h2>HAVE YOU WORKED ON CMS PAYROLL BEFORE </h2>
           <div className="flex gap-2 ml-1">
-            <label htmlFor="">Yes</label>
+            <label htmlFor="before_working_in_payroll-yes">Yes</label>
             <input
               type="radio"
               value="yes"
@@ -1995,7 +2106,7 @@ const Vacancy = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            <label htmlFor="">No</label>
+            <label htmlFor="before_working_in_payroll-no">No</label>
             <input
               type="radio"
               value="no"
@@ -2046,7 +2157,6 @@ const Vacancy = () => {
               <Input
                 type="text"
                 label={"Reference Name 1"}
-                className=""
                 name="referenceName1"
                 id="referenceName1"
                 style={{ "--color--": "#525252" }}
@@ -2060,7 +2170,6 @@ const Vacancy = () => {
               <Input
                 type="number"
                 label={"Reference Mobile 1"}
-                className=""
                 name="referenceMobile1"
                 id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
@@ -2079,7 +2188,6 @@ const Vacancy = () => {
               <Input
                 type="text"
                 label={"Reference Name 2"}
-                className=""
                 name="referenceName2"
                 id="referenceName2"
                 style={{ "--color--": "#525252" }}
@@ -2093,7 +2201,6 @@ const Vacancy = () => {
               <Input
                 type="number"
                 label={"Reference Mobile 2"}
-                className=""
                 name="referenceMobile2"
                 id="referenceMobile1"
                 style={{ "--color--": "#525252" }}

@@ -95,13 +95,7 @@ const VacancyWrapper = () => {
         </button>
       </div>
 
-      {isShowTeachingForm ? (
-        <>
-          <Vacancy />
-        </>
-      ) : (
-        <NonVacancy />
-      )}
+      <Vacancy isShowTeachingForm={isShowTeachingForm} />
     </div>
   );
 };

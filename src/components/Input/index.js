@@ -54,7 +54,7 @@ const Input = ({
           onChange={onChange}
           onBlur={onBlur}
           value={value}
-          className={`w-full p-[10px] rounded-[5px] text-[1.2rem] bg-transparent border border-[#525252] outline-none`}
+          className={`w-full p-[10px] rounded-[5px] text-[1.2rem] bg-transparent border border-[#525252] focus:border-[#181818] focus:border-2 outline-none`}
         >
           <option value="">{label}</option>
           {selectoptions.map((item, id) => {
@@ -108,10 +108,10 @@ const Input = ({
         <div className={className}>
           <div className={`inputBox`}>
             <label htmlFor={id} className="text-transparent">
-              File
+              Photo
             </label>
             <input
-              // required
+              required
               id={id}
               style={style || { "--color--": "#525252" }}
               type={type}

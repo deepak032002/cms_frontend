@@ -3,6 +3,7 @@ import { useNavigate, Outlet, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isVerifyEmail } from "../../api/auth";
 import { setIsVerifyEmail } from "../../redux/features/verifyEmail";
+import Header from "../Header2";
 
 const ProtectedRoute = () => {
   const [isVerify, setIsVerify] = useState(false);
@@ -28,6 +29,7 @@ const ProtectedRoute = () => {
   if (!isVerify) {
     return (
       <>
+        <Header />
         <div className="container h-screen w-full flex items-center flex-col justify-center">
           <h1 className="font-bold text-2xl">Your email is not verified! </h1>
           <Link

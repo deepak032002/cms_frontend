@@ -52,6 +52,7 @@ export default function Login() {
   if (token) {
     return <Navigate to="/welcome" />;
   }
+
   return (
     <form className="mt-8 space-y-6" onSubmit={formikLogin.handleSubmit}>
       <div className="-space-y-px">

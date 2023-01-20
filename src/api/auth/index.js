@@ -25,3 +25,37 @@ export const signUpApi = async (data) => {
     return error;
   }
 };
+
+export const isVerifyEmail = async (token) => {
+  try {
+    const res = await axios.get(`${api_url}/isverify-email/`, {
+      headers: {
+        Authorisation: token,
+      },
+    });
+
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const resendSendEmail = async (data) => {
+  try {
+    const res = await axios.post(`${api_url}/resend-email/`, data);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const verifyEmail = async (data) => {
+  try {
+    const res = await axios.post(`${api_url}/verify-email/`, data);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+// export const

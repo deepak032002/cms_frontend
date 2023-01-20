@@ -35,10 +35,6 @@ const WelcomePage = () => {
     })();
   }, [dispatch, token]);
 
-  if (!token) {
-    return <Navigate to="/" />;
-  }
-
   return (
     <div className="welcome_page_wrp">
       <Header />

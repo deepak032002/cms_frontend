@@ -20,6 +20,7 @@ export default function Sign() {
 
     if (res?.status === 201) {
       toast.success("Successfully Registered!");
+      toast.info("Otp send on Your email please verify!");
       navigate("/");
     }
   };

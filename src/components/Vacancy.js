@@ -205,9 +205,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
     if (res?.status === 201) {
       toast.success("Successfully submitted!");
       navigate(
-        `/payment/CMS-${
-          Math.floor(Math.random() * (10000000000 - 999999999 + 1)) + 999999999
-        }`
+        `/payment/CMS-${Math.floor(
+          Math.random() * (10000000000 - 999999999 + 1) + 999999999
+        )}`
       );
     }
 
@@ -322,7 +322,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
     for (let i = 1950; i <= new Date().getFullYear(); i++) {
       years.push(i);
     }
-
     if (Object.keys(form).length > 0) {
       setValues(form);
     }

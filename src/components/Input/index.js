@@ -4,6 +4,7 @@ import "./style.scss";
 const Input = ({
   onChange,
   placeholder,
+  min,
   type,
   className,
   label,
@@ -150,6 +151,7 @@ const Input = ({
             onBlur={onBlur}
             disabled={disabled}
             id={id}
+            min={min}
           />
           <span style={style || { "--color--": "#525252" }}>{label}</span>
         </div>

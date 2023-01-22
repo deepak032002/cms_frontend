@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Vacancy from "../../components/Vacancy";
-import NonVacancy from "../../components/NonVacancy";
 import color from "../../assets/images/color-logo.jpg";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeToken } from "../../redux/features/authSlice";
-import { getForm } from "../../api/vacancyapply";
 import { removeForm, setForm } from "../../redux/features/form";
 
 const VacancyWrapper = () => {

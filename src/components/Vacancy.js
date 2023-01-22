@@ -235,7 +235,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
       toast.success("Successfully Updated!");
       navigate(
         `/payment/CMS-${
-          Math.floor(Math.random() * (10000000000 - 999999999 + 1)) + 999999999
+          Math.floor(Math.random() * (1000000 - 100000 + 1)) + 100000
         }`
       );
     }
@@ -2136,6 +2136,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="earliest_date_join-no"
               onChange={handleChange}
               onBlur={handleBlur}
+              min={new Date().toISOString().slice(0, 10)}
               className="my-4 md:w-1/2 w-full"
             />
           </div>

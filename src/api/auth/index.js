@@ -58,4 +58,21 @@ export const verifyEmail = async (data) => {
   }
 };
 
+export const forgetPassword = async (data) => {
+  try {
+    const res = await axios.post(`${api_url}/forget-password/`, data);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+export const resetPassword = async (data) => {
+  try {
+    const res = await axios.post(`${api_url}/reset-password/`, data);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
 // export const

@@ -18,8 +18,8 @@ export default function Login() {
   const handleLogin = async (data, action) => {
     setIsLoading(true);
     const res = await loginApi(data);
-
-    if (res?.code === "ERR_BAD_REQUEST" && res?.response.status === 409) {
+    console.log(res);
+    if (res?.response?.status === 409) {
       toast.error(res.response.data.message);
       setIsLoading(false);
     }
@@ -29,6 +29,11 @@ export default function Login() {
       toast.success("Successfully Logged In!");
       dispatch(setToken(res.data.token));
       navigate("/welcome");
+    }
+
+    if (res?.code === "ERR_NETWORK") {
+      toast.error("Network Error!");
+      setIsLoading(false);
     }
   };
 
@@ -83,11 +88,11 @@ export default function Login() {
 
       <FormExtra />
 
-      {isLoading ? (
-        <FormAction handleSubmit={formikLogin.handleSubmit} text="Loading..." />
-      ) : (
-        <FormAction handleSubmit={formikLogin.handleSubmit} text="Login" />
-      )}
+      <FormAction
+        isLoading={isLoading}
+        handleSubmit={formikLogin.handleSubmit}
+        text="Login"
+      />
     </form>
   );
 }

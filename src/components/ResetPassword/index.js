@@ -1,34 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header";
 import { useFormik } from "formik";
-import { basicSchema } from "../../utils/emailSchema";
+import { resetPassword } from "../../api/auth";
+import * as Yup from "yup";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
+  const [isLoading, setIsLoading] = useState(false);
 
-    
-const onSubmit = async (values, actions) => {
-    console.log(values);
-    console.log(actions);
-    actions.resetForm();
+  const navigate = useNavigate();
+  const { token } = useParams();
+
+  const handleResetPassword = async (data) => {
+    setIsLoading(true);
+    const res = await resetPassword({ ...data, resetToken: token });
+
+    if (res?.status === 200) {
+      toast.success("Password Reset successfully!");
+      navigate("/");
+    }
+    setIsLoading(false);
   };
-  
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
+
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
       password: "",
-      confirmPassword: "",
+      confirm_password: "",
     },
-    validationSchema: basicSchema,
-    onSubmit,
+    validationSchema: Yup.object({
+      password: Yup.string()
+        .required("This field is required!")
+        .min(6, "Enter atleast 6 length password"),
+      confirm_password: Yup.string()
+        .required("This field is required!")
+        .oneOf(
+          [Yup.ref("password"), null],
+          "Password and confirm password should be match!"
+        ),
+    }),
+    onSubmit: (values, action) => {
+      console.log(errors, values);
+      handleResetPassword(values);
+    },
   });
-  console.log(errors);
+
   return (
     <div>
       <body className="bg-white font-sans text-gray-700">
@@ -53,11 +69,14 @@ const onSubmit = async (values, actions) => {
                     onBlur={handleBlur}
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                   />
+                  <p className="text-red-500 text-xs">
+                    {errors ? errors.password : ""}
+                  </p>
                 </div>
 
                 <div className="mb-5">
                   <label
-                    htmlfor="resetpassword"
+                    htmlFor="confirmPassword"
                     className="block mb-2 text-sm font-medium text-gray-600"
                   >
                     Confirm Password
@@ -65,20 +84,33 @@ const onSubmit = async (values, actions) => {
                   <input
                     id="confirmPassword"
                     type="password"
+                    name="confirm_password"
                     placeholder="Confirm password"
-                    value={values.confirmPassword}
+                    value={values.confirm_password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                   />
+                  <p className="text-red-500 text-xs">
+                    {errors ? errors.confirm_password : ""}
+                  </p>
                 </div>
 
-                <button
-                  className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
-                  onSubmit={handleSubmit}
-                >
-                  Reset Password
-                </button>
+                {isLoading ? (
+                  <button
+                    disabled
+                    className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                    onClick={handleSubmit}
+                  >
+                    Reset Password
+                  </button>
+                )}
               </div>
             </div>
           </div>

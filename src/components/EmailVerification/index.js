@@ -1,25 +1,31 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "../header";
 import * as Yup from "yup";
 import { resendSendEmail, verifyEmail } from "../../api/auth";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const EmailVerification = () => {
-  const navigate = useNavigate();
-
   const [showResendEmailInput, setShowResendEmailInput] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const isVerifyEmail = useSelector((state) => state.email.isVerifyEmail);
 
   const handleSubmit = async (data) => {
     setIsLoading(true);
     const res = await verifyEmail(data);
-
+    console.log(res);
     setIsLoading(false);
     if (res?.status === 200) {
       toast.success("Verified Successfully!");
       navigate("/welcome");
+    }
+
+    if (res?.response?.status === 404) {
+      toast.error(res?.response?.data);
     }
   };
 
@@ -65,6 +71,10 @@ const EmailVerification = () => {
       console.log(values);
     },
   });
+
+  if (isVerifyEmail) {
+    return <Navigate to="/welcome" />;
+  }
 
   return (
     <div>

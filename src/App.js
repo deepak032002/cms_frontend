@@ -17,17 +17,20 @@ import ResetPassword from "./components/ResetPassword";
 import axios from "axios";
 import ProtectedRoute from "./components/ProtectedRoute";
 const App = () => {
-  useEffect(() => {
-    (async () => {
-      const res = axios.get("");
-    })();
-  }, []);
-
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginUp />} />
+        
         <Route path="/signup" element={<SignUp />} />
+
+        <Route path="/forget-password" element={<ForgetPassword />} />
+
+        <Route path="/email-verification" element={<EmailVerification />} />
+
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+        <Route path="*" element={<>404 Page</>} />
 
         <Route path="/welcome" element={<ProtectedRoute />}>
           <Route path="" element={<WelcomePage />} />
@@ -52,23 +55,6 @@ const App = () => {
         <Route path="/payment/:orderId" element={<ProtectedRoute />}>
           <Route path="" element={<Payment />} />
         </Route>
-
-        <Route path="/forget-password" element={<ProtectedRoute />}>
-          <Route path="" element={<ForgetPassword />} />
-        </Route>
-
-        <Route path="/forget-password" element={<ProtectedRoute />}>
-          <Route path="" element={<ForgetPassword />} />
-        </Route>
-
-        {/* <Route path="/email-verification/" element={<ProtectedRoute />}></Route> */}
-        <Route path="/email-verification" element={<EmailVerification />} />
-
-        <Route path="/reset-password" element={<ProtectedRoute />}>
-          <Route path="" element={<ResetPassword />} />
-        </Route>
-
-        <Route path="*" element={<>404 Page</>} />
       </Routes>
 
       <ToastContainer />

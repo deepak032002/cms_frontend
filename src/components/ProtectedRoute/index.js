@@ -4,9 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { isVerifyEmail } from "../../api/auth";
 import { setIsVerifyEmail } from "../../redux/features/verifyEmail";
 import Header from "../Header2";
+import Loder from "../Loder";
+import { toast } from "react-toastify";
 
 const ProtectedRoute = () => {
   const [isVerify, setIsVerify] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,11 +24,27 @@ const ProtectedRoute = () => {
     (async () => {
       const res = await isVerifyEmail(token);
       if (res?.status === 200) {
+        setIsInitialLoading(false);
+        setIsError(false);
         setIsVerify(res?.data?.verifyEmail);
         dispatch(setIsVerifyEmail(res?.data?.verifyEmail));
       }
+
+      if (res?.response?.status === 400) {
+        setIsError(true);
+        setIsInitialLoading(false);
+        toast.error("Some thing went wrong");
+      }
     })();
-  }, [navigate, token]);
+  }, [navigate, token, dispatch]);
+
+  if (isInitialLoading) {
+    return <Loder />;
+  }
+
+  if (isError) {
+    return <Header />;
+  }
 
   if (!isVerify) {
     return (

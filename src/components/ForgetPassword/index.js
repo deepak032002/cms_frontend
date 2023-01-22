@@ -1,32 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header";
 import { useFormik } from "formik";
-import { basicSchema } from "../../utils/emailSchema";
-
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  actions.resetForm();
-};
+// import { basicSchema } from "../../utils/emailSchema";
+import * as Yup from "yup";
+import { forgetPassword } from "../../api/auth";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
-  const {
-    values,
-    errors,
-    touched,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleForgetPassword = async (data, action) => {
+    setIsLoading(true);
+    const res = await forgetPassword(data);
+
+    if (res?.status === 200) {
+      setIsLoading(false);
+      toast.success(res.data);
+    } else {
+      toast.error("Some Problem occured!");
+    }
+    action.resetForm();
+  };
+
+  const { values, errors, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      password: "",
-      confirmPassword: "",
+      email: "",
     },
-    validationSchema: basicSchema,
-    onSubmit,
+    validationSchema: Yup.object({
+      email: Yup.string().email("Enter valid email!"),
+    }),
+    onSubmit: (values, action) => {
+      handleForgetPassword(values, action);
+    },
   });
-  console.log(errors);
   return (
     <div>
       <body className="bg-white font-sans text-gray-700">
@@ -46,13 +52,31 @@ const ForgetPassword = () => {
                     id="email"
                     name="email"
                     type="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                   />
+                  <p className="text-red-500 text-xs">
+                    {errors ? errors.email : ""}
+                  </p>
                 </div>
 
-                <button className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow">
-                  Submit
-                </button>
+                {isLoading ? (
+                  <button
+                    disabled
+                    className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSubmit}
+                    className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
+                  >
+                    Submit
+                  </button>
+                )}
               </div>
             </div>
           </div>

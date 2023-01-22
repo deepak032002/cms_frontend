@@ -102,11 +102,12 @@ const WelcomePage = () => {
                   ) : (
                     <>
                       <Link
-                        to={`/payment/CMS-${
-                          Math.floor(
-                            Math.random() * (10000000000 - 999999999 + 1)
-                          ) + 999999999
-                        }`}
+                        to={`/payment/CMS-${Math.floor(
+                          Math.random() * (10000000000 - 999999999 + 1) +
+                            999999999
+                        )}/${form?.personal_details?.first_name}${
+                          form?.personal_details?.middle_name
+                        }${form?.personal_details?.last_name}`}
                         className="bg-red-600 text-white hover:bg-red-700 rounded-md px-3 py-1"
                       >
                         Payment

@@ -207,7 +207,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
       navigate(
         `/payment/CMS-${Math.floor(
           Math.random() * (10000000000 - 999999999 + 1) + 999999999
-        )}`
+        )}/${data?.personal_details?.first_name}${
+          data?.personal_details?.middle_name
+        }${data?.personal_details?.last_name}`
       );
     }
 
@@ -234,9 +236,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
     if (res?.status === 200) {
       toast.success("Successfully Updated!");
       navigate(
-        `/payment/CMS-${
-          Math.floor(Math.random() * (1000000 - 100000 + 1)) + 100000
-        }`
+        `/payment/CMS-${Math.floor(
+          Math.random() * (10000000000 - 999999999 + 1) + 999999999
+        )}/${data?.personal_details?.first_name}${
+          data?.personal_details?.middle_name
+        }${data?.personal_details?.last_name}`
       );
     }
 

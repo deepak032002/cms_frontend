@@ -26,7 +26,7 @@ export const staffTeachingSchema = Yup.object({
   campus_prefrence: Yup.array()
     .of(
       Yup.object().shape({
-        campus: Yup.string().required("This is required"),
+        campus: Yup.string().required("This is required "),
       })
     )
     .required("Fill all campus!"),
@@ -43,14 +43,18 @@ export const staffTeachingSchema = Yup.object({
       ),
     father: Yup.object().shape({
       name: Yup.string().required("This is required"),
-      mobile: Yup.string().required("This is required"),
+      mobile: Yup.string()   .required("This is required")
+      .test("number_check", "Only enter number", (val) => !isNaN(val))
+      .max(10, "Enter only 10 digit"),
       occupation: Yup.string().required("This is required"),
     }),
     mother: Yup.object().shape({
       name: Yup.string().required("This is required"),
       mobile: Yup.string().nullable(),
     }),
-    mobile: Yup.string().required("This is required"),
+    mobile: Yup.string()   .required("This is required")
+    .test("number_check", "Only enter number", (val) => !isNaN(val))
+    .max(10, "Enter only 10 digit"),
     email: Yup.string().required("This is required").email("Enter valid email"),
     gender: Yup.string().required("This is required"),
     marital_status: Yup.string().required("This is required"),

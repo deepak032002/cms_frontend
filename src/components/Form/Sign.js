@@ -109,7 +109,7 @@ export default function Sign() {
           placeholder={"Confirm Password"}
         />
 
-        <FormAction handleSubmit={formikSignUp.handleSubmit} text="Sign Ups" />
+        <FormAction handleSubmit={formikSignUp.handleSubmit} text="Sign Up" />
       </div>
     </form>
   );

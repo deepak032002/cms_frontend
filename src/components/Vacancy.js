@@ -470,7 +470,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-4 col-span-12">
             <Input
               type="text"
-              label={"FirstName"}
+              label={"First Name"}
               className="my-4"
               name="personal_details.first_name"
               id="personal_details.first_name"

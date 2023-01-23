@@ -122,6 +122,15 @@ export const staffTeachingSchema = Yup.object({
       medium: Yup.string(),
     }),
   }),
+  referenceMobile1:Yup.string()
+  .required("This field is required!")
+  .test("number_check", "Only enter number", (val) => !isNaN(val))
+  .max(10, "Enter only 10 digit"),
+  referenceMobile2: Yup.string()
+  .required("This field is required!")
+  .test("number_check", "Only enter number", (val) => !isNaN(val))
+  .max(10, "Enter only 10 digit"),
+
   work_experience: Yup.array().of(
     Yup.object().shape({
       work: Yup.string(),

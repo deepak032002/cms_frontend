@@ -21,7 +21,7 @@ const App = () => {
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginUp />} />
-        
+
         <Route path="/signup" element={<SignUp />} />
 
         <Route path="/forget-password" element={<ForgetPassword />} />
@@ -52,7 +52,10 @@ const App = () => {
           <Route path="" element={<SuccessfullPaymentComponent />} />
         </Route>
 
-        <Route path="/payment/:orderId" element={<ProtectedRoute />}>
+        <Route
+          path="/payment/:orderId/:billing_name"
+          element={<ProtectedRoute />}
+        >
           <Route path="" element={<Payment />} />
         </Route>
       </Routes>

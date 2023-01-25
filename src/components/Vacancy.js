@@ -195,6 +195,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCampus, setSelectedCampus] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
@@ -336,6 +337,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
     setFieldValue("category", isShowTeachingForm ? "teaching" : "non-teaching");
   }, [isShowTeachingForm]);
 
+  console.log(errors);
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
@@ -423,7 +426,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[0]?.campus
                     : ""
                 }
-                selectoptions={campusPreference}
+                selectoptions={campusPreference.filter(
+                  (item) =>
+                    !values.campus_prefrence.find(
+                      (campus) => campus.campus === item
+                    )
+                )}
               />
             </div>
             <div className="md:col-span-4 col-span-12">
@@ -442,7 +450,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[1]?.campus
                     : ""
                 }
-                selectoptions={campusPreference}
+                selectoptions={campusPreference.filter(
+                  (item) =>
+                    !values.campus_prefrence.find(
+                      (campus) => campus.campus === item
+                    )
+                )}
               />
             </div>
             <div className="md:col-span-4 col-span-12">
@@ -461,7 +474,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[2]?.campus
                     : ""
                 }
-                selectoptions={campusPreference}
+                selectoptions={campusPreference.filter(
+                  (item) =>
+                    !values.campus_prefrence.find(
+                      (campus) => campus.campus === item
+                    )
+                )}
               />
             </div>
           </div>

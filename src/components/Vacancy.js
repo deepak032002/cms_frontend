@@ -426,12 +426,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[0]?.campus
                     : ""
                 }
-                selectoptions={campusPreference.filter(
-                  (item) =>
-                    !values.campus_prefrence.find(
-                      (campus) => campus.campus === item
-                    )
-                )}
+                selectoptions={campusPreference}
               />
             </div>
             <div className="md:col-span-4 col-span-12">
@@ -450,12 +445,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[1]?.campus
                     : ""
                 }
-                selectoptions={campusPreference.filter(
-                  (item) =>
-                    !values.campus_prefrence.find(
-                      (campus) => campus.campus === item
-                    )
-                )}
+                selectoptions={campusPreference}
               />
             </div>
             <div className="md:col-span-4 col-span-12">
@@ -474,12 +464,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     ? errors.campus_prefrence[2]?.campus
                     : ""
                 }
-                selectoptions={campusPreference.filter(
-                  (item) =>
-                    !values.campus_prefrence.find(
-                      (campus) => campus.campus === item
-                    )
-                )}
+                selectoptions={campusPreference}
               />
             </div>
           </div>
@@ -499,7 +484,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.first_name}
+              value={values.personal_details.first_name}
               error={errors.personal_details?.first_name}
             />
           </div>

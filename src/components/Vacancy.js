@@ -1539,6 +1539,51 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject1"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject1"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject3"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
 
           <div className="font-bold text-[1rem] mb-4 md:col-span-12 flex gap-1">
             <input
@@ -1647,6 +1692,51 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 style={{ "--color--": "#525252" }}
               />
             </div>
+            <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject1"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject2"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject3"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
           </div>
         ) : (
           <></>

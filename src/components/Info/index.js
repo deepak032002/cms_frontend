@@ -5,21 +5,21 @@ import Header from "../header";
 const Info = () => {
   return (
     <>
-      <Header />
-      <div className="my-2 p-3 border border-black border-solid mx-1">
-        <h1 className="text-2xl font-bold">
+      <Header/>
+      <div className="my-2 p-3 border border-black mx-1">
+        <h1 className="text-2xl py-4 text-slate-600 font-bold text-center">
           Welcome to CMS careers website and thank you for your interest in
-          working with us.
+          working with us
         </h1>
-        <h2 className="text-2xl font-normal">
-          Pre-requisites for making an online application
+        <h2 className="text-xl font-normal  text-red-500">
+          Pre-requisites for making an online application :
         </h2>
-        <ul className="list-decimal px-3 mx-2 mt-4">
+        <ul className="list-decimal px-3 mx-2 mt-4 ">
           <li>A Valid Email ID</li>
           <li>Active Mobile Number</li>
           <li>Color Passport Size Photo</li>
         </ul>
-        <h2 className="text-2xl font-normal">Points to be noted</h2>
+        <h2 className="text-xl font-normal text-red-500">Points to be noted :</h2>
         <ul className="list-decimal px-3 mx-2 mt-4">
           <li>
             After making the payment online of Rs 600, the applicant will not
@@ -32,10 +32,10 @@ const Info = () => {
           </li>
         </ul>
 
-        <h2 className="text-2xl font-normal">
-          Instructions for filling the online application form
+        <h2 className="text-xl font-normal text-red-500">
+          Instructions for filling the online application form :
         </h2>
-        <ul className="list-disc px-5 mx-4 mt-4">
+        <ul className="list-decimal px-3 mx-2 mt-4">
           <li>
             During the form filling process, the applicants should fill all the
             entries and keep saving the entries / information as they proceed.
@@ -63,11 +63,11 @@ const Info = () => {
           </li>
         </ul>
 
-        <h2 className="text-xl font-normal">
-          A typical recruitment process will involve
+        <h2 className="text-xl font-normal text-red-500">
+          A typical recruitment process will involve :
         </h2>
 
-        <ul>
+        <ul className="list-decimal px-3 mx-2 mt-4">
           <li>Apply online and pay the application fee.</li>
           <li>
             Upon receiving the application forms, only shortlisted applicants

@@ -7,6 +7,7 @@ import { getForm } from "../../api/vacancyapply";
 import Loader from "../Loder";
 import Header from "../Header2";
 import { toast } from "react-toastify";
+import welcome from "../../assets/images/welcome.jpg";
 
 const WelcomePage = () => {
   // const navigate = useNavigate();
@@ -126,12 +127,25 @@ const WelcomePage = () => {
             </div>
           ) : (
             <div className="w-full flex items-center justify-center my-2 h-full">
-              <Link
-                to="/info"
-                className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
-              >
-                New Form
-              </Link>
+            
+              <div class="max-w-sm rounded overflow-hidden ">
+              <div class="px-6 py-4 items-center">
+                  <p class="text-gray-700 text-base">
+                    <Link
+                      to="/info"
+                      className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
+                    >
+                      New Form
+                    </Link>
+                  </p>
+                </div>
+                <img
+                  class="w-full"
+                  src={welcome}
+                  alt="Sunset in the mountains"
+                />
+             
+              </div>
             </div>
           )}
         </>

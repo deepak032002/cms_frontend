@@ -175,4 +175,16 @@ export const staffTeachingSchema = Yup.object({
     name: Yup.string().min(3, "Atleast 3 character"),
     designation: Yup.string(),
   }),
+  
+  
+  blood_relative: Yup.object().shape({
+    name: Yup.string().min(3, "Atleast 3 character"),
+    designation: Yup.string(),
+  }),
+
+  payrollCms:Yup.string().min(3, "Atleast 3 character"),
+  
+
 });
+
+

@@ -193,6 +193,7 @@ const schoolBoards = [
 const Vacancy = ({ isShowTeachingForm }) => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
+  const [isPayrollCms, setIsPayrollCms] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCampus, setSelectedCampus] = useState([]);
@@ -307,6 +308,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
       referenceMobile2: "",
       referenceName1: "",
       referenceName2: "",
+      payrollCms: "",
+      payrollCmsCampus: "",
       declaration: false,
       isShortlisted: false,
       paymentConfirmation: false,
@@ -324,7 +327,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
 
   useEffect(() => {
     const years = [];
-    for (let i = 1950; i <= new Date().getFullYear(); i++) {
+    for (let i = 1972; i <= new Date().getFullYear(); i++) {
       years.push(i);
     }
     if (Object.keys(form).length > 0) {
@@ -342,7 +345,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="w-[90%] mx-auto">
-        <h1 className="font-bold text-[22px]">Post Details</h1>
+        <h1 className="font-bold text-[22px] mt-4">Post Details</h1>
 
         {isShowTeachingForm ? (
           <>
@@ -351,7 +354,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="select"
                   label={"Select Academic"}
-                  className="my-4"
+                  className="my-2"
                   name="academic"
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
@@ -366,7 +369,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="select"
                   label={"Select Subject"}
-                  className="my-4"
+                  className="my-2"
                   name="subject"
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
@@ -386,7 +389,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="select"
                   label={"Select Designation"}
-                  className="my-4"
+                  className="my-2"
                   name="designation"
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
@@ -411,10 +414,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
         {Array.isArray(values.campus_prefrence) ? (
           <div className="grid grid-cols-12 gap-4">
             <div className="md:col-span-4 col-span-12">
-              <Input
+              <Input 
                 type="select"
                 label={"Preferred Campus 1"}
-                className="my-4"
+                className="my-2"
                 name={`campus_prefrence[${0}].campus`}
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
@@ -433,7 +436,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <Input
                 type="select"
                 label={"Preferred Campus 2"}
-                className="my-4"
+                className="my-2"
                 name="campus_prefrence[1].campus"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
@@ -452,7 +455,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <Input
                 type="select"
                 label={"Preferred Campus 3"}
-                className="my-4"
+                className="my-2"
                 name="campus_prefrence[2].campus"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
@@ -478,7 +481,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"First Name"}
-              className="my-4"
+              className="my-2"
               name="personal_details.first_name"
               id="personal_details.first_name"
               style={{ "--color--": "#525252" }}
@@ -493,7 +496,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Middle Name"}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
               name="personal_details.middle_name"
               id="personal_details.middle_name"
@@ -508,7 +511,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Last Name"}
-              className="my-4"
+              className="my-2"
               name="personal_details.last_name"
               id="personal_details.last_name"
               style={{ "--color--": "#525252" }}
@@ -524,7 +527,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="date"
               label="Date of Birth"
               required={true}
-              className="my-4"
+              // className="my-2"
               name="personal_details.dob"
               id="personal_details.dob"
               style={{ "--color--": "#525252" }}
@@ -540,7 +543,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={["Married", "Unmarried"]}
               label={"Marital Status"}
-              className="my-4 flex-1"
+              className=" flex-1"
               style={{ "--color--": "#525252" }}
               name="personal_details.marital_status"
               id="personal_details.marital_status"
@@ -554,7 +557,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <Input
                 type="text"
                 label={"Spouse Name"}
-                className="my-4 flex-1"
+                className=" flex-1"
                 name="personal_details.spouse"
                 id="personal_details.spouse"
                 style={{ "--color--": "#525252" }}
@@ -572,7 +575,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Aadhaar Number"}
-              className="my-4"
+              // className="my-2"
               name="personal_details.aadhar_number"
               id="personal_details.aadhar_number"
               style={{ "--color--": "#525252" }}
@@ -588,7 +591,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="file"
               label="Photo"
               accept=".png,.jpg,.jpeg"
-              className="my-4"
+              // className="my-2"
               name="personal_details.image"
               id="personal_details.image"
               style={{ "--color--": "#525252" }}
@@ -604,7 +607,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="number"
               label={"Mobile"}
-              className="my-4"
+              // className="my-2"
               name="personal_details.mobile"
               id="personal_details.mobile"
               style={{ "--color--": "#525252" }}
@@ -619,7 +622,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Email"}
-              className="my-4"
+              className="my-2"
               name="personal_details.email"
               id="personal_details.email"
               style={{ "--color--": "#525252" }}
@@ -685,7 +688,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Father's Name"}
-              className="my-4"
+              className="my-2"
               name="personal_details.father.name"
               id="personal_details.father.name"
               style={{ "--color--": "#525252" }}
@@ -707,7 +710,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onBlur={handleBlur}
               value={values.personal_details?.father?.mobile}
               error={errors.personal_details?.father?.mobile}
-              className="my-4"
+              className="my-2"
             />
           </div>
 
@@ -715,7 +718,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Occupation"}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
               name="personal_details.father.occupation"
               id="personal_details.father.occupation"
@@ -730,7 +733,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Mother's Name"}
-              className="my-4"
+              className="my-2"
               name="personal_details.mother.name"
               id="personal_details.mother.name"
               style={{ "--color--": "#525252" }}
@@ -743,24 +746,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
 
           <div className="md:col-span-4 col-span-12">
             <Input
-              type="text"
-              label={"Occupation"}
-              className="my-4"
-              name="personal_details.mother.occupation"
-              id="personal_details.mother.occupation"
-              style={{ "--color--": "#525252" }}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.personal_details?.mother?.occupation}
-              error={errors.personal_details?.mother?.occupation}
-            />
-          </div>
-
-          <div className="md:col-span-4 col-span-12">
-            <Input
               type="number"
               label={"Mobile Number"}
-              className="my-4"
+              className="my-2"
               name="personal_details.mother.mobile"
               id="personal_details.mother.mobile"
               style={{ "--color--": "#525252" }}
@@ -768,6 +756,20 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onBlur={handleBlur}
               value={values.personal_details?.mother?.mobile}
               error={errors.personal_details?.mother?.mobile}
+            />
+          </div>
+          <div className="md:col-span-4 col-span-12">
+            <Input
+              type="text"
+              label={"Occupation"}
+              className="my-2"
+              name="personal_details.mother.occupation"
+              id="personal_details.mother.occupation"
+              style={{ "--color--": "#525252" }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.personal_details?.mother?.occupation}
+              error={errors.personal_details?.mother?.occupation}
             />
           </div>
 
@@ -957,7 +959,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.flat_house}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -971,7 +973,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.street_lane}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -985,7 +987,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.area_locality}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -999,7 +1001,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.landmark}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -1014,7 +1016,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.country}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4 flex-1"
+              className="my-2 flex-1"
               style={{ "--color--": "#525252" }}
             />
 
@@ -1028,7 +1030,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.country_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-4 flex-1"
+                className="my-2 flex-1"
                 style={{ "--color--": "#525252" }}
               />
             ) : (
@@ -1046,7 +1048,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-4 flex-1"
+                className="my-2 flex-1"
                 style={{ "--color--": "#525252" }}
               />
             ) : (
@@ -1060,7 +1062,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-4"
+                className="my-2"
                 style={{ "--color--": "#525252" }}
               />
             )}
@@ -1069,7 +1071,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"City"}
-              className="my-4"
+              className="my-2"
               name="address.current.city"
               id="address.current.city"
               value={values.address?.current?.city}
@@ -1089,7 +1091,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.pincode}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-4"
+              className="my-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -1123,7 +1125,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.flat_house}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1137,7 +1139,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.street_lane}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1151,7 +1153,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.area_locality}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1165,7 +1167,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.landmark}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1180,7 +1182,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.country}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4 flex-1"
+                  className="my-2 flex-1"
                   style={{ "--color--": "#525252" }}
                 />
 
@@ -1194,7 +1196,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.country_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-4 flex-1"
+                    className="my-2 flex-1"
                     style={{ "--color--": "#525252" }}
                   />
                 ) : (
@@ -1212,7 +1214,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-4 flex-1"
+                    className="my-2 flex-1"
                     style={{ "--color--": "#525252" }}
                   />
                 ) : (
@@ -1226,7 +1228,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-4"
+                    className="my-2"
                     style={{ "--color--": "#525252" }}
                   />
                 )}
@@ -1235,7 +1237,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"City"}
-                  className="my-4"
+                  className="my-2"
                   name="address.permanent.city"
                   id="address.permanent.city"
                   value={values.address.permanent?.city}
@@ -1255,7 +1257,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.pincode}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1289,7 +1291,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={year}
               label={"Year"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.high_school.year`}
               name={`academic_details.high_school.year`}
               value={values?.academic_details?.high_school?.year}
@@ -1304,7 +1306,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={schoolBoards}
               label={"Board"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.high_school.board`}
               name={`academic_details.high_school.board`}
               value={values?.academic_details?.high_school?.board}
@@ -1318,7 +1320,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"School Name"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.high_school.school`}
               name={`academic_details.high_school.school`}
               value={values?.academic_details?.high_school?.school}
@@ -1332,7 +1334,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="number"
               label={"Percentage"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.high_school.percentage`}
               name={`academic_details.high_school.percentage`}
               value={values?.academic_details?.high_school?.percentage}
@@ -1345,9 +1347,19 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={["English", "Others"]}
+              selectoptions={[
+                "English",
+                "Hindi",
+                "English/Hindi",
+                "Bengali",
+                "Manipuri",
+                "Malayalam",
+                "Assamese",
+                "Persian",
+                "Other",
+              ]}
               label={"Medium of Education"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.high_school.medium`}
               name={`academic_details.high_school.medium`}
               value={values?.academic_details?.high_school?.medium}
@@ -1367,7 +1379,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={year}
               label={"Year"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.senior_secondary.year`}
               name={`academic_details.senior_secondary.year`}
               value={values?.academic_details?.senior_secondary?.year}
@@ -1382,7 +1394,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={schoolBoards}
               label={"Board"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.senior_secondary.board`}
               name={`academic_details.senior_secondary.board`}
               value={values?.academic_details?.senior_secondary?.board}
@@ -1396,7 +1408,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"School Name"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.senior_secondary.school`}
               name={`academic_details.senior_secondary.school`}
               value={values?.academic_details?.senior_secondary?.school}
@@ -1410,7 +1422,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="number"
               label={"Percentage"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.senior_secondary.percentage`}
               name={`academic_details.senior_secondary.percentage`}
               value={values?.academic_details?.senior_secondary?.percentage}
@@ -1423,9 +1435,17 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={["English", "Others"]}
+              selectoptions={[ "English",
+                "Hindi",
+                "English/Hindi",
+                "Bengali",
+                "Manipuri",
+                "Malayalam",
+                "Assamese",
+                "Persian",
+                "Other",]}
               label={"Medium of Education"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.senior_secondary.medium`}
               name={`academic_details.senior_secondary.medium`}
               value={values?.academic_details?.senior_secondary?.medium}
@@ -1443,7 +1463,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={year}
               label={"Year"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.graduation.year`}
               name={`academic_details.graduation.year`}
               value={values?.academic_details?.graduation?.year}
@@ -1458,7 +1478,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={university}
               label={"University"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.graduation.board`}
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
@@ -1472,7 +1492,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"School Name"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.graduation.school`}
               name={`academic_details.graduation.school`}
               value={values?.academic_details?.graduation?.school}
@@ -1486,7 +1506,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="number"
               label={"Percentage"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.graduation.percentage`}
               name={`academic_details.graduation.percentage`}
               value={values?.academic_details?.graduation?.percentage}
@@ -1499,9 +1519,17 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={["English", "Others"]}
+              selectoptions={[ "English",
+                "Hindi",
+                "English/Hindi",
+                "Bengali",
+                "Manipuri",
+                "Malayalam",
+                "Assamese",
+                "Persian",
+                "Other",]}
               label={"Medium of Education"}
-              className="my-4"
+              className="my-2"
               id={`academic_details.graduation.medium`}
               name={`academic_details.graduation.medium`}
               value={values?.academic_details?.graduation?.medium}
@@ -1543,7 +1571,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 type="select"
                 selectoptions={year}
                 label={"Year"}
-                className="my-4"
+                className="my-2"
                 id={`academic_details.post_graduation.year`}
                 name={`academic_details.post_graduation.year`}
                 value={values?.academic_details?.post_graduation?.year}
@@ -1558,7 +1586,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 type="select"
                 selectoptions={university}
                 label={"University"}
-                className="my-4"
+                className="my-2"
                 id={`academic_details.post_graduation.board`}
                 name={`academic_details.post_graduation.board`}
                 value={values?.academic_details?.post_graduation?.board}
@@ -1572,7 +1600,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <Input
                 type="text"
                 label={"School Name"}
-                className="my-4"
+                className="my-2"
                 id={`academic_details.post_graduation.school`}
                 name={`academic_details.post_graduation.school`}
                 value={values?.academic_details?.post_graduation?.school}
@@ -1586,7 +1614,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <Input
                 type="number"
                 label={"Percentage"}
-                className="my-4"
+                className="my-2"
                 id={`academic_details.post_graduation.percentage`}
                 name={`academic_details.post_graduation.percentage`}
                 value={values?.academic_details?.post_graduation?.percentage}
@@ -1599,9 +1627,17 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={["English", "Others"]}
+                selectoptions={[ "English",
+                "Hindi",
+                "English/Hindi",
+                "Bengali",
+                "Manipuri",
+                "Malayalam",
+                "Assamese",
+                "Persian",
+                "Other",]}
                 label={"Medium of Education"}
-                className="my-4"
+                className="my-2"
                 id={`academic_details.post_graduation.medium`}
                 name={`academic_details.post_graduation.medium`}
                 value={values?.academic_details?.post_graduation?.medium}
@@ -1615,6 +1651,95 @@ const Vacancy = ({ isShowTeachingForm }) => {
         ) : (
           <></>
         )}
+
+        <div className="Training">
+          {Array.isArray(values.communication) ? (
+            <div className="col-span-12">
+              <h1 className="font-bold text-[22px]">Select Training if any:</h1>
+              <div className="grid grid-cols-12">
+                <div className="md:col-span-4 col-span-12">
+                  <div className="flex gap-4">
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[0].english.speak">
+                        B.ed
+                      </label>
+                      <input
+                        id="communication[0].english.speak"
+                        value={values.communication[0]?.english?.speak}
+                        checked={Boolean(
+                          values.communication[0]?.english?.speak
+                        )}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[0].enlish.read">LT</label>
+                      <input
+                        id="communication[0].english.read"
+                        value={values.communication[0]?.english?.read}
+                        checked={Boolean(
+                          values.communication[0]?.english?.read
+                        )}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[0].english.write">
+                        NTT
+                      </label>
+                      <input
+                        id="communication[0].english.write"
+                        value={values.communication[0]?.english?.write}
+                        checked={Boolean(
+                          values.communication[0]?.english?.write
+                        )}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[0].english.write">
+                        M.ed
+                      </label>
+                      <input
+                        id="communication[0].english.write"
+                        value={values.communication[0]?.english?.write}
+                        checked={Boolean(
+                          values.communication[0]?.english?.write
+                        )}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="input_group flex gap-2">
+                      <label htmlFor="communication[0].english.write">
+                        NIS
+                      </label>
+                      <input
+                        id="communication[0].english.write"
+                        value={values.communication[0]?.english?.write}
+                        checked={Boolean(
+                          values.communication[0]?.english?.write
+                        )}
+                        type="checkbox"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
         {/* <div onClick={handleAddfield} className="mb-4">
           <IoIosAddCircleOutline className="text-4xl cursor-pointer text-white rounded-full bg-blue-600" />
         </div> */}
@@ -1632,7 +1757,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Work Experience"}
-              className="my-4"
+              className="my-2"
               name="total_experience"
               id="total_experience"
               onChange={handleChange}
@@ -1649,7 +1774,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               // label={"0 yearn and 0 mog"}
-              className="my-4"
+              className="my-2"
               disabled
               value={`${parseInt(values.total_experience / 12)} year and ${
                 values.total_experience % 12
@@ -1670,8 +1795,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-12">
                 <Input
                   type="text"
-                  label={"Work Experience"}
-                  className="my-4"
+                  label={"Experience in Months"}
+                  className="my-2"
                   id={`work_experience[${0}].work`}
                   name={`work_experience[${0}].work`}
                   value={values.work_experience[0]?.work}
@@ -1689,7 +1814,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].designation`}
                   name={`work_experience[${0}].designation`}
                   value={values.work_experience[0]?.designation}
@@ -1707,7 +1832,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].organisation`}
                   name={`work_experience[${0}].organisation`}
                   value={values.work_experience[0]?.organisation}
@@ -1726,7 +1851,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   // required={true}
                   label={"Date of Joining"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].joining_date`}
                   name={`work_experience[${0}].joining_date`}
                   value={values.work_experience[0]?.joining_date}
@@ -1745,7 +1870,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   label={"Date of Leaving"}
                   // required
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
                   value={values.work_experience[0]?.leaving_date}
@@ -1763,7 +1888,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].salary`}
                   name={`work_experience[${0}].salary`}
                   value={values.work_experience[0]?.salary}
@@ -1782,7 +1907,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${0}].reason`}
                   name={`work_experience[${0}].reason`}
                   value={values.work_experience[0]?.reason}
@@ -1820,8 +1945,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-12">
                 <Input
                   type="text"
-                  label={"Work Experience"}
-                  className="my-4"
+                  label={"Experience in Months"}
+                  className="my-2"
                   id={`work_experience[${1}].work`}
                   name={`work_experience[${1}].work`}
                   value={values.work_experience[1]?.work}
@@ -1839,7 +1964,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${1}].designation`}
                   name={`work_experience[${1}].designation`}
                   value={values.work_experience[1]?.designation}
@@ -1857,7 +1982,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${1}].organisation`}
                   name={`work_experience[${1}].organisation`}
                   value={values.work_experience[1]?.organisation}
@@ -1875,7 +2000,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="date"
                   label={"Date of Joining"}
-                  className="my-4"
+                  className="my-2"
                   // required={true}
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
@@ -1895,7 +2020,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   label={"Date of Leaving"}
                   // required={true}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${1}].leaving_date`}
                   name={`work_experience[${1}].leaving_date`}
                   value={values.work_experience[1]?.leaving_date}
@@ -1913,7 +2038,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${1}].salary`}
                   name={`work_experience[${1}].salary`}
                   value={values.work_experience[1]?.salary}
@@ -1931,7 +2056,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${1}].reason`}
                   name={`work_experience[${1}].reason`}
                   value={values.work_experience[1]?.reason}
@@ -1954,8 +2079,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-12">
                 <Input
                   type="text"
-                  label={"Work Experience"}
-                  className="my-4"
+                  label={"Experience in Months"}
+                  className="my-2"
                   id={`work_experience[${2}].work`}
                   name={`work_experience[${2}].work`}
                   value={values.work_experience[2]?.work}
@@ -1973,7 +2098,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${2}].designation`}
                   name={`work_experience[${2}].designation`}
                   value={values.work_experience[2]?.designation}
@@ -1991,7 +2116,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${2}].organisation`}
                   name={`work_experience[${2}].organisation`}
                   value={values.work_experience[2]?.organisation}
@@ -2009,7 +2134,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="date"
                   label={"Date of Joining"}
-                  className="my-4"
+                  className="my-2"
                   // required={true}
                   id={`work_experience[${2}].joining_date`}
                   name={`work_experience[${2}].joining_date`}
@@ -2028,7 +2153,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="date"
                   label={"Date of Leaving"}
-                  className="my-4"
+                  className="my-2"
                   // required={true}
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}
@@ -2047,7 +2172,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${2}].salary`}
                   name={`work_experience[${2}].salary`}
                   value={values.work_experience[2]?.salary}
@@ -2066,7 +2191,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${2}].reason`}
                   name={`work_experience[${2}].reason`}
                   value={values.work_experience[2]?.reason}
@@ -2084,7 +2209,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Nature of The Job"}
-                  className="my-4"
+                  className="my-2"
                   id={`work_experience[${2}].job_nature`}
                   name={`work_experience[${2}].job_nature`}
                   value={values.work_experience[2]?.job_nature}
@@ -2098,7 +2223,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
         </div>
 
         <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex">
-          <h2>HAVE YOU WORKED ON CMS PAYROLL BEFORE </h2>
+          <h2>Have you worked on CMS payroll before? </h2>
           <div className="flex gap-2 ml-1">
             <label htmlFor="before_working_in_payroll-yes">Yes</label>
             <input
@@ -2110,6 +2235,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 values?.before_working_in_payroll === "yes" ? true : false
               }
               onChange={handleChange}
+              onClick={() => setIsPayrollCms(true)}
               onBlur={handleBlur}
             />
             <label htmlFor="before_working_in_payroll-no">No</label>
@@ -2122,10 +2248,53 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 values?.before_working_in_payroll === "no" ? true : false
               }
               onChange={handleChange}
+              onClick={() => setIsPayrollCms(false)}
               onBlur={handleBlur}
             />
           </div>
         </div>
+        {isPayrollCms ? (
+          <>
+            {/* updated on 26 jan */}
+            <div className="grid grid-cols-12 gap-4 mb-2">
+              <div className="md:col-span-6 col-span-6">
+                <Input
+                  type="select"
+                  selectoptions={campusPreference} 
+                  name="payrollCmsCampus"
+                  id="payrollCmsCampus"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.payrollCms?.campus}
+                  error={errors.payrollCms?.campus}
+                  label={"Campus"}
+                  className="my-2"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+
+              <div className="md:col-span-6 col-span-6">
+                <Input
+                  type="text"
+                  label={"Designation"}
+                  name="payrollCms"
+                  id="payrollCms"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.payrollCms}
+                  error={errors.payrollCms}
+                  className="my-2"
+                  style={{ "--color--": "#525252" }}
+                />
+              </div>
+            </div>
+
+            {/* updated on 26 jan */}
+          </>
+        ) : (
+          ""
+        )}
+
         <div className="grid grid-cols-12 gap-4 mb-2">
           <div className="col-span-12">
             <h1 className="font-bold text-[1rem] mb-4">
@@ -2144,7 +2313,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               min={new Date().toISOString().slice(0, 10)}
-              className="my-4 md:w-1/2 w-full"
+              className="my-2 md:w-1/2 w-full"
             />
           </div>
 
@@ -2257,7 +2426,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onBlur={handleBlur}
                   value={values.blood_relative?.name}
                   error={errors.blood_relative?.name}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -2272,7 +2441,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onBlur={handleBlur}
                   value={values.blood_relative?.designation}
                   error={errors.blood_relative?.designation}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -2288,7 +2457,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.blood_relative?.campus}
                   error={errors.blood_relative?.campus}
                   label={"Campus"}
-                  className="my-4"
+                  className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>

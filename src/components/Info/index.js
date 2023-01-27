@@ -6,7 +6,7 @@ const Info = () => {
   return (
     <>
       <Header />
-      <div className="my-2 p-3">
+      <div className="my-2 p-3 border border-black border-solid mx-1">
         <h1 className="text-2xl font-bold">
           Welcome to CMS careers website and thank you for your interest in
           working with us.

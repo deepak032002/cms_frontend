@@ -196,8 +196,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
   const [isPayrollCms, setIsPayrollCms] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isChangeImage, setIsChangeImage] = useState(false);
-  // const [selectedCampus, setSelectedCampus] = useState([]);
+  const [selectedCampus, setSelectedCampus] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
@@ -317,7 +316,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     },
     validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      // console.log('ss');
+      // console.log(values);
       if (values?.registrationNum) {
         handleVacancyTeachingUpdate(values, action);
       } else {
@@ -341,7 +340,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     setFieldValue("category", isShowTeachingForm ? "teaching" : "non-teaching");
   }, [isShowTeachingForm]);
 
-  console.log(errors, values);
+  console.log(errors);
 
   return (
     <div>
@@ -405,7 +404,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </>
         )}
 
-        <h1 className="font-bold text-[22px]">Campus Preference</h1>
+        <h1 className="font-bold text-[22px] mt-4">Campus Preference</h1>
         <p>
           <strong>Note:</strong> Choosing campus preferences does not guarantee
           placement into that respective campus. Placement is based on the
@@ -415,7 +414,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
         {Array.isArray(values.campus_prefrence) ? (
           <div className="grid grid-cols-12 gap-4">
             <div className="md:col-span-4 col-span-12">
-              <Input
+              <Input 
                 type="select"
                 label={"Preferred Campus 1"}
                 className="my-2"
@@ -471,26 +470,18 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 selectoptions={campusPreference}
               />
             </div>
-
-            {!Array.isArray(errors.campus_prefrence) ? (
-              <span className="text-red-500 text-sm col-span-12">
-                {errors?.campus_prefrence}
-              </span>
-            ) : (
-              <></>
-            )}
           </div>
         ) : (
           <></>
         )}
 
-        <h1 className="font-bold text-[22px]">Personal Details</h1>
+        <h1 className="font-bold text-[22px] mt-4">Personal Details</h1>
         <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-4 col-span-12">
             <Input
               type="text"
               label={"First Name"}
-              className="my-2"
+              className="mt-2"
               name="personal_details.first_name"
               id="personal_details.first_name"
               style={{ "--color--": "#525252" }}
@@ -505,7 +496,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Middle Name"}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
               name="personal_details.middle_name"
               id="personal_details.middle_name"
@@ -520,7 +511,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Last Name"}
-              className="my-2"
+              className="mt-2"
               name="personal_details.last_name"
               id="personal_details.last_name"
               style={{ "--color--": "#525252" }}
@@ -536,7 +527,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="date"
               label="Date of Birth"
               required={true}
-              // className="my-2"
+              className=""
               name="personal_details.dob"
               id="personal_details.dob"
               style={{ "--color--": "#525252" }}
@@ -552,7 +543,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={["Married", "Unmarried"]}
               label={"Marital Status"}
-              className="flex-1"
+              className=" flex-1"
               style={{ "--color--": "#525252" }}
               name="personal_details.marital_status"
               id="personal_details.marital_status"
@@ -584,7 +575,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Aadhaar Number"}
-              // className="my-2"
+              className=""
               name="personal_details.aadhar_number"
               id="personal_details.aadhar_number"
               style={{ "--color--": "#525252" }}
@@ -595,50 +586,28 @@ const Vacancy = ({ isShowTeachingForm }) => {
             />
           </div>
 
-          {form?.personal_details?.image_url && !isChangeImage ? (
-            <div className="md:col-span-6 col-span-12 flex items-center justify-center gap-2">
-              <Input
-                type="text"
-                label={"Image"}
-                className="flex-1"
-                disabled
-                style={{ "--color--": "#525252" }}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={form?.personal_details?.image_url}
-              />
-
-              <span
-                onClick={() => setIsChangeImage(!isChangeImage)}
-                className="bg-gray-400 text-sm p-1 text-white cursor-pointer rounded-md"
-              >
-                Change
-              </span>
-            </div>
-          ) : (
-            <div className="md:col-span-6 col-span-12">
-              <Input
-                type="file"
-                label="Photo"
-                accept=".png,.jpg,.jpeg"
-                // className="my-2"
-                name="personal_details.image"
-                id="personal_details.image"
-                style={{ "--color--": "#525252" }}
-                onChange={(e) =>
-                  setFieldValue("personal_details.image", e.target.files[0])
-                }
-                onBlur={handleBlur}
-                error={errors.personal_details?.image}
-              />
-            </div>
-          )}
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="file"
+              label="Photo"
+              accept=".png,.jpg,.jpeg"
+              className=""
+              name="personal_details.image"
+              id="personal_details.image"
+              style={{ "--color--": "#525252" }}
+              onChange={(e) =>
+                setFieldValue("personal_details.image", e.target.files[0])
+              }
+              onBlur={handleBlur}
+              error={errors.personal_details?.image}
+            />
+          </div>
 
           <div className="md:col-span-6 col-span-12">
             <Input
               type="number"
               label={"Mobile"}
-              className="my-2"
+              className=""
               name="personal_details.mobile"
               id="personal_details.mobile"
               style={{ "--color--": "#525252" }}
@@ -653,7 +622,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Email"}
-              className="my-2"
+              className=""
               name="personal_details.email"
               id="personal_details.email"
               style={{ "--color--": "#525252" }}
@@ -712,14 +681,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
             </div>
           </div>
         </div>
-        <h1 className="font-bold text-[22px]">Parent Details</h1>
+        <h1 className="font-bold text-[22px] mt-4">Parent Details</h1>
         <div className="grid grid-cols-12 gap-4"></div>
         <div className="grid grid-cols-12 gap-4">
           <div className="md:col-span-4 col-span-12">
             <Input
               type="text"
               label={"Father's Name"}
-              className="my-2"
+              className="mt-2"
               name="personal_details.father.name"
               id="personal_details.father.name"
               style={{ "--color--": "#525252" }}
@@ -741,7 +710,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onBlur={handleBlur}
               value={values.personal_details?.father?.mobile}
               error={errors.personal_details?.father?.mobile}
-              className="my-2"
+              className="mt-2"
             />
           </div>
 
@@ -749,7 +718,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Occupation"}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
               name="personal_details.father.occupation"
               id="personal_details.father.occupation"
@@ -764,7 +733,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Mother's Name"}
-              className="my-2"
+              className=""
               name="personal_details.mother.name"
               id="personal_details.mother.name"
               style={{ "--color--": "#525252" }}
@@ -779,7 +748,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="number"
               label={"Mobile Number"}
-              className="my-2"
+              className=""
               name="personal_details.mother.mobile"
               id="personal_details.mother.mobile"
               style={{ "--color--": "#525252" }}
@@ -793,7 +762,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="text"
               label={"Occupation"}
-              className="my-2"
+              className=""
               name="personal_details.mother.occupation"
               id="personal_details.mother.occupation"
               style={{ "--color--": "#525252" }}
@@ -806,10 +775,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
 
           {Array.isArray(values.communication) ? (
             <div className="col-span-12">
-              <h1 className="font-bold text-[22px]">Communication Skill:</h1>
+              <h1 className="font-bold text-[22px] mt-4">Communication Skill:</h1>
               <div className="grid grid-cols-12">
                 <div className="md:col-span-4 col-span-12">
-                  <h2 className="font-bold text-lg">English</h2>
+                  <h2 className="font-bold text-[14px]">English</h2>
 
                   <div className="flex gap-4">
                     <div className="input_group flex gap-2">
@@ -859,7 +828,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 </div>
 
                 <div className="md:col-span-4 col-span-12">
-                  <h2 className="font-bold text-lg">Hindi</h2>
+                  <h2 className="font-bold text-[14px]">Hindi</h2>
 
                   <div className="flex gap-4">
                     <div className="input_group flex gap-2">
@@ -903,7 +872,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 </div>
 
                 <div className="md:col-span-4 col-span-12">
-                  <h2 className="font-bold text-lg">Others</h2>
+                  <h2 className="font-bold text-[14px]">Others</h2>
 
                   <input
                     type="text"
@@ -974,13 +943,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
           )}
         </div>
         <div className="md:col-span-6 col-span-12">
-          <h1 className="font-bold text-[22px]">Address Details:</h1>
+          <h1 className="font-bold text-[22px] mt-4">Address Details:</h1>
         </div>
         <div className="md:col-span-6 col-span-12">
           <h1 className="font-bold text-[1rem] mb-4">Present Address</h1>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="text"
               label={"Flat/House No"}
@@ -990,11 +959,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.flat_house}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="text"
               label={"Street/Lane"}
@@ -1004,11 +973,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.street_lane}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="text"
               label={"Area/Locality"}
@@ -1018,11 +987,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.area_locality}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="text"
               label={"Nearest Landmark"}
@@ -1032,11 +1001,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.landmark}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2"
+              className="mt-2"
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12 flex gap-2">
+          <div className="md:col-span-3 col-span-12 flex gap-2">
             <Input
               type="select"
               selectoptions={country}
@@ -1047,7 +1016,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.country}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2 flex-1"
+              className="flex-1"
               style={{ "--color--": "#525252" }}
             />
 
@@ -1061,14 +1030,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.country_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-2 flex-1"
+                className="flex-1"
                 style={{ "--color--": "#525252" }}
               />
             ) : (
               <></>
             )}
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             {values.address.current?.country === "Other" ? (
               <Input
                 type="text"
@@ -1079,7 +1048,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-2 flex-1"
+                className="flex-1"
                 style={{ "--color--": "#525252" }}
               />
             ) : (
@@ -1093,16 +1062,16 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="my-2"
+                className=""
                 style={{ "--color--": "#525252" }}
               />
             )}
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="text"
               label={"City"}
-              className="my-2"
+              className=""
               name="address.current.city"
               id="address.current.city"
               value={values.address?.current?.city}
@@ -1112,7 +1081,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="number"
               label={"Pincode"}
@@ -1122,7 +1091,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.address?.current?.pincode}
               onChange={handleChange}
               onBlur={handleBlur}
-              className="my-2"
+              className=""
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -1144,9 +1113,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
         </div>
         {!isSameCurrentAddress ? (
           <>
-            <h1 className="font-bold text-[1rem] mb-4">Permanent Address</h1>
+            <h1 className="font-bold text-[1rem] my-4">Permanent Address</h1>
             <div className="grid grid-cols-12 gap-4">
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Flat/House No"}
@@ -1156,11 +1125,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.flat_house}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2"
+                  className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Street/Lane"}
@@ -1170,11 +1139,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.street_lane}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2"
+                  className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Area/Locality"}
@@ -1184,11 +1153,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.area_locality}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2"
+                  className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Nearest Landmark"}
@@ -1198,11 +1167,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.landmark}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2"
+                  className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12 flex gap-2">
+              <div className="md:col-span-3 col-span-12 flex gap-2">
                 <Input
                   type="select"
                   selectoptions={country}
@@ -1213,7 +1182,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.country}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2 flex-1"
+                  className="flex-1"
                   style={{ "--color--": "#525252" }}
                 />
 
@@ -1227,14 +1196,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.country_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-2 flex-1"
+                    className="flex-1"
                     style={{ "--color--": "#525252" }}
                   />
                 ) : (
                   <></>
                 )}
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 {values.address.permanent?.country === "Other" ? (
                   <Input
                     type="text"
@@ -1245,7 +1214,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-2 flex-1"
+                    className="flex-1"
                     style={{ "--color--": "#525252" }}
                   />
                 ) : (
@@ -1259,16 +1228,16 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="my-2"
+                    className=""
                     style={{ "--color--": "#525252" }}
                   />
                 )}
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"City"}
-                  className="my-2"
+                  className=""
                   name="address.permanent.city"
                   id="address.permanent.city"
                   value={values.address.permanent?.city}
@@ -1278,7 +1247,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="number"
                   label={"Pincode"}
@@ -1288,7 +1257,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   error={errors.address?.permanent?.pincode}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="my-2"
+                  className=""
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1298,13 +1267,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <></>
         )}
         <div className="md:col-span-12">
-          <h1 className="font-bold text-[22px]">Academic Details:</h1>
-          <h1 className="font-bold text-[1rem] mb-4">Note:</h1>
+          <h1 className="font-bold text-[22px] mt-4">Academic Details:</h1>
+          <h1 className="font-bold text-[14px]">Note:</h1>
           <ul className="list-[square] mx-3 px-3">
             <li>Exam</li>
             <li>Year of Passing</li>
             <li>
-              Board or University && Subject(in case of Graduation &
+              Board or University & Subject(in case of Graduation &
               Post-Graduation)
             </li>
             <li>Institution</li>
@@ -1315,14 +1284,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </ul>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">High School</p>
+          <p className="col-span-12 my-2 text-2xl font-bold mt-4">High School</p>
 
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-2 col-span-12">
             <Input
               type="select"
               selectoptions={year}
               label={"Year"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.high_school.year`}
               name={`academic_details.high_school.year`}
               value={values?.academic_details?.high_school?.year}
@@ -1332,12 +1301,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="select"
               selectoptions={schoolBoards}
               label={"Board"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.high_school.board`}
               name={`academic_details.high_school.board`}
               value={values?.academic_details?.high_school?.board}
@@ -1347,11 +1316,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-4 col-span-12">
             <Input
               type="text"
               label={"School Name"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.high_school.school`}
               name={`academic_details.high_school.school`}
               value={values?.academic_details?.high_school?.school}
@@ -1361,11 +1330,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="col-span-6">
+          <div className="md:col-span-1 col-span-6">
             <Input
               type="number"
-              label={"Percentage"}
-              className="my-2"
+              label={"%"}
+              className="mt-2"
               id={`academic_details.high_school.percentage`}
               name={`academic_details.high_school.percentage`}
               value={values?.academic_details?.high_school?.percentage}
@@ -1375,7 +1344,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-2 col-span-12">
             <Input
               type="select"
               selectoptions={[
@@ -1390,7 +1359,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Other",
               ]}
               label={"Medium of Education"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.high_school.medium`}
               name={`academic_details.high_school.medium`}
               value={values?.academic_details?.high_school?.medium}
@@ -1402,15 +1371,15 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">
+          <p className="col-span-12 text-2xl font-bold mt-4">
             Senior Secondary
           </p>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-2 col-span-12">
             <Input
               type="select"
               selectoptions={year}
               label={"Year"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.senior_secondary.year`}
               name={`academic_details.senior_secondary.year`}
               value={values?.academic_details?.senior_secondary?.year}
@@ -1420,12 +1389,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-3 col-span-12">
             <Input
               type="select"
               selectoptions={schoolBoards}
               label={"Board"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.senior_secondary.board`}
               name={`academic_details.senior_secondary.board`}
               value={values?.academic_details?.senior_secondary?.board}
@@ -1435,11 +1404,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-4 col-span-12">
             <Input
               type="text"
               label={"School Name"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.senior_secondary.school`}
               name={`academic_details.senior_secondary.school`}
               value={values?.academic_details?.senior_secondary?.school}
@@ -1449,11 +1418,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="col-span-6">
+          <div className="md:col-span-1 col-span-6">
             <Input
               type="number"
-              label={"Percentage"}
-              className="my-2"
+              label={"%"}
+              className="mt-2"
               id={`academic_details.senior_secondary.percentage`}
               name={`academic_details.senior_secondary.percentage`}
               value={values?.academic_details?.senior_secondary?.percentage}
@@ -1463,11 +1432,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
               style={{ "--color--": "#525252" }}
             />
           </div>
-          <div className="md:col-span-6 col-span-12">
+          <div className="md:col-span-2 col-span-12">
             <Input
               type="select"
-              selectoptions={[
-                "English",
+              selectoptions={[ "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1475,10 +1443,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",
-              ]}
+                "Other",]}
               label={"Medium of Education"}
-              className="my-2"
+              className="mt-2"
               id={`academic_details.senior_secondary.medium`}
               name={`academic_details.senior_secondary.medium`}
               value={values?.academic_details?.senior_secondary?.medium}
@@ -1490,7 +1457,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold">Graduation</p>
+          <p className="col-span-12 my-2 text-2xl font-bold mt-4">Graduation</p>
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
@@ -1552,8 +1519,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={[
-                "English",
+              selectoptions={[ "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1561,8 +1527,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",
-              ]}
+                "Other",]}
               label={"Medium of Education"}
               className="my-2"
               id={`academic_details.graduation.medium`}
@@ -1578,12 +1543,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject-1"}
+              label={"Subject1"}
               className="my-2"
-              id={`academic_details.graduation.subject1`}
-              name={`academic_details.graduation.subject1`}
-              value={values?.academic_details?.graduation?.subject1}
-              error={errors?.academic_details?.graduation?.subject1}
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1593,12 +1558,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject-2"}
+              label={"Subject1"}
               className="my-2"
-              id={`academic_details.graduation.subject2`}
-              name={`academic_details.graduation.subject2`}
-              value={values?.academic_details?.graduation?.subject2}
-              error={errors?.academic_details?.graduation?.subject2}
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1608,12 +1573,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject-3"}
+              label={"Subject3"}
               className="my-2"
-              id={`academic_details.graduation.subject3`}
-              name={`academic_details.graduation.subject3`}
-              value={values?.academic_details?.graduation?.subject3}
-              error={errors?.academic_details?.graduation?.subject3}
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1707,17 +1672,15 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={[
-                  "English",
-                  "Hindi",
-                  "English/Hindi",
-                  "Bengali",
-                  "Manipuri",
-                  "Malayalam",
-                  "Assamese",
-                  "Persian",
-                  "Other",
-                ]}
+                selectoptions={[ "English",
+                "Hindi",
+                "English/Hindi",
+                "Bengali",
+                "Manipuri",
+                "Malayalam",
+                "Assamese",
+                "Persian",
+                "Other",]}
                 label={"Medium of Education"}
                 className="my-2"
                 id={`academic_details.post_graduation.medium`}
@@ -1730,50 +1693,50 @@ const Vacancy = ({ isShowTeachingForm }) => {
               />
             </div>
             <div className="md:col-span-6 col-span-12">
-              <Input
-                type="select"
-                selectoptions={university}
-                label={"Subject-1"}
-                className="my-2"
-                id={`academic_details.graduation.subject1`}
-                name={`academic_details.graduation.subject1`}
-                value={values?.academic_details?.graduation?.subject1}
-                error={errors?.academic_details?.graduation?.subject1}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                style={{ "--color--": "#525252" }}
-              />
-            </div>
-            <div className="md:col-span-6 col-span-12">
-              <Input
-                type="select"
-                selectoptions={university}
-                label={"Subject-2"}
-                className="my-2"
-                id={`academic_details.graduation.subject2`}
-                name={`academic_details.graduation.subject2`}
-                value={values?.academic_details?.graduation?.subject2}
-                error={errors?.academic_details?.graduation?.subject2}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                style={{ "--color--": "#525252" }}
-              />
-            </div>
-            <div className="md:col-span-6 col-span-12">
-              <Input
-                type="select"
-                selectoptions={university}
-                label={"Subject-3"}
-                className="my-2"
-                id={`academic_details.graduation.subject3`}
-                name={`academic_details.graduation.subject3`}
-                value={values?.academic_details?.graduation?.subject3}
-                error={errors?.academic_details?.graduation?.subject3}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                style={{ "--color--": "#525252" }}
-              />
-            </div>
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject1"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject2"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
+          <div className="md:col-span-6 col-span-12">
+            <Input
+              type="select"
+              selectoptions={university}
+              label={"Subject3"}
+              className="my-2"
+              id={`academic_details.graduation.board`}
+              name={`academic_details.graduation.board`}
+              value={values?.academic_details?.graduation?.board}
+              error={errors?.academic_details?.graduation?.board}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              style={{ "--color--": "#525252" }}
+            />
+          </div>
           </div>
         ) : (
           <></>
@@ -1782,7 +1745,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
         <div className="Training">
           {Array.isArray(values.communication) ? (
             <div className="col-span-12">
-              <h1 className="font-bold text-[22px]">Select Training if any:</h1>
+              <h1 className="font-bold text-[22px] mt-4">Select Training if any:</h1>
               <div className="grid grid-cols-12">
                 <div className="md:col-span-4 col-span-12">
                   <div className="flex gap-4">
@@ -1867,11 +1830,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <></>
           )}
         </div>
-
+        {/* <div onClick={handleAddfield} className="mb-4">
+          <IoIosAddCircleOutline className="text-4xl cursor-pointer text-white rounded-full bg-blue-600" />
+        </div> */}
         <div className="md:col-span-12">
-          <h1 className="font-bold text-[22px]">Work Experience:</h1>
+          <h1 className="font-bold text-[22px] mt-4">Work Experience:</h1>
         </div>
-        <div className="col-span-12">
+        <div className="col-span-12 mb-4">
           If you are a fresher then enter 0(zero) as total work Experience{" "}
         </div>
         <div className="grid grid-cols-12 gap-4">
@@ -1909,19 +1874,19 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
         </div>
         <div className="">
-          <div className="col-span-12 font-bold text-[1rem] mb-4">
-            PROVIDE YOUR LAST THREE WORK EXPERIENCES:
+          <div className="col-span-12 font-bold text-[1rem] mt-4">
+            Provide your last three work experiences:
             <span className="text-color:red">*</span>
           </div>
 
           <div className="wrp">
             <h2 className="font-bold text-lg">Latest Job</h2>
             <div className="grid grid-cols-12 gap-4">
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Experience in Months"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].work`}
                   name={`work_experience[${0}].work`}
                   value={values.work_experience[0]?.work}
@@ -1935,11 +1900,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].designation`}
                   name={`work_experience[${0}].designation`}
                   value={values.work_experience[0]?.designation}
@@ -1953,11 +1918,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].organisation`}
                   name={`work_experience[${0}].organisation`}
                   value={values.work_experience[0]?.organisation}
@@ -1971,12 +1936,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   // required={true}
                   label={"Date of Joining"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].joining_date`}
                   name={`work_experience[${0}].joining_date`}
                   value={values.work_experience[0]?.joining_date}
@@ -1990,12 +1955,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   label={"Date of Leaving"}
                   // required
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
                   value={values.work_experience[0]?.leaving_date}
@@ -2009,11 +1974,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].salary`}
                   name={`work_experience[${0}].salary`}
                   value={values.work_experience[0]?.salary}
@@ -2027,12 +1992,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${0}].reason`}
                   name={`work_experience[${0}].reason`}
                   value={values.work_experience[0]?.reason}
@@ -2065,13 +2030,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
 
           <div className="wrp">
-            <h2 className="font-bold text-lg">Previous Job 1</h2>
+            <h2 className="font-bold text-lg mt-2">Previous Job 1</h2>
             <div className="grid grid-cols-12 gap-4">
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Experience in Months"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].work`}
                   name={`work_experience[${1}].work`}
                   value={values.work_experience[1]?.work}
@@ -2085,11 +2050,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].designation`}
                   name={`work_experience[${1}].designation`}
                   value={values.work_experience[1]?.designation}
@@ -2103,11 +2068,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].organisation`}
                   name={`work_experience[${1}].organisation`}
                   value={values.work_experience[1]?.organisation}
@@ -2121,11 +2086,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   label={"Date of Joining"}
-                  className="my-2"
+                  className="mt-2"
                   // required={true}
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
@@ -2140,12 +2105,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   label={"Date of Leaving"}
                   // required={true}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].leaving_date`}
                   name={`work_experience[${1}].leaving_date`}
                   value={values.work_experience[1]?.leaving_date}
@@ -2159,11 +2124,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].salary`}
                   name={`work_experience[${1}].salary`}
                   value={values.work_experience[1]?.salary}
@@ -2177,11 +2142,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Reason for Leaving"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${1}].reason`}
                   name={`work_experience[${1}].reason`}
                   value={values.work_experience[1]?.reason}
@@ -2199,13 +2164,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
 
           <div className="wrp">
-            <h2 className="font-bold text-lg">Previous Job 2</h2>
+            <h2 className="font-bold text-lg mt-6">Previous Job 2</h2>
             <div className="grid grid-cols-12 gap-4">
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Experience in Months"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${2}].work`}
                   name={`work_experience[${2}].work`}
                   value={values.work_experience[2]?.work}
@@ -2219,11 +2184,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Designation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${2}].designation`}
                   name={`work_experience[${2}].designation`}
                   value={values.work_experience[2]?.designation}
@@ -2237,11 +2202,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-4 col-span-12">
                 <Input
                   type="text"
                   label={"Organisation"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${2}].organisation`}
                   name={`work_experience[${2}].organisation`}
                   value={values.work_experience[2]?.organisation}
@@ -2255,11 +2220,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   label={"Date of Joining"}
-                  className="my-2"
+                  className="mt-2"
                   // required={true}
                   id={`work_experience[${2}].joining_date`}
                   name={`work_experience[${2}].joining_date`}
@@ -2274,11 +2239,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
                   label={"Date of Leaving"}
-                  className="my-2"
+                  className="mt-2"
                   // required={true}
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}
@@ -2293,11 +2258,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 <Input
                   type="text"
                   label={"Salary drawn in Rs/Month 1:"}
-                  className="my-2"
+                  className="mt-2"
                   id={`work_experience[${2}].salary`}
                   name={`work_experience[${2}].salary`}
                   value={values.work_experience[2]?.salary}
@@ -2311,7 +2276,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              <div className="md:col-span-6 col-span-12">
+              <div className="md:col-span-3 col-span-12">
                 {/* <h1 className="font-bold text-[1rem] mb-4"></h1> */}
                 <Input
                   type="text"
@@ -2330,13 +2295,26 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
+              {/* <div className="md:col-span-6 col-span-12">
+                <Input
+                  type="text"
+                  label={"Nature of The Job"}
+                  className="my-2"
+                  id={`work_experience[${2}].job_nature`}
+                  name={`work_experience[${2}].job_nature`}
+                  value={values.work_experience[2]?.job_nature}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  style={{ "--color--": "#525252" }}
+                />
+              </div> */}
             </div>
           </div>
         </div>
 
-        <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex">
-          <h2>Have you worked on CMS payroll before? </h2>
-          <div className="flex gap-2 ml-1">
+        <div className="font-bold text-[1rem] mb-4 md:col-span-6 col-span-12 flex mt-6">
+          <h1>Have you worked on CMS payroll before? </h1>
+          <div className="flex gap-2 pl-6">
             <label htmlFor="before_working_in_payroll-yes">Yes</label>
             <input
               type="radio"
@@ -2372,13 +2350,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-6">
                 <Input
                   type="select"
-                  selectoptions={campusPreference}
-                  name="payrollCms"
-                  id="payrollCms"
+                  selectoptions={campusPreference} 
+                  name="payrollCmsCampus"
+                  id="payrollCmsCampus"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.payrollCms}
-                  error={errors.payrollCms}
+                  value={values.payrollCms?.campus}
+                  error={errors.payrollCms?.campus}
                   label={"Campus"}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
@@ -2389,12 +2367,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  name="payrollCmsCampus"
-                  id="payrollCmsCampus"
+                  name="payrollCms"
+                  id="payrollCms"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.payrollCmsCampus}
-                  error={errors.payrollCmsCampus}
+                  value={values.payrollCms}
+                  error={errors.payrollCms}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
                 />
@@ -2407,13 +2385,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
           ""
         )}
 
-        <div className="grid grid-cols-12 gap-4 mb-2">
+        <div className="grid grid-cols-12 gap-4 mt-8">
           <div className="col-span-12">
-            <h1 className="font-bold text-[1rem] mb-4">
+            <h1 className="font-bold text-[1rem]">
               Earliest Date you can join<span>*</span>:
             </h1>
-            Earliest Date you can join (Date Format : DD-MM-YYYY, e.g.
-            10-JUN-2021)
+            {/*Earliest Date you can join (Date Format : DD-MM-YYYY, e.g.
+            10-JUN-2021)*/}
             <Input
               type="date"
               label="Date"
@@ -2429,7 +2407,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             />
           </div>
 
-          <div className="font-bold text-[1rem] col-span-12">
+          <div className="font-normal text-[13px] col-span-12">
             <h2>
               Name and contact numbers of two prominent persons of the locality
               or organisations you were associated with to whom veridication of
@@ -2500,10 +2478,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
             </div>
           </div>
 
-          <div className="font-bold text-[1rem] mb-4 col-span-12">
+          <div className="font-bold text-[1rem] col-span-12">
             <div className="flex">
               <h2>Do you have a blood relative working in CMS?</h2>
-              <div className="flex gap-2 ml-1">
+              <div className="flex gap-2 pl-6">
                 <label htmlFor="cms_working-yes">Yes</label>
                 <input
                   type="radio"
@@ -2538,7 +2516,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onBlur={handleBlur}
                   value={values.blood_relative?.name}
                   error={errors.blood_relative?.name}
-                  className="my-2"
+                  className="mb-4"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -2553,7 +2531,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onBlur={handleBlur}
                   value={values.blood_relative?.designation}
                   error={errors.blood_relative?.designation}
-                  className="my-2"
+                  className="mb-4"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -2569,7 +2547,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.blood_relative?.campus}
                   error={errors.blood_relative?.campus}
                   label={"Campus"}
-                  className="my-2"
+                  className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -2580,7 +2558,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             ""
           )}
         </div>
-        <div className="font-bold text-[1rem] col-span-12">
+        <div className="font-bold text-[1rem] mt-6 col-span-12">
           Declaration:<span>*</span>
           <div className="flex gap-2">
             <input
@@ -2611,7 +2589,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <button
               type="submit"
               disabled={!values.declaration}
-              className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+              className="bg-blue-500 disabled:bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-6 mb-12 rounded"
             >
               Save & Update
             </button>

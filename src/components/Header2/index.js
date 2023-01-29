@@ -16,12 +16,12 @@ const Header = () => {
       <img className="w-28 h-auto" src={logo} alt="logo" />
       <div class="flex justify-center px-6 py-4 items-center">
         <p class="text-gray-700 text-base">
-          <Link
+          {/* <Link
             to="/info"
-            className="bg-[#45aed6] text-white hover:bg-[#2a95be] rounded-md px-3 py-1 border border-[#2a95be]"
+            className="bg-[#0259b7] text-white rounded-md px-3 py-1 border border-[#2a95be]"
           >
             Click here to Apply
-          </Link>
+          </Link> */}
         </p>
       </div>
       <button
@@ -30,9 +30,9 @@ const Header = () => {
           dispatch(removeForm());
           navigate("/");
         }}
-        className="flex items-center gap-2 bg-[#00B7C9] text-white hover:bg-red-700 rounded-md px-3 py-1"
+        className="flex items-center gap-2 bg-[#00B7C9] text-white bg-red-500 rounded-md px-3 py-1"
       >
-        Logout <ImSwitch className="text-red-500 hover:text-white"/>
+        Logout <ImSwitch className="text-white"/>
       </button>
     </div>
   );

@@ -6,21 +6,21 @@ const Info = () => {
   return (
     <>
       <Header/>
-      <div className="my-2 p-3 border border-black mx-1">
-        <h1 className="text-2xl py-4 text-slate-600 font-bold text-center">
+      <div className="my-2 p-3 mx-2">
+        <h1 className="text-2xl py-4 font-bold text-center">
           Welcome to CMS careers website and thank you for your interest in
           working with us
         </h1>
-        <h2 className="text-xl font-normal  text-red-500">
+        <h2 className="text-xl font-semibold mt-4 mb-2">
           Pre-requisites for making an online application :
         </h2>
-        <ul className="list-decimal px-3 mx-2 mt-4 ">
+        <ul className="list-decimal px-3 mx-2 ">
           <li>A Valid Email ID</li>
           <li>Active Mobile Number</li>
           <li>Color Passport Size Photo</li>
         </ul>
-        <h2 className="text-xl font-normal text-red-500">Points to be noted :</h2>
-        <ul className="list-decimal px-3 mx-2 mt-4">
+        <h2 className="text-xl font-semibold mt-4 mb-2">Points to be noted :</h2>
+        <ul className="list-decimal px-3 mx-2">
           <li>
             After making the payment online of Rs 600, the applicant will not
             have the option to make any changes to their application.
@@ -32,10 +32,10 @@ const Info = () => {
           </li>
         </ul>
 
-        <h2 className="text-xl font-normal text-red-500">
+        <h2 className="text-xl font-semibold mt-4 mb-2">
           Instructions for filling the online application form :
         </h2>
-        <ul className="list-decimal px-3 mx-2 mt-4">
+        <ul className="list-decimal px-3 mx-2">
           <li>
             During the form filling process, the applicants should fill all the
             entries and keep saving the entries / information as they proceed.
@@ -63,11 +63,11 @@ const Info = () => {
           </li>
         </ul>
 
-        <h2 className="text-xl font-normal text-red-500">
+        <h2 className="text-xl font-semibold mt-4 mb-2">
           A typical recruitment process will involve :
         </h2>
 
-        <ul className="list-decimal px-3 mx-2 mt-4">
+        <ul className="list-decimal px-3 mx-2">
           <li>Apply online and pay the application fee.</li>
           <li>
             Upon receiving the application forms, only shortlisted applicants
@@ -101,7 +101,7 @@ const Info = () => {
 
         <Link
           to="/vacancy/new"
-          className="bg-blue-500 px-4 py-1 hover:bg-blue-500 my-3 block mx-auto w-fit rounded-md text-white"
+          className="bg-blue-600 text-white hover:bg-blue-700 my-3 block mx-auto w-fit rounded-md px-4 py-1 my-8"
         >
           Agree & Proceed
         </Link>

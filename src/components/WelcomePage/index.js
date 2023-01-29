@@ -127,25 +127,27 @@ const WelcomePage = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center my-2 h-full">
-              <div class=" rounded overflow-hidden ">
-                {/* <div class="px-6 py-4 items-center">
+            <div className="flex items-center justify-center my-2 h-full ">
+              <div class=" relative rounded overflow-hidden ">
+                <div class="px-6 py-4 items-center">
                   <p class="text-gray-700 text-base">
                     <Link
                       to="/info"
-                      className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1"
+                      className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-3 py-1 mx-auto w-fit flex items-center justify-center mb-4"
                     >
                       Click here to Apply
                     </Link>
                   </p>
-                </div> */}
+                </div>
                 <img
                   class="w-full"
                   src={welcome}
-                  alt="Sunset in the mountains"
+                  alt="welcome image"
                 />
               </div>
             </div>
+            
+            
           )}
         </>
       )}

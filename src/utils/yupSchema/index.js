@@ -1,33 +1,29 @@
 import * as Yup from "yup";
 
-Yup.addMethod(Yup.array, "unique", function (message) {
-  console.log(message);
-  return this.test("unique", message, function (list) {
-    const mapper = (x) => x.name;
-    const set = [...new Set(list.map(mapper))];
-    const isUnique = list.length === set.length;
-    if (isUnique) {
+function hasNoDuplicates(arr) {
+  const seen = new Set();
+  return arr.every((item) => {
+    if (seen.has(item.campus)) {
+      return false;
+    } else {
+      seen.add(item.campus);
       return true;
     }
-
-    const idx = list.findIndex((l, i) => mapper(l) !== set[i]);
-    return this.createError({
-      path: `[${idx}].name`,
-      message: message,
-    });
   });
-});
+}
 
 export const staffTeachingSchema = Yup.object({
   academic: Yup.string(),
   subject: Yup.string(),
   designation: Yup.string(),
 
-  campus_prefrence: Yup.array().of(
-    Yup.object().shape({
-      campus: Yup.string().required("This is required "),
-    })
-  ),
+  campus_prefrence: Yup.array()
+    .of(
+      Yup.object().shape({
+        campus: Yup.string().required("This is required "),
+      })
+    )
+    .test("unique", "Can't select same campus", (val) => hasNoDuplicates(val)),
   personal_details: Yup.object().shape({
     first_name: Yup.string().required("This is required"),
     last_name: Yup.string().required("This is required"),
@@ -58,7 +54,6 @@ export const staffTeachingSchema = Yup.object({
         .max(10, "Enter only 10 digit"),
     }),
     mobile: Yup.string()
-      .required("This is required")
       .test("number_check", "Only enter number", (val) => !isNaN(val))
       .max(10, "Enter only 10 digit"),
     email: Yup.string().required("This is required").email("Enter valid email"),
@@ -90,7 +85,6 @@ export const staffTeachingSchema = Yup.object({
       state: Yup.string().required("This field is required"),
       city: Yup.string().required("This field is required"),
       pincode: Yup.string()
-        .test("number_check", "Only enter number", (val) => !isNaN(val))
         .required("This field is required")
         .max(6, "Enter only 6 digit"),
     }),
@@ -102,7 +96,6 @@ export const staffTeachingSchema = Yup.object({
       board: Yup.string().required("This field is required"),
       school: Yup.string().required("This field is required"),
       percentage: Yup.string()
-        .test("number_check", "Only enter number", (val) => !isNaN(val))
         .required("This field is required")
         .max(2, "Enter only 2 digit"),
       medium: Yup.string().required("This field is required!"),
@@ -112,7 +105,6 @@ export const staffTeachingSchema = Yup.object({
       board: Yup.string().required("This field is required"),
       school: Yup.string().required("This field is required"),
       percentage: Yup.string()
-        .test("number_check", "Only enter number", (val) => !isNaN(val))
         .required("This field is required")
         .max(2, "Enter only 2 digit"),
       medium: Yup.string().required("This field is required!"),
@@ -122,7 +114,6 @@ export const staffTeachingSchema = Yup.object({
       board: Yup.string().required("This field is required"),
       school: Yup.string().required("This field is required"),
       percentage: Yup.string()
-        .test("number_check", "Only enter number", (val) => !isNaN(val))
         .required("This field is required")
         .max(2, "Enter only 2 digit"),
       medium: Yup.string().required("This field is required!"),
@@ -131,21 +122,13 @@ export const staffTeachingSchema = Yup.object({
       year: Yup.date(),
       board: Yup.string(),
       school: Yup.string(),
-      percentage: Yup.string()
-        .test("number_check", "Only enter number", (val) => !isNaN(val))
-        .max(2, "Enter only 2 digit"),
+      percentage: Yup.string().max(2, "Enter only 2 digit"),
       medium: Yup.string(),
     }),
   }),
 
-  referenceMobile1: Yup.string()
-    .required("This field is required!")
-    .test("number_check", "Only enter number", (val) => !isNaN(val))
-    .max(10, "Enter only 10 digit"),
-  referenceMobile2: Yup.string()
-    .required("This field is required!")
-    .test("number_check", "Only enter number", (val) => !isNaN(val))
-    .max(10, "Enter only 10 digit"),
+  referenceMobile1: Yup.string().max(10, "Enter only 10 digit"),
+  referenceMobile2: Yup.string().max(10, "Enter only 10 digit"),
 
   referenceName1: Yup.string().min(3, "Atleast 3 character"),
   referenceName2: Yup.string().min(3, "Atleast 3 character"),
@@ -175,16 +158,5 @@ export const staffTeachingSchema = Yup.object({
     name: Yup.string().min(3, "Atleast 3 character"),
     designation: Yup.string(),
   }),
-  
-  
-  blood_relative: Yup.object().shape({
-    name: Yup.string().min(3, "Atleast 3 character"),
-    designation: Yup.string(),
-  }),
-
-  payrollCms:Yup.string().min(3, "Atleast 3 character"),
-  
-
+  payrollCms: Yup.string().min(3, "Atleast 3 character"),
 });
-
-

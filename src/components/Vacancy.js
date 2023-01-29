@@ -196,7 +196,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
   const [isPayrollCms, setIsPayrollCms] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCampus, setSelectedCampus] = useState([]);
+  const [isChangeImage, setIsChangeImage] = useState(false);
+  // const [selectedCampus, setSelectedCampus] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
@@ -316,7 +317,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     },
     validationSchema: staffTeachingSchema,
     onSubmit: (values, action) => {
-      // console.log(values);
+      // console.log('ss');
       if (values?.registrationNum) {
         handleVacancyTeachingUpdate(values, action);
       } else {
@@ -340,7 +341,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     setFieldValue("category", isShowTeachingForm ? "teaching" : "non-teaching");
   }, [isShowTeachingForm]);
 
-  console.log(errors);
+  console.log(errors, values);
 
   return (
     <div>
@@ -414,7 +415,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
         {Array.isArray(values.campus_prefrence) ? (
           <div className="grid grid-cols-12 gap-4">
             <div className="md:col-span-4 col-span-12">
-              <Input 
+              <Input
                 type="select"
                 label={"Preferred Campus 1"}
                 className="my-2"
@@ -470,6 +471,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 selectoptions={campusPreference}
               />
             </div>
+
+            {!Array.isArray(errors.campus_prefrence) ? (
+              <span className="text-red-500 text-sm col-span-12">
+                {errors?.campus_prefrence}
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
         ) : (
           <></>
@@ -543,7 +552,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               type="select"
               selectoptions={["Married", "Unmarried"]}
               label={"Marital Status"}
-              className=" flex-1"
+              className="flex-1"
               style={{ "--color--": "#525252" }}
               name="personal_details.marital_status"
               id="personal_details.marital_status"
@@ -586,28 +595,50 @@ const Vacancy = ({ isShowTeachingForm }) => {
             />
           </div>
 
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="file"
-              label="Photo"
-              accept=".png,.jpg,.jpeg"
-              // className="my-2"
-              name="personal_details.image"
-              id="personal_details.image"
-              style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details.image", e.target.files[0])
-              }
-              onBlur={handleBlur}
-              error={errors.personal_details?.image}
-            />
-          </div>
+          {form?.personal_details?.image_url && !isChangeImage ? (
+            <div className="md:col-span-6 col-span-12 flex items-center justify-center gap-2">
+              <Input
+                type="text"
+                label={"Image"}
+                className="flex-1"
+                disabled
+                style={{ "--color--": "#525252" }}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={form?.personal_details?.image_url}
+              />
+
+              <span
+                onClick={() => setIsChangeImage(!isChangeImage)}
+                className="bg-gray-400 text-sm p-1 text-white cursor-pointer rounded-md"
+              >
+                Change
+              </span>
+            </div>
+          ) : (
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="file"
+                label="Photo"
+                accept=".png,.jpg,.jpeg"
+                // className="my-2"
+                name="personal_details.image"
+                id="personal_details.image"
+                style={{ "--color--": "#525252" }}
+                onChange={(e) =>
+                  setFieldValue("personal_details.image", e.target.files[0])
+                }
+                onBlur={handleBlur}
+                error={errors.personal_details?.image}
+              />
+            </div>
+          )}
 
           <div className="md:col-span-6 col-span-12">
             <Input
               type="number"
               label={"Mobile"}
-              // className="my-2"
+              className="my-2"
               name="personal_details.mobile"
               id="personal_details.mobile"
               style={{ "--color--": "#525252" }}
@@ -1435,7 +1466,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={[ "English",
+              selectoptions={[
+                "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1443,7 +1475,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",]}
+                "Other",
+              ]}
               label={"Medium of Education"}
               className="my-2"
               id={`academic_details.senior_secondary.medium`}
@@ -1519,7 +1552,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={[ "English",
+              selectoptions={[
+                "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1527,7 +1561,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",]}
+                "Other",
+              ]}
               label={"Medium of Education"}
               className="my-2"
               id={`academic_details.graduation.medium`}
@@ -1543,12 +1578,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject1"}
+              label={"Subject-1"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject1`}
+              name={`academic_details.graduation.subject1`}
+              value={values?.academic_details?.graduation?.subject1}
+              error={errors?.academic_details?.graduation?.subject1}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1558,12 +1593,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject1"}
+              label={"Subject-2"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject2`}
+              name={`academic_details.graduation.subject2`}
+              value={values?.academic_details?.graduation?.subject2}
+              error={errors?.academic_details?.graduation?.subject2}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1573,12 +1608,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <Input
               type="select"
               selectoptions={university}
-              label={"Subject3"}
+              label={"Subject-3"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject3`}
+              name={`academic_details.graduation.subject3`}
+              value={values?.academic_details?.graduation?.subject3}
+              error={errors?.academic_details?.graduation?.subject3}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1672,15 +1707,17 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={[ "English",
-                "Hindi",
-                "English/Hindi",
-                "Bengali",
-                "Manipuri",
-                "Malayalam",
-                "Assamese",
-                "Persian",
-                "Other",]}
+                selectoptions={[
+                  "English",
+                  "Hindi",
+                  "English/Hindi",
+                  "Bengali",
+                  "Manipuri",
+                  "Malayalam",
+                  "Assamese",
+                  "Persian",
+                  "Other",
+                ]}
                 label={"Medium of Education"}
                 className="my-2"
                 id={`academic_details.post_graduation.medium`}
@@ -1693,50 +1730,50 @@ const Vacancy = ({ isShowTeachingForm }) => {
               />
             </div>
             <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject1"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject2"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject3"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject-1"}
+                className="my-2"
+                id={`academic_details.graduation.subject1`}
+                name={`academic_details.graduation.subject1`}
+                value={values?.academic_details?.graduation?.subject1}
+                error={errors?.academic_details?.graduation?.subject1}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject-2"}
+                className="my-2"
+                id={`academic_details.graduation.subject2`}
+                name={`academic_details.graduation.subject2`}
+                value={values?.academic_details?.graduation?.subject2}
+                error={errors?.academic_details?.graduation?.subject2}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject-3"}
+                className="my-2"
+                id={`academic_details.graduation.subject3`}
+                name={`academic_details.graduation.subject3`}
+                value={values?.academic_details?.graduation?.subject3}
+                error={errors?.academic_details?.graduation?.subject3}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
           </div>
         ) : (
           <></>
@@ -1830,9 +1867,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <></>
           )}
         </div>
-        {/* <div onClick={handleAddfield} className="mb-4">
-          <IoIosAddCircleOutline className="text-4xl cursor-pointer text-white rounded-full bg-blue-600" />
-        </div> */}
+
         <div className="md:col-span-12">
           <h1 className="font-bold text-[22px]">Work Experience:</h1>
         </div>
@@ -2295,19 +2330,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              {/* <div className="md:col-span-6 col-span-12">
-                <Input
-                  type="text"
-                  label={"Nature of The Job"}
-                  className="my-2"
-                  id={`work_experience[${2}].job_nature`}
-                  name={`work_experience[${2}].job_nature`}
-                  value={values.work_experience[2]?.job_nature}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  style={{ "--color--": "#525252" }}
-                />
-              </div> */}
             </div>
           </div>
         </div>
@@ -2350,13 +2372,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-6">
                 <Input
                   type="select"
-                  selectoptions={campusPreference} 
-                  name="payrollCmsCampus"
-                  id="payrollCmsCampus"
+                  selectoptions={campusPreference}
+                  name="payrollCms"
+                  id="payrollCms"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.payrollCms?.campus}
-                  error={errors.payrollCms?.campus}
+                  value={values.payrollCms}
+                  error={errors.payrollCms}
                   label={"Campus"}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
@@ -2367,12 +2389,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  name="payrollCms"
-                  id="payrollCms"
+                  name="payrollCmsCampus"
+                  id="payrollCmsCampus"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.payrollCms}
-                  error={errors.payrollCms}
+                  value={values.payrollCmsCampus}
+                  error={errors.payrollCmsCampus}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
                 />

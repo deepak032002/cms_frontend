@@ -28,8 +28,8 @@ const PreviewForm = () => {
       >
         <header className="flex items-center justify-center flex-col">
           <img src={logo} alt="" />
-          <h2 className="text-lg font-semibold">
-            Recruitment Form-Non-Teaching Staff
+          <h2 className="text-lg font-semibold capitalize">
+            Recruitment Form- {form?.category} Staff
           </h2>
         </header>
         <table className="table-fixed w-full border-collapse border-black">
@@ -40,11 +40,14 @@ const PreviewForm = () => {
             </td>
 
             <td className="border px-2">
-              <span className="font-bold">Designation-</span> {form?.category}
-              {form?.designation}
+              <span className="font-bold">Designation- </span>{" "}
+              <span className="capitalize">
+                {form?.category}
+                &nbsp;{form?.designation}
+              </span>
             </td>
 
-            <td className="border px-2 w-[15%]" rowSpan={7}>
+            <td className="border px-2 w-[15%]" rowSpan={6}>
               <img src={form?.personal_details?.image_url} alt="" />
             </td>
           </tr>
@@ -69,21 +72,21 @@ const PreviewForm = () => {
           </tr>
           <tr>
             <td className="border px-2">
-              <span className="font-bold">Name:</span>{" "}
+              <span className="font-bold">Name:</span>
               {form?.personal_details?.first_name}
             </td>
             <td className="border px-2">
-              <span className="font-bold">Email:</span>{" "}
+              <span className="font-bold">Email:</span>
               {form?.personal_details?.email}
             </td>
           </tr>
           <tr>
             <td className="border px-2">
-              <span className="font-bold">Contact:</span>{" "}
+              <span className="font-bold">Contact:</span>
               {form?.personal_details?.mobile}
             </td>
             <td className="border px-2">
-              <span className="font-bold">Date of Birth:</span>{" "}
+              <span className="font-bold">Date of Birth:</span>
               {new Date(form?.personal_details?.dob).toLocaleDateString(
                 undefined,
                 {
@@ -92,45 +95,6 @@ const PreviewForm = () => {
                   day: "numeric",
                 }
               )}
-            </td>
-          </tr>
-
-          <tr className="w-full">
-            <td className="border w-full px-2" colSpan={2}>
-              <span className="font-bold">Languages:</span>
-            </td>
-          </tr>
-          <tr className="w-full">
-            <td className="border px-2" colSpan={"2"}>
-              <div className="flex">
-                {form?.communication.map((item, index) => {
-                  return (
-                    <span
-                      key={new Date().getTime() + index + 1}
-                      className="flex-1 flex capitalize"
-                    >
-                      <span className="font-bold mr-1">
-                        {item && Object.keys(item).toString()}
-                      </span>
-                      :
-                      {item && Object.keys(item[Object.keys(item).toString()]).map(
-                        (item, index) => {
-                          return (
-                            <span
-                              className="mx-2 capitalize"
-                              key={new Date().getTime() + index + 2}
-                            >
-                              <span className="flex gap-1 items-center justify-center">
-                                {item} <BsCheck className="text-green-500" />
-                              </span>
-                            </span>
-                          );
-                        }
-                      )}
-                    </span>
-                  );
-                })}
-              </div>
             </td>
           </tr>
 
@@ -170,7 +134,7 @@ const PreviewForm = () => {
                 </div>
               </div>
             </td>
-            <td className="border px-2" colSpan={2}>
+            <td className="border px-2" colSpan={1}>
               <div>
                 <h3 className="font-bold">Permanent Address:</h3>
                 <div className="grid grid-cols-2 text-sm">
@@ -207,13 +171,63 @@ const PreviewForm = () => {
             </td>
           </tr>
 
+          <h3 className="font-bold my-2 text-xl">Languages-</h3>
+
+          <tr>
+            <td colSpan={3}>
+              <tr className="flex w-full border-collapse">
+                <th className="border flex-1">Language</th>
+                <th className="border flex-1">Speak</th>
+                <th className="border flex-1">Read</th>
+                <th className="border flex-1">Write</th>
+              </tr>
+              {form?.communication.map((item, index) => {
+                console.log(item);
+                return (
+                  <tr className="flex w-full border-collapse">
+                    {Object.keys(item)[0] === "others" ? (
+                      <td className="border text-center flex-1 capitalize">
+                        {item.others.type}
+                      </td>
+                    ) : (
+                      <td className="border text-center flex-1 capitalize">
+                        {Object.keys(item)[0]}
+                      </td>
+                    )}
+                    <td className="border text-center flex-1 flex items-center justify-center">
+                      {item[Object.keys(item)[0]].speak === "true" ? (
+                        <BsCheck className="text-green-500 text-lg" />
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td className="border text-center flex-1 flex items-center justify-center">
+                      {item[Object.keys(item)[0]].read === "true" ? (
+                        <BsCheck className="text-green-500 text-lg" />
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td className="border text-center flex-1 flex items-center justify-center">
+                      {item[Object.keys(item)[0]].write === "true" ? (
+                        <BsCheck className="text-green-500 text-lg" />
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </td>
+          </tr>
+
           <h3 className="font-bold my-2 text-xl">Academic Qualification-</h3>
           <tr>
             <td colSpan={3}>
               <tr className="flex w-full border-collapse">
                 <th className="border flex-1">Exam</th>
                 <th className="border flex-1">
-                  School/Institute/University Name
+                  School Institute University Name
                 </th>
                 <th className="border flex-1">Year of Passing</th>
                 <th className="border flex-1">Board</th>

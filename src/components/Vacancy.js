@@ -359,7 +359,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
                   value={values.academic}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   error={errors.academic}
                   id="academic"
                   selectoptions={academicSection}
@@ -374,7 +374,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
                   value={values.subject}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   id="subject"
                   error={errors.subject}
                   selectoptions={subjects}
@@ -394,7 +394,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
                   value={values.designation}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   error={errors.designation}
                   id="academic"
                   selectoptions={designation}
@@ -414,14 +414,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
         {Array.isArray(values.campus_prefrence) ? (
           <div className="grid grid-cols-12 gap-4">
             <div className="md:col-span-4 col-span-12">
-              <Input 
+              <Input
                 type="select"
                 label={"Preferred Campus 1"}
                 className="my-2"
                 name={`campus_prefrence[${0}].campus`}
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 id={`campus_prefrence[${0}].campus`}
                 value={values.campus_prefrence[0]?.campus}
                 error={
@@ -440,7 +440,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name="campus_prefrence[1].campus"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 id="campus_prefrence[1].campus"
                 value={values?.campus_prefrence[1]?.campus}
                 error={
@@ -459,7 +459,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name="campus_prefrence[2].campus"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 id="campus_prefrence[2].campus"
                 value={values?.campus_prefrence[2]?.campus}
                 error={
@@ -469,6 +469,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 }
                 selectoptions={campusPreference}
               />
+            </div>
+            <div className="text-red-600 text-sm col-span-12">
+              {!Array.isArray(errors.campus_prefrence)
+                ? errors.campus_prefrence
+                : ""}
             </div>
           </div>
         ) : (
@@ -486,7 +491,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.first_name"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details.first_name}
               error={errors.personal_details?.first_name}
             />
@@ -501,7 +506,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="personal_details.middle_name"
               id="personal_details.middle_name"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.middle_name}
               error={errors.personal_details?.middle_name}
             />
@@ -516,7 +521,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.last_name"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.last_name}
               error={errors.personal_details?.last_name}
             />
@@ -532,7 +537,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.dob"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.dob.slice(0, 10)}
               error={errors.personal_details?.dob}
             />
@@ -548,7 +553,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="personal_details.marital_status"
               id="personal_details.marital_status"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.marital_status}
               error={errors.personal_details?.marital_status}
             />
@@ -562,7 +567,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id="personal_details.spouse"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.personal_details?.spouse}
                 error={errors.personal_details?.spouse}
               />
@@ -580,7 +585,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.aadhar_number"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.aadhar_number}
               error={errors.personal_details?.aadhar_number}
             />
@@ -598,7 +603,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={(e) =>
                 setFieldValue("personal_details.image", e.target.files[0])
               }
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               error={errors.personal_details?.image}
             />
           </div>
@@ -612,7 +617,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.mobile"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.mobile}
               error={errors.personal_details?.mobile}
             />
@@ -627,7 +632,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.email"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.email}
               error={errors.personal_details?.email}
             />
@@ -646,7 +651,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   }
                   value={"male"}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   type="radio"
                 />
               </div>
@@ -660,7 +665,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   }
                   value={"female"}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   type="radio"
                 />
               </div>
@@ -674,7 +679,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   }
                   value={"others"}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   type="radio"
                 />
               </div>
@@ -693,7 +698,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.father.name"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.father?.name}
               error={errors.personal_details?.father?.name}
             />
@@ -707,7 +712,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.father.mobile"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.father?.mobile}
               error={errors.personal_details?.father?.mobile}
               className="mt-2"
@@ -723,7 +728,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="personal_details.father.occupation"
               id="personal_details.father.occupation"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.father?.occupation}
               error={errors.personal_details?.father?.occupation}
             />
@@ -738,7 +743,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.mother.name"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.mother?.name}
               error={errors.personal_details?.mother?.name}
             />
@@ -753,7 +758,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.mother.mobile"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.mother?.mobile}
               error={errors.personal_details?.mother?.mobile}
             />
@@ -767,7 +772,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id="personal_details.mother.occupation"
               style={{ "--color--": "#525252" }}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.personal_details?.mother?.occupation}
               error={errors.personal_details?.mother?.occupation}
             />
@@ -775,7 +780,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
 
           {Array.isArray(values.communication) ? (
             <div className="col-span-12">
-              <h1 className="font-bold text-[22px] mt-4">Communication Skill:</h1>
+              <h1 className="font-bold text-[22px] mt-4">
+                Communication Skill:
+              </h1>
               <div className="grid grid-cols-12">
                 <div className="md:col-span-4 col-span-12">
                   <h2 className="font-bold text-[14px]">English</h2>
@@ -793,7 +800,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -806,7 +813,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -821,7 +828,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                   </div>
@@ -841,7 +848,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         checked={Boolean(values.communication[1]?.hindi?.speak)}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -852,7 +859,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         checked={Boolean(values.communication[1]?.hindi?.read)}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -865,7 +872,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         checked={Boolean(values.communication[1]?.hindi?.write)}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                   </div>
@@ -881,7 +888,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     className="focus:outline-0 border"
                     value={values.communication[2]?.others?.type}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                    // onBlur={handleBlur}
                   />
 
                   {values.communication[2]?.others?.type ? (
@@ -898,7 +905,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                           )}
                           type="checkbox"
                           onChange={handleChange}
-                          onBlur={handleBlur}
+                          // onBlur={handleBlur}
                         />
                       </div>
                       <div className="input_group flex gap-2">
@@ -913,7 +920,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                           )}
                           type="checkbox"
                           onChange={handleChange}
-                          onBlur={handleBlur}
+                          // onBlur={handleBlur}
                         />
                       </div>
                       <div className="input_group flex gap-2">
@@ -928,7 +935,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                           )}
                           type="checkbox"
                           onChange={handleChange}
-                          onBlur={handleBlur}
+                          // onBlur={handleBlur}
                         />
                       </div>
                     </div>
@@ -958,7 +965,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.flat_house}
               error={errors.address?.current?.flat_house}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className="mt-2"
               style={{ "--color--": "#525252" }}
             />
@@ -972,7 +979,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.street_lane}
               error={errors.address?.current?.street_lane}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className="mt-2"
               style={{ "--color--": "#525252" }}
             />
@@ -986,7 +993,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.area_locality}
               error={errors.address?.current?.area_locality}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className="mt-2"
               style={{ "--color--": "#525252" }}
             />
@@ -1000,7 +1007,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.landmark}
               error={errors.address?.current?.landmark}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className="mt-2"
               style={{ "--color--": "#525252" }}
             />
@@ -1015,7 +1022,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.country}
               error={errors.address?.current?.country}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className="flex-1"
               style={{ "--color--": "#525252" }}
             />
@@ -1029,7 +1036,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 value={values.address?.current?.country_name}
                 error={errors.address?.current?.country_name}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 className="flex-1"
                 style={{ "--color--": "#525252" }}
               />
@@ -1047,7 +1054,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 value={values.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 className="flex-1"
                 style={{ "--color--": "#525252" }}
               />
@@ -1061,7 +1068,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 value={values.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 className=""
                 style={{ "--color--": "#525252" }}
               />
@@ -1077,7 +1084,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.city}
               error={errors.address?.current?.city}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               style={{ "--color--": "#525252" }}
             />
           </div>
@@ -1090,7 +1097,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               value={values.address?.current?.pincode}
               error={errors.address?.current?.pincode}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               className=""
               style={{ "--color--": "#525252" }}
             />
@@ -1124,7 +1131,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.flat_house}
                   error={errors.address?.permanent?.flat_house}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1138,7 +1145,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.street_lane}
                   error={errors.address?.permanent?.street_lane}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1152,7 +1159,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.area_locality}
                   error={errors.address?.permanent?.area_locality}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1166,7 +1173,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.landmark}
                   error={errors.address?.permanent?.landmark}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className="mt-2"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1181,7 +1188,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.country}
                   error={errors.address?.permanent?.country}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className="flex-1"
                   style={{ "--color--": "#525252" }}
                 />
@@ -1195,7 +1202,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     value={values.address.permanent?.country_name}
                     error={errors.address?.permanent?.country_name}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                    // onBlur={handleBlur}
                     className="flex-1"
                     style={{ "--color--": "#525252" }}
                   />
@@ -1213,7 +1220,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     value={values.address.permanent?.state}
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                    // onBlur={handleBlur}
                     className="flex-1"
                     style={{ "--color--": "#525252" }}
                   />
@@ -1227,7 +1234,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     value={values.address.permanent?.state}
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
-                    onBlur={handleBlur}
+                    // onBlur={handleBlur}
                     className=""
                     style={{ "--color--": "#525252" }}
                   />
@@ -1243,7 +1250,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.city}
                   error={errors.address?.permanent?.city}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   style={{ "--color--": "#525252" }}
                 />
               </div>
@@ -1256,7 +1263,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   value={values.address.permanent?.pincode}
                   error={errors.address?.permanent?.pincode}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   className=""
                   style={{ "--color--": "#525252" }}
                 />
@@ -1284,7 +1291,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </ul>
         </div>
         <div className="grid grid-cols-12 gap-4">
-          <p className="col-span-12 my-2 text-2xl font-bold mt-4">High School</p>
+          <p className="col-span-12 my-2 text-2xl font-bold mt-4">
+            High School
+          </p>
 
           <div className="md:col-span-2 col-span-12">
             <Input
@@ -1296,7 +1305,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.high_school.year`}
               value={values?.academic_details?.high_school?.year}
               error={errors?.academic_details?.high_school?.year}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1311,7 +1320,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.high_school.board`}
               value={values?.academic_details?.high_school?.board}
               error={errors?.academic_details?.high_school?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1325,7 +1334,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.high_school.school`}
               value={values?.academic_details?.high_school?.school}
               error={errors?.academic_details?.high_school?.school}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1339,7 +1348,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.high_school.percentage`}
               value={values?.academic_details?.high_school?.percentage}
               error={errors?.academic_details?.high_school?.percentage}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1364,7 +1373,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.high_school.medium`}
               value={values?.academic_details?.high_school?.medium}
               error={errors?.academic_details?.high_school?.medium}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1384,7 +1393,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.senior_secondary.year`}
               value={values?.academic_details?.senior_secondary?.year}
               error={errors?.academic_details?.senior_secondary?.year}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1399,7 +1408,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.senior_secondary.board`}
               value={values?.academic_details?.senior_secondary?.board}
               error={errors?.academic_details?.senior_secondary?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1413,7 +1422,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.senior_secondary.school`}
               value={values?.academic_details?.senior_secondary?.school}
               error={errors?.academic_details?.senior_secondary?.school}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1427,7 +1436,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.senior_secondary.percentage`}
               value={values?.academic_details?.senior_secondary?.percentage}
               error={errors?.academic_details?.senior_secondary?.percentage}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1435,7 +1444,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-2 col-span-12">
             <Input
               type="select"
-              selectoptions={[ "English",
+              selectoptions={[
+                "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1443,14 +1453,15 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",]}
+                "Other",
+              ]}
               label={"Medium of Education"}
               className="mt-2"
               id={`academic_details.senior_secondary.medium`}
               name={`academic_details.senior_secondary.medium`}
               value={values?.academic_details?.senior_secondary?.medium}
               error={errors?.academic_details?.senior_secondary?.medium}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1468,7 +1479,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.year`}
               value={values?.academic_details?.graduation?.year}
               error={errors?.academic_details?.graduation?.year}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1483,7 +1494,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1497,7 +1508,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.school`}
               value={values?.academic_details?.graduation?.school}
               error={errors?.academic_details?.graduation?.school}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1511,7 +1522,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.percentage`}
               value={values?.academic_details?.graduation?.percentage}
               error={errors?.academic_details?.graduation?.percentage}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1519,7 +1530,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={[ "English",
+              selectoptions={[
+                "English",
                 "Hindi",
                 "English/Hindi",
                 "Bengali",
@@ -1527,14 +1539,15 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 "Malayalam",
                 "Assamese",
                 "Persian",
-                "Other",]}
+                "Other",
+              ]}
               label={"Medium of Education"}
               className="my-2"
               id={`academic_details.graduation.medium`}
               name={`academic_details.graduation.medium`}
               value={values?.academic_details?.graduation?.medium}
               error={errors?.academic_details?.graduation?.medium}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1549,7 +1562,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1564,7 +1577,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1579,7 +1592,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
@@ -1598,7 +1611,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 setFieldValue("academic_details.post_graduation", {});
                 handleChange(e);
               }}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             <label htmlFor={`academic_details.isPursuing`}>
               Check If Pursuing
@@ -1621,7 +1634,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name={`academic_details.post_graduation.year`}
                 value={values?.academic_details?.post_graduation?.year}
                 error={errors?.academic_details?.post_graduation?.year}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
               />
@@ -1636,7 +1649,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name={`academic_details.post_graduation.board`}
                 value={values?.academic_details?.post_graduation?.board}
                 error={errors?.academic_details?.post_graduation?.board}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
               />
@@ -1650,7 +1663,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name={`academic_details.post_graduation.school`}
                 value={values?.academic_details?.post_graduation?.school}
                 error={errors?.academic_details?.post_graduation?.school}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
               />
@@ -1664,7 +1677,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name={`academic_details.post_graduation.percentage`}
                 value={values?.academic_details?.post_graduation?.percentage}
                 error={errors?.academic_details?.post_graduation?.percentage}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
               />
@@ -1672,71 +1685,73 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={[ "English",
-                "Hindi",
-                "English/Hindi",
-                "Bengali",
-                "Manipuri",
-                "Malayalam",
-                "Assamese",
-                "Persian",
-                "Other",]}
+                selectoptions={[
+                  "English",
+                  "Hindi",
+                  "English/Hindi",
+                  "Bengali",
+                  "Manipuri",
+                  "Malayalam",
+                  "Assamese",
+                  "Persian",
+                  "Other",
+                ]}
                 label={"Medium of Education"}
                 className="my-2"
                 id={`academic_details.post_graduation.medium`}
                 name={`academic_details.post_graduation.medium`}
                 value={values?.academic_details?.post_graduation?.medium}
                 error={errors?.academic_details?.post_graduation?.medium}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
               />
             </div>
             <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject1"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject2"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
-          <div className="md:col-span-6 col-span-12">
-            <Input
-              type="select"
-              selectoptions={university}
-              label={"Subject3"}
-              className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              style={{ "--color--": "#525252" }}
-            />
-          </div>
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject1"}
+                className="my-2"
+                id={`academic_details.graduation.board`}
+                name={`academic_details.graduation.board`}
+                value={values?.academic_details?.graduation?.board}
+                error={errors?.academic_details?.graduation?.board}
+                // onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject2"}
+                className="my-2"
+                id={`academic_details.graduation.board`}
+                name={`academic_details.graduation.board`}
+                value={values?.academic_details?.graduation?.board}
+                error={errors?.academic_details?.graduation?.board}
+                // onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
+            <div className="md:col-span-6 col-span-12">
+              <Input
+                type="select"
+                selectoptions={university}
+                label={"Subject3"}
+                className="my-2"
+                id={`academic_details.graduation.board`}
+                name={`academic_details.graduation.board`}
+                value={values?.academic_details?.graduation?.board}
+                error={errors?.academic_details?.graduation?.board}
+                // onBlur={handleBlur}
+                onChange={handleChange}
+                style={{ "--color--": "#525252" }}
+              />
+            </div>
           </div>
         ) : (
           <></>
@@ -1745,7 +1760,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
         <div className="Training">
           {Array.isArray(values.communication) ? (
             <div className="col-span-12">
-              <h1 className="font-bold text-[22px] mt-4">Select Training if any:</h1>
+              <h1 className="font-bold text-[22px] mt-4">
+                Select Training if any:
+              </h1>
               <div className="grid grid-cols-12">
                 <div className="md:col-span-4 col-span-12">
                   <div className="flex gap-4">
@@ -1761,7 +1778,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -1774,7 +1791,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -1789,7 +1806,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -1804,7 +1821,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
@@ -1819,7 +1836,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                         )}
                         type="checkbox"
                         onChange={handleChange}
-                        onBlur={handleBlur}
+                        // onBlur={handleBlur}
                       />
                     </div>
                   </div>
@@ -1851,7 +1868,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="total_experience"
               id="total_experience"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.total_experience}
               style={{ "--color--": "#525252" }}
             />
@@ -1895,7 +1912,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.work
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -1913,7 +1930,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.designation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -1931,7 +1948,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.organisation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -1950,7 +1967,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.joining_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -1969,7 +1986,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.leaving_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -1987,7 +2004,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.salary
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2006,7 +2023,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[0]?.reason
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2017,7 +2034,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].isWorking`}
                   name={`work_experience[${0}].isWorking`}
                   value={values.work_experience[0]?.isWorking}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   checked={Boolean(values.work_experience[0]?.isWorking)}
                 />
@@ -2045,7 +2062,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.work
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2063,7 +2080,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.designation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2081,7 +2098,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.organisation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2100,7 +2117,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.joining_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2119,7 +2136,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.leaving_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2137,7 +2154,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.salary
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2155,7 +2172,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[1]?.reason
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2179,7 +2196,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.work
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2197,7 +2214,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.designation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2215,7 +2232,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.organisation
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2234,7 +2251,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.joining_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2253,7 +2270,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.leaving_date
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2271,7 +2288,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.salary
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2290,7 +2307,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                       ? errors?.work_experience[2]?.reason
                       : ""
                   }
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2303,7 +2320,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].job_nature`}
                   name={`work_experience[${2}].job_nature`}
                   value={values.work_experience[2]?.job_nature}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   onChange={handleChange}
                   style={{ "--color--": "#525252" }}
                 />
@@ -2326,7 +2343,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               }
               onChange={handleChange}
               onClick={() => setIsPayrollCms(true)}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
             <label htmlFor="before_working_in_payroll-no">No</label>
             <input
@@ -2339,7 +2356,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               }
               onChange={handleChange}
               onClick={() => setIsPayrollCms(false)}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
             />
           </div>
         </div>
@@ -2350,11 +2367,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-6 col-span-6">
                 <Input
                   type="select"
-                  selectoptions={campusPreference} 
+                  selectoptions={campusPreference}
                   name="payrollCmsCampus"
                   id="payrollCmsCampus"
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.payrollCms?.campus}
                   error={errors.payrollCms?.campus}
                   label={"Campus"}
@@ -2370,7 +2387,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="payrollCms"
                   id="payrollCms"
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.payrollCms}
                   error={errors.payrollCms}
                   className="my-2"
@@ -2401,7 +2418,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               error={errors.earliest_date_join}
               id="earliest_date_join-no"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               min={new Date().toISOString().slice(0, 10)}
               className="my-2 md:w-1/2 w-full"
             />
@@ -2427,7 +2444,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id="referenceName1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.referenceName1}
                 error={errors.referenceName1}
               />
@@ -2440,7 +2457,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.referenceMobile1}
                 error={errors.referenceMobile1}
               />
@@ -2458,7 +2475,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id="referenceName2"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.referenceName2}
                 error={errors.referenceName2}
               />
@@ -2471,7 +2488,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id="referenceMobile1"
                 style={{ "--color--": "#525252" }}
                 onChange={handleChange}
-                onBlur={handleBlur}
+                // onBlur={handleBlur}
                 value={values.referenceMobile2}
                 error={errors.referenceMobile2}
               />
@@ -2513,7 +2530,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="blood_relative.name"
                   id="blood_relative.name"
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.blood_relative?.name}
                   error={errors.blood_relative?.name}
                   className="mb-4"
@@ -2528,7 +2545,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="blood_relative.designation"
                   id="blood_relative.designation"
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.blood_relative?.designation}
                   error={errors.blood_relative?.designation}
                   className="mb-4"
@@ -2543,7 +2560,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="blood_relative.campus"
                   id="blood_relative.campus"
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   value={values.blood_relative?.campus}
                   error={errors.blood_relative?.campus}
                   label={"Campus"}
@@ -2566,7 +2583,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="declaration"
               id="declaration"
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={values.declaration}
               checked={values.declaration}
             />

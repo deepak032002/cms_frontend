@@ -66,7 +66,7 @@ const Input = ({
             );
           })}
         </select>
-        <span className="text-red-600">{error ? <div>{error}</div> : ""}</span>
+        <span className="text-red-600 text-sm">{error ? <div>{error}</div> : ""}</span>
       </div>
     );
   }
@@ -95,7 +95,7 @@ const Input = ({
               </div>
             );
           })}
-          <span className="text-red-600">
+          <span className="text-red-600 text-sm">
             {error && error ? <div>{error}</div> : null}
           </span>
         </div>
@@ -125,7 +125,7 @@ const Input = ({
             />
             <span style={style || { "--color--": "#525252" }}>{label}</span>
           </div>
-          <span className="text-red-600">
+          <span className="text-red-600 text-sm">
             {error && error ? <div>{error}</div> : null}
           </span>
         </div>
@@ -155,7 +155,7 @@ const Input = ({
           />
           <span style={style || { "--color--": "#525252" }}>{label}</span>
         </div>
-        <span className="text-red-600">
+        <span className="text-red-600 text-sm">
           {error && error ? <div>{error}</div> : null}
         </span>
       </div>

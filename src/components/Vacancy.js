@@ -78,6 +78,63 @@ const state = [
   "Puducherry",
 ];
 
+const gradDegree = [
+  'Army Education Corps (A.E.C)',
+  'Army Graduation Certificate',
+  'Bachelor In Performing Arts (B.P.A)',
+  'Bachelor Of Arts - Legislative Law (B.A. L.l.b. Hons.)',
+  'Bachelor Of Arts - Legislative Law (B.A. L.l.b.)',
+  'Bachelor Of Arts (B.A. Hons.)',
+  'Bachelor Of Arts (B.A.)',
+  'Bachelor Of Business Administration (B.B.A)',
+  'Bachelor Of Business Management (B.B.M.)',
+  'Bachelor Of Commerce (B.Com. Hons.)',
+  'Bachelor Of Commerce (B.Com.)',
+  'Bachelor Of Computer Applications (B.C.A)',
+  'Bachelor Of Dental Surgery (B.D.S)',
+  'Bachelor Of Engineering (B.E.)',
+  'Bachelors Of Elementary Education (B.El.Ed.)',
+  'Bachelor Of Fine Arts (B.F.A)',
+  'Bachelor Of Health Science (B.H.Sc)',
+  'Bachelor Of Information Technology (B.IT)',
+  'Bachelor Of Journalism And Mass Communication (B.J.M.C)',
+  'Bachelor Of Law (L.L.B)',
+  'Bachelor Of Library And Information Science (B.Lib.I.Sc.)',
+  'Bachelor Of Library Science (B.Lib.Sc.)',
+  'Bachelor Of Physical Education (B.P.Ed.)',
+  'Bachelor Of Physical Education And Sports',
+  'Bachelor Of Science (B.Sc. Computer Science)',
+  'Bachelor Of Science (B.Sc. Home Science)',
+  'Bachelor Of Science (B.Sc. Hons.)',
+  'Bachelor Of Science (B.Sc. In Hospitality And Hotel Management)',
+  'Bachelor Of Science (B.Sc.)',
+  'Bachelor Of Science Economics',
+  'Bachelor Of Science In Applied Information Technology (B.Sc. Ait)',
+  'Bachelor Of Technology (B. Tech.)',
+  'Bachelor Of Tourism Administration (B.T.A)',
+  'Bachelor Of Visual Arts (B.V.A)',
+  'Bachelor Of Vocational Studies (B. Voc)',
+  'Bachelors In Infrastructure Management System (B.Sc IMS)',
+  'Indian Navy Graduation Certificate',
+  'Integrated BBA & MBA',
+  'Prabhakar',
+  'Visharad',
+  'Bachelor Of Science (B.sc. In Hotel And Catering Management)',
+  'Bachelor Of Music (B. Mus. Kathak)',
+  'Bachelor Of Musical Arts (B.M.A.)',
+  'Bachelor Of Design (B.Des. Textile Design)',
+  'Bachelor Of Home Science (B.H.sc.)',
+  'Bachelor Of Homoeopathic Medicine And Surgery (B.H.M.S)',
+  'Bachelor Of Library Science (B.L.Sc.)',
+  'Uttama (Sahitya)',
+  'Bachelor Of Tourism Studies (B.T.S)',
+  'Bachelor Of Hospitality Management (B.H.M.)',
+  'Bachelor Of Pharmacy (B.Pharma)',
+  'Bachelor Of Social, Legal Sciences (B.S.L)',
+  'Bachelor Of Corporate Secretaryship (B.C.S.)',
+  'Indian Navy Graduation Certificate',
+  'Other'
+]
 const designation = [
   "Accountant",
   "Accounts Manager",
@@ -148,46 +205,300 @@ const designation = [
   "Web Developer",
 ];
 
-const university = [
-  "Indian Institute of Science",
-  "Jawaharlal Nehru University (JNU)",
-  "Jamia Milia Islamia",
-  "Jadavpur University",
-  "Amrita Vishwa Vidyapeetham",
-  "Banaras Hindu University (BHU)",
-  "Manipal Academy of Higher Education",
-  "Calcutta University",
-  "Vellore Institute of Technology",
-  "University of Hyderabad (UoH)",
-  "Aligarh Muslim University",
-  "Savitribai Phule Pune",
-  "University of Delhi",
-  "Institute of Chemical Technology",
-  "Bharathiar University",
-  "Homi Bhabha National Institute",
-  "Birla Institute of Technology & Science",
-  "SRM Institute of Science and Technology",
-  "Kalinga Institute of Industrial Technology",
-  "Anna University",
-  "Osmania University",
-  "Amity University",
-  "Shanmugha Arts Science Technology & Research Academy (SASTRA)",
-  "Tata Institute of Social Sciences",
-  "Dr. A.P.J. Abdul Kalam Technical University",
+const university =[
+  'Akhil Bhartiya Gandharva Mahavidyalaya Mandal (Deemed University)',
+  'Alagappa University',
+  'Aligarh Muslim University',
+  'Amity University',
+  'Annamalai University',
+  'Army Center Of Education',
+  'Army Education Corps (AEC)',
+  'Atal Bihari Vajpayee Vishwavidyalaya',
+  'Awadhesh Pratap Singh University, Rewa',
+  'Babasaheb Bhimrao Ambedkar Bihar University',
+  'Babasaheb Bhimrao Ambedkar University, Lucknow',
+  'Babu Banarasi Das University',
+  "Baha'i Institute For Higher Education (Open University)",
+  'Balaji Institute Of Modern Management, Pune',
+  'Banaras Hindu University',
+  'Banasthali University',
+  'Bangalore University',
+  'Barkatullah University, Bhopal',
+  'Berhampur University',
+  'Bhagalpur University',
+  'Bharath Institute Of Higher Education & Research Deemed University, Chennai',
+  'Bharathiar University',
+  'Bharati Vidyapeeth Deemed University',
+  'Bhartiya Shiksha Parishad',
+  'Bhatkhande Sangit Vidyapith, Lucknow',
+  'Bhopal University',
+  'Bilaspur University',
+  'Board Of Technical Education',
+  'Bundelkhand University',
+  'Chaudhary Devi Lal University, Sirsa, Haryana',
+  'Chhatrapati Shahu Ji Maharaj University, Kanpur',
+  'Chhattisgarh Swami Vivekanand Technical University (Csvtu)',
+  'Choudhary Charan Singh University, Meerut',
+  'Cmj University',
+  'Dakshina Bharat Hindi Prachar Sabha Deemed University',
+  'Dayalbagh Educational Institute, Deemed University, Agra',
+  'Deen Dayal Upadhyay University Gorakhpur',
+  'Devi Ahilya University',
+  'Dibrugarh University',
+  'Dr Apj Abdul Kalam Technical University',
+  'Dr Babasaheb Ambedkar Marathwada University',
+  'Dr Ram Manohar Lohia Avadh University',
+  'Dr Shakuntala Misra National Rehabilitation University',
+  'Dr. Bhimrao Ambedkar University, Agra',
+  'Dr. C.v. Raman University, Chhattisgarh',
+  'Dr. Harisingh Gour University, Madhya Pradesh',
+  'Eiilm University, Sikkim',
+  'English And Foreign Languages University',
+  'Galgotias University',
+  'Gangadhar Meher University, Sambalpur, Odisha',
+  'Gauhati University',
+  'Gautam Buddh Technical University',
+  'Gautam Buddh Vishwa Vidyapeeth, Shripalpur',
+  'Gautam Buddha University',
+  'Global Open University',
+  'Glocal University',
+  'Goa University',
+  'Govind Ballabh Pant University Of Agriculture & Technology',
+  'Gulbarga University',
+  'Guru Ghasidas Vishwavidyalaya, Bilaspur',
+  'Guru Govind Singh Indraprastha University',
+  'Guru Jambheshwar University Of Science And Technology',
+  'Guru Nanak Dev University, Amritsar',
+  'Hemwati Nandan Bahuguna Garhwal University',
+  'Himachal Pradesh University',
+  'Himalayan University',
+  'Himanchal Pradesh University',
+  'Hindi Sahitya Sammelan, Prayag (Hindi University)',
+  'I.K. Gujral Punjab Technical University',
+  'Ibs, Hyderabad',
+  'Icfai University, Dehradun',
+  'IGNOU',
+  'Iilm University',
+  'Iis University, Jaipur',
+  'Indian Navy Graduation Certificate',
+  'Indira Kala Sangit Vishwavidyalaya, Khairagarh',
+  'Institute Of Chartered Financial Analysts Of India',
+  'Integral University',
+  'J S University, Shikohabad',
+  'Jadavpur University',
+  'Jai Narain Vyas University, Jodhpur',
+  'Jai Prakash University, Chapra',
+  'Jaipur National University',
+  'Jamia Hamdard (Deemed University)',
+  'Jamia Millia Islamia University',
+  'Jananayak Chandrshekhar University, Ballia',
+  'Jawaharlal Nehru University',
+  'Jiwaji University, Gwalior',
+  'Jodhpur National University',
+  'Jrn University',
+  'Kalinga Institute Of Industrial Technology (Kiit), Bhubaneswar',
+  'Karnataka State Open University',
+  'Kavayitri Bahinabai Chaudhari North Maharashtra University Jalgaon',
+  'Khwaja Moinuddin Chishti Language University',
+  'Kolhan University',
+  'Kumaun University',
+  'Kurukshetra University',
+  'Kuvempu University',
+  'Lakshmibai National University Of Physical Education',
+  'Lalit Narayan Mithila University, Darbhanga',
+  "Other"
+  
+];
+
+  
+const subjectsGrad = [
+  'Academic National Libraries',
+  'Accomodation Operation',
+  'Accounting And Finance',
+  'Accounts',
+  'Advanced Control System',
+  'Advertising And Marketing Management',
+  'Agri-business',
+  'Agriculture',
+  'Anthropology',
+  'Applied Biology',
+  'Applied Business Statistics',
+  'Applied Economics',
+  'Applied Psychology',
+  'Arab Culture',
+  'Archaeology',
+  'Army Graduation Certificate',
+  'Art',
+  'Asian Culture',
+  'Asynchronous Javascript And Xml (Ajax)',
+  'Audit',
+  'Aviation Tourism And Hospitality Management',
+  'Banking And Finance',
+  'Bharatnatyam',
+  'Bio Chemistry',
+  'Biotechnology',
+  'Botany',
+  'Branch Textile Technology',
+  'Business',
+  'Business Administration',
+  'Business Management',
+  'C++',
+  'Ceramics',
+  'Chemistry',
+  'Classification And Cataloguing',
+  'Clinical Nutrition And Dietetics',
+  'Commerce',
+  'Computer',
+  'Computer Applications',
+  'Computer Graphics',
+  'Computer Programming',
+  'Computer Science',
+  'Computer Science & Engineering',
+  'Corporate Legal Framework',
+  'Corporate Tax Planning And Management',
+  'Corporate Taxation',
+  'Culture & Archaeology',
+  'Cyber Law',
+  'Dance',
+  'Data Communication Network',
+  'Database Management System',
+  'Desktop Publishing',
+  'Dot Net Framework',
+  'Drawing',
+  'Drawing And Painting',
+  'E-governance',
+  'Economics',
+  'Education',
+  'Electrical Engineering',
+  'Electronics',
+  'Electronics And Communication',
+  'Electronics Engineering',
+  'English',
+  'English And Education',
+  'English Honours',
+  'English Language',
+  'English Literature',
+  'Environmental Science',
+  'Environmental Engineering',
+  'Environmental Studies',
+  'Fashion Designing',
+  'Finance',
+  'Financial Management',
+  'Fine Arts',
+  'Food & Nutrition',
+  'Food And Beverage Service',
+  'Food Production',
+  'Foundation Of Library & Information Science',
+  'Genetics & Genomics',
+  'Geography',
+  'Geology',
+  'Global Markets',
+  'Hindi',
+  'Hindi Language',
+  'Hindi Literature',
+  'History',
+  'History Of World Art',
+  'Home Science',
+  'Human Anatomy',
+  'Human Resource',
+  'Human Rights',
+  'Income Tax',
+  'Income Tax Law & Accounts',
+  'Income Tax Laws',
+  'Indian Economic Structure',
+  'Industrial Biology',
+  'Industrial Training',
+  'Information And Communication',
+  'Information Processing And Retrieval',
+  'Information Technology',
+]
+
+
+const pgDegree = [
+  'Acharya',
+  'Master Of Arts (M.A.)',
+  'Master Of Arts (M.A. Hons.)',
+  'Master Of Science (M.Sc.)',
+  'Master Of Commerce (M.Com.)',
+  'Master Of Commerce (Applied Economics)',
+  'Master Of Business Administration (M.B.A.)',
+  'Master Of Music (M.M.)',
+  "Master's Degree In Library And Information Science (M.L.I.S.)",
+  'Master Of Science In Library And Information Science (M.L.I.Sc)',
+  'Masters In Marketing Economics And Management',
+  'Master Of Fine Arts (MFAa)',
+  'Master Of Visual Arts (M.V.A.)',
+  'Masters Of Public Administration (M.P.A.)',
+  'Master Of Performing Arts (M.P.A.)',
+  'Master Of Business Engineering (M.B.E.)',
+  'Master Of Technology (M.Tech)',
+  'Master Of Computer Applications (M.C.A)',
+  'Master Of Philosophy (M.Phil)',
+  'Master Of Science (M.Sc. Home Science)',
+  'Master Of Tourism Management (MTM)',
+  'Masters Of Journalism And Mass Communication',
+  'Master Of Business Laws',
+  'Master Of Physical Education (M.P.Ed.)',
+  'Master Of Social Work (M.S.W)',
+  'Sangeet Nipun',
+  'Master In Human Rights',
+  'Master Of Personnel Management(M.P.M)',
+  'Master Of Management Sciences (M.M.Sc)',
+  'Master Of Management Studies (M.M.S.)',
+  'Master Of Laws (Business And Corporate Law)',
+  'Master Of Science In Information Technology (M.Sc. It)',
+  'Sangeet Alankar',
+  'Master Of Laws (LLM)',
+  'Other'
 ];
 
 const schoolBoards = [
-  "Central Board of Secondary Education (CBSE)",
-  "Indian Certificate of Secondary Education (ICSE)",
-  "State Board of Education (SBE)",
-  "Council for the Indian School Certificate Examinations (CISCE)",
-  "National Institute of Open Schooling (NIOS)",
-  "Tamil Nadu State Board",
-  "Andhra Pradesh Board of Secondary Education",
-  "Gujarat Secondary and Higher Secondary Education Board",
-  "Maharashtra State Board of Secondary and Higher Secondary Education",
-  "Karnatak",
-  "Others",
+  'Aligarh Muslim University',
+  'Andhra University',
+  'Bihar Intermediate Education Council, Patna',
+  'Bihar School Examination Board',
+  'Board Of Intermediate Education, Andhra Pradesh',
+  'Board Of Secondary Education Andhra Pradesh (BSEAP)',
+  'Board Of Intermediate Education, Hyderabad',
+  'Board Of School Education Uttarakhand',
+  'Board Of Secondary Education, Assam',
+  'Board Of Secondary Education, Madhya Pradesh',
+  'Board Of Secondary Education, Manipur',
+  'Board Of Secondary Education, Orissa',
+  'CBSE',
+  'Central Board Of Higher Education',
+  'Council Of Higher Secondary Education, Odisha',
+  'Department Of Education Istanbul',
+  'Department Of Examinations, Madras',
+  'Dibrugarh University',
+  'Guru Nanak Dev University, Amritsar',
+  'Gujarat Secondary And Higher Secondary Education Board',
+  'Haryana Board Of School Education',
+  'Higher Secondary Education Board, Govt. Of Nepal',
+  'Himachal Pradesh Board Of School Education',
+  'Hindi Sahitya Sammelan, Prayag (Hindi University)',
+  'ICSE/ISC',
+  'Jammu And Kashmir Board Of School Education (JKBOSE)',
+  'Karnatka Secondary Education Examination Board',
+  'Kerala Board',
+  'Kurukshetra University',
+  'Maharashtra Board',
+  'Mahatma Gandhi University',
+  'Meghalaya Board Of School Education (Mbose)',
+  'National Examination Board, Nepal',
+  'National Institute Of Open Schooling, New Delhi',
+  'Kasturba Mahila Intermediate College Vidyalaya',
+  'Punjab School Education Board (PSEB)',
+  'Panjab University',
+  'Rajasthan Board',
+  'Sambalpur University',
+  'Sampurnanand Sanskrit Vishwavidyalaya',
+  'Tamil Nadu Board',
+  'Uttar Pradesh Board',
+  'Uttranchal Shiksha Evam Pariksha Parishad',
+  'West Bengal Board Of Secondary Education',
+  'West Bengal Council Of Higher Secondary Education',
+  'Other'
 ];
 
 const Vacancy = ({ isShowTeachingForm }) => {
@@ -1501,8 +1812,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
           <div className="md:col-span-6 col-span-12">
             <Input
-              type="text"
-              label={"School Name"}
+               type="select"
+              selectoptions={gradDegree}
+              label={"Degree"}
               className="my-2"
               id={`academic_details.graduation.school`}
               name={`academic_details.graduation.school`}
@@ -1555,7 +1867,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={university}
+              selectoptions={subjectsGrad}
               label={"Subject1"}
               className="my-2"
               id={`academic_details.graduation.board`}
@@ -1570,7 +1882,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={university}
+              selectoptions={subjectsGrad}
               label={"Subject1"}
               className="my-2"
               id={`academic_details.graduation.board`}
@@ -1585,7 +1897,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
-              selectoptions={university}
+              selectoptions={subjectsGrad}
               label={"Subject3"}
               className="my-2"
               id={`academic_details.graduation.board`}
@@ -1656,8 +1968,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
             </div>
             <div className="md:col-span-6 col-span-12">
               <Input
-                type="text"
-                label={"School Name"}
+                type="select"
+                selectoptions={pgDegree}
+                label={"Degree"}
                 className="my-2"
                 id={`academic_details.post_graduation.school`}
                 name={`academic_details.post_graduation.school`}
@@ -1710,7 +2023,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={university}
+                selectoptions={subjectsGrad}
                 label={"Subject1"}
                 className="my-2"
                 id={`academic_details.graduation.board`}
@@ -1725,7 +2038,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={university}
+                selectoptions={subjectsGrad}
                 label={"Subject2"}
                 className="my-2"
                 id={`academic_details.graduation.board`}
@@ -1740,7 +2053,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             <div className="md:col-span-6 col-span-12">
               <Input
                 type="select"
-                selectoptions={university}
+                selectoptions={subjectsGrad}
                 label={"Subject3"}
                 className="my-2"
                 id={`academic_details.graduation.board`}

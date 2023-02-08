@@ -609,6 +609,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
         permanent: {},
         current: {},
       },
+      trainings: [
+        { name: "B.ed", isDo: false },
+        { name: "LT", isDo: false },
+        { name: "NTT", isDo: false },
+        { name: "M.ed", isDo: false },
+        { name: "NIS", isDo: false },
+      ],
       academic_details: {},
       work_experience: [],
       total_experience: 0,
@@ -1870,10 +1877,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
               selectoptions={subjectsGrad}
               label={"Subject1"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject1`}
+              name={`academic_details.graduation.subject1`}
+              value={values?.academic_details?.graduation?.subject1}
+              error={errors?.academic_details?.graduation?.subject1}
               // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1885,10 +1892,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
               selectoptions={subjectsGrad}
               label={"Subject1"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject2`}
+              name={`academic_details.graduation.subject2`}
+              value={values?.academic_details?.graduation?.subject2}
+              error={errors?.academic_details?.graduation?.subject2}
               // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -1900,10 +1907,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
               selectoptions={subjectsGrad}
               label={"Subject3"}
               className="my-2"
-              id={`academic_details.graduation.board`}
-              name={`academic_details.graduation.board`}
-              value={values?.academic_details?.graduation?.board}
-              error={errors?.academic_details?.graduation?.board}
+              id={`academic_details.graduation.subject3`}
+              name={`academic_details.graduation.subject3`}
+              value={values?.academic_details?.graduation?.subject3}
+              error={errors?.academic_details?.graduation?.subject3}
               // onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
@@ -2026,10 +2033,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 selectoptions={subjectsGrad}
                 label={"Subject1"}
                 className="my-2"
-                id={`academic_details.graduation.board`}
-                name={`academic_details.graduation.board`}
-                value={values?.academic_details?.graduation?.board}
-                error={errors?.academic_details?.graduation?.board}
+                id={`academic_details.graduation.subject1`}
+                name={`academic_details.graduation.subject1`}
+                value={values?.academic_details?.graduation?.subject1}
+                error={errors?.academic_details?.graduation?.subject1}
                 // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -2041,10 +2048,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 selectoptions={subjectsGrad}
                 label={"Subject2"}
                 className="my-2"
-                id={`academic_details.graduation.board`}
-                name={`academic_details.graduation.board`}
-                value={values?.academic_details?.graduation?.board}
-                error={errors?.academic_details?.graduation?.board}
+                id={`academic_details.graduation.subject2`}
+                name={`academic_details.graduation.subject2`}
+                value={values?.academic_details?.graduation?.subject2}
+                error={errors?.academic_details?.graduation?.subject2}
                 // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -2056,10 +2063,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 selectoptions={subjectsGrad}
                 label={"Subject3"}
                 className="my-2"
-                id={`academic_details.graduation.board`}
-                name={`academic_details.graduation.board`}
-                value={values?.academic_details?.graduation?.board}
-                error={errors?.academic_details?.graduation?.board}
+                id={`academic_details.graduation.subject3`}
+                name={`academic_details.graduation.subject3`}
+                value={values?.academic_details?.graduation?.subject3}
+                error={errors?.academic_details?.graduation?.subject3}
                 // onBlur={handleBlur}
                 onChange={handleChange}
                 style={{ "--color--": "#525252" }}
@@ -2071,85 +2078,80 @@ const Vacancy = ({ isShowTeachingForm }) => {
         )}
 
         <div className="Training">
-          {Array.isArray(values.communication) ? (
+          <h1 className="font-bold text-[22px] mt-4">
+            Select Training if any:
+          </h1>
+          {console.log(values)}
+          {Array.isArray(values.trainings) ? (
             <div className="col-span-12">
-              <h1 className="font-bold text-[22px] mt-4">
-                Select Training if any:
-              </h1>
               <div className="grid grid-cols-12">
                 <div className="md:col-span-4 col-span-12">
                   <div className="flex gap-4">
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[0].english.speak">
-                        B.ed
-                      </label>
+                      <label htmlFor="trainings[0].isDo">B.ed</label>
                       <input
-                        id="communication[0].english.speak"
-                        value={values.communication[0]?.english?.speak}
-                        checked={Boolean(
-                          values.communication[0]?.english?.speak
-                        )}
+                        id="trainings[0].isDo"
+                        value={values.trainings[0]?.isDo}
+                        checked={values.trainings[0]?.isDo}
+                        name="trainings[0].isDo"
                         type="checkbox"
                         onChange={handleChange}
-                        // onBlur={handleBlur}
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[0].enlish.read">LT</label>
+                      <label htmlFor="trainings[1].isDo">LT</label>
                       <input
-                        id="communication[0].english.read"
-                        value={values.communication[0]?.english?.read}
-                        checked={Boolean(
-                          values.communication[0]?.english?.read
-                        )}
+                        id="trainings[1].isDo"
+                        checked={Boolean(values.trainings[1]?.isDo)}
                         type="checkbox"
-                        onChange={handleChange}
-                        // onBlur={handleBlur}
+                        onChange={() =>
+                          setFieldValue("trainings[1]", {
+                            name: "B.ed",
+                            isDo: !values.trainings[1]?.isDo,
+                          })
+                        }
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[0].english.write">
-                        NTT
-                      </label>
+                      <label htmlFor="trainings[2].isDo">NTT</label>
                       <input
-                        id="communication[0].english.write"
-                        value={values.communication[0]?.english?.write}
-                        checked={Boolean(
-                          values.communication[0]?.english?.write
-                        )}
+                        id="trainings[2].isDo"
+                        checked={Boolean(values.trainings[2]?.isDo)}
                         type="checkbox"
-                        onChange={handleChange}
-                        // onBlur={handleBlur}
+                        onChange={() =>
+                          setFieldValue("trainings[2]", {
+                            name: "B.ed",
+                            isDo: !values.trainings[2]?.isDo,
+                          })
+                        }
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[0].english.write">
-                        M.ed
-                      </label>
+                      <label htmlFor="trainings[3].isDo">M.ed</label>
                       <input
-                        id="communication[0].english.write"
-                        value={values.communication[0]?.english?.write}
-                        checked={Boolean(
-                          values.communication[0]?.english?.write
-                        )}
+                        id="trainings[3].isDo"
+                        checked={Boolean(values.trainings[3]?.isDo)}
                         type="checkbox"
-                        onChange={handleChange}
-                        // onBlur={handleBlur}
+                        onChange={() =>
+                          setFieldValue("trainings[3]", {
+                            name: "B.ed",
+                            isDo: !values.trainings[3]?.isDo,
+                          })
+                        }
                       />
                     </div>
                     <div className="input_group flex gap-2">
-                      <label htmlFor="communication[0].english.write">
-                        NIS
-                      </label>
+                      <label htmlFor="trainings[4].isDo">NIS</label>
                       <input
-                        id="communication[0].english.write"
-                        value={values.communication[0]?.english?.write}
-                        checked={Boolean(
-                          values.communication[0]?.english?.write
-                        )}
+                        id="trainings[4].isDo"
+                        checked={Boolean(values.trainings[4]?.isDo)}
                         type="checkbox"
-                        onChange={handleChange}
-                        // onBlur={handleBlur}
+                        onChange={() =>
+                          setFieldValue("trainings[4]", {
+                            name: "B.ed",
+                            isDo: !values.trainings[4]?.isDo,
+                          })
+                        }
                       />
                     </div>
                   </div>

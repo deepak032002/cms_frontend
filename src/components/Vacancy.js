@@ -524,7 +524,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
     }
 
     if (res?.response?.status === 400) {
-      console.log("");
       setIsLoading(false);
     }
 
@@ -606,6 +605,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
         permanent: {},
         current: {},
       },
+      payrollCms: {},
       trainings: [
         { name: "B.ed", isDo: false },
         { name: "LT", isDo: false },
@@ -654,8 +654,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
   useEffect(() => {
     setFieldValue("category", isShowTeachingForm ? "teaching" : "non-teaching");
   }, [isShowTeachingForm]);
-
-  console.log(errors);
 
   return (
     <div>
@@ -907,20 +905,31 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
 
           <div className="md:col-span-6 col-span-12">
-            <Input
-              type="file"
-              label="Photo"
-              accept=".png,.jpg,.jpeg"
-              className=""
-              name="personal_details.image"
-              id="personal_details.image"
-              style={{ "--color--": "#525252" }}
-              onChange={(e) =>
-                setFieldValue("personal_details.image", e.target.files[0])
-              }
-              // onBlur={handleBlur}
-              error={errors.personal_details?.image}
-            />
+            {values.personal_details?.image_url ? (
+              <Input
+                type="text"
+                label={"Your Uploaded Image"}
+                className="pointer-events-none"
+                disabled
+                style={{ "--color--": "#525252" }}
+                // onBlur={handleBlur}
+                value={values.personal_details?.image_url}
+              />
+            ) : (
+              <Input
+                type="file"
+                label="Photo"
+                accept=".png,.jpg,.jpeg"
+                className=""
+                name="personal_details.image"
+                id="personal_details.image"
+                style={{ "--color--": "#525252" }}
+                onChange={(e) =>
+                  setFieldValue("personal_details.image", e.target.files[0])
+                }
+                error={errors.personal_details?.image}
+              />
+            )}
           </div>
 
           <div className="md:col-span-6 col-span-12">
@@ -2078,7 +2087,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
           <h1 className="font-bold text-[22px] mt-4">
             Select Training if any:
           </h1>
-          {console.log(values)}
           {Array.isArray(values.trainings) ? (
             <div className="col-span-12">
               <div className="grid grid-cols-12">
@@ -2672,7 +2680,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
             />
           </div>
         </div>
-        {isPayrollCms ? (
+        {values?.before_working_in_payroll === "yes" ? (
           <>
             {/* updated on 26 jan */}
             <div className="grid grid-cols-12 gap-4 mb-2">
@@ -2680,10 +2688,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="select"
                   selectoptions={campusPreference}
-                  name="payrollCmsCampus"
-                  id="payrollCmsCampus"
+                  name="payrollCms.campus"
+                  id="payrollCms.campus"
                   onChange={handleChange}
-                  // onBlur={handleBlur}
                   value={values.payrollCms?.campus}
                   error={errors.payrollCms?.campus}
                   label={"Campus"}
@@ -2696,12 +2703,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="text"
                   label={"Designation"}
-                  name="payrollCms"
-                  id="payrollCms"
+                  name="payrollCms.designation"
+                  id="payrollCms.designation"
                   onChange={handleChange}
-                  // onBlur={handleBlur}
-                  value={values.payrollCms}
-                  error={errors.payrollCms}
+                  value={values.payrollCms?.designation}
+                  error={errors.payrollCms?.designation}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
                 />

@@ -76,15 +76,6 @@ export const getForm = async (token) => {
     const image = await changeUrlToByte(res.data.form.personal_details.image);
 
     const promise = new Promise((resolve, reject) => {
-      // {
-      //   ...res.data.form,
-      //   personal_details: {
-      //     ...res.data.form.personal_details,
-      //     image_url: res.data.form.personal_details.image,
-      //     image: image,
-      //   },
-      // }
-
       res.data.form.personal_details.image_url =
         res.data.form.personal_details.image;
       res.data.form.personal_details.image = image;

@@ -86,6 +86,18 @@ const PreviewForm = () => {
               {form?.personal_details?.mobile}
             </td>
             <td className="border px-2">
+              <span className="font-bold">Gender:</span>
+              {form?.personal_details?.gender}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Aadhar Number:</span>
+              {form?.personal_details?.aadhar_number}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Marital Status :</span>
+              {form?.personal_details?.marital_status}
+            </td>
+            <td className="border px-2">
               <span className="font-bold">Date of Birth:</span>
               {new Date(form?.personal_details?.dob).toLocaleDateString(
                 undefined,
@@ -97,6 +109,7 @@ const PreviewForm = () => {
               )}
             </td>
           </tr>
+         
 
           <tr>
             <td className="border px-2">

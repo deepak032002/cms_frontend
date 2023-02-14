@@ -620,7 +620,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
       referenceName1: "",
       referenceName2: "",
       payrollCms: "",
-      payrollCmsCampus: "",
+      payrollCmsCampus: "",  
       declaration: false,
       isShortlisted: false,
       paymentConfirmation: false,

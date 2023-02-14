@@ -112,7 +112,7 @@ export const staffTeachingSchema = Yup.object({
     graduation: Yup.object().shape({
       year: Yup.date().required("This field is required"),
       board: Yup.string().required("This field is required"),
-      school: Yup.string().required("This field is required"),
+      // school: Yup.string().required("This field is required"),
       percentage: Yup.string()
         .required("This field is required")
         .max(2, "Enter only 2 digit"),
@@ -121,7 +121,7 @@ export const staffTeachingSchema = Yup.object({
     post_graduation: Yup.object().shape({
       year: Yup.date(),
       board: Yup.string(),
-      school: Yup.string(),
+      // school: Yup.string(),
       percentage: Yup.string().max(2, "Enter only 2 digit"),
       medium: Yup.string(),
     }),

@@ -89,14 +89,17 @@ const PreviewForm = () => {
               <span className="font-bold">Gender:</span>
               {form?.personal_details?.gender}
             </td>
-            <td className="border px-2">
-              <span className="font-bold">Aadhar Number:</span>
-              {form?.personal_details?.aadhar_number}
-            </td>
-            <td className="border px-2">
-              <span className="font-bold">Marital Status :</span>
-              {form?.personal_details?.marital_status}
-            </td>
+          </tr>
+          <td className="border px-2">
+            <span className="font-bold">Aadhar Number:</span>
+            {form?.personal_details?.aadhar_number}
+          </td>
+          <td className="border px-2">
+            <span className="font-bold">Marital Status :</span>
+            {form?.personal_details?.marital_status}
+          </td>
+
+          <tr>
             <td className="border px-2">
               <span className="font-bold">Date of Birth:</span>
               {new Date(form?.personal_details?.dob).toLocaleDateString(
@@ -109,7 +112,6 @@ const PreviewForm = () => {
               )}
             </td>
           </tr>
-         
 
           <tr>
             <td className="border px-2">
@@ -181,6 +183,36 @@ const PreviewForm = () => {
                   </div>
                 </div>
               </div>
+            </td>
+          </tr>
+
+          <h3 className="font-bold my-2 text-xl">Parent Details-</h3>
+          <tr>
+            <td className="border px-2">
+              <span className="font-bold">Father's Name:</span>
+              {form?.personal_details?.father?.name}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Mobile Number:</span>
+              {form?.personal_details?.father?.mobile}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Occupation:</span>
+              {form?.personal_details?.father?.occupation}
+            </td>
+          </tr>
+          <tr>
+            <td className="border px-2">
+              <span className="font-bold">Mother's Name:</span>
+              {form?.personal_details?.mother?.name}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Mobile Number:</span>
+              {form?.personal_details?.mother?.mobile}
+            </td>
+            <td className="border px-2">
+              <span className="font-bold">Occupation:</span>
+              {form?.personal_details?.mother?.occupation}
             </td>
           </tr>
 
@@ -314,6 +346,8 @@ const PreviewForm = () => {
             </td>
           </tr>
 
+          {/* <h3 className="font-bold my-2 text-xl">Training-</h3> */}
+
           <h3 className="font-bold my-2 text-xl">Work Experience-</h3>
           <p>
             <span className="font-bold">Total Experience:</span>{" "}
@@ -397,6 +431,33 @@ Reason for Leaving: N/A */}
                   {form?.before_working_in_payroll}
                 </p>
               </div>
+
+              <h3 className="font-bold my-2 text-xl">Reference Details-</h3>
+              <tr>
+                <td className="border px-2">
+                  <span className="font-bold">Reference Name:</span>
+                  {form?.referenceName1}
+                </td>
+                <td className="border px-2">
+                  <span className="font-bold">Reference Mobile Number:</span>
+                  {form?.referenceMobile1}
+                </td>
+              </tr>
+
+              <h3 className="font-bold my-2 text-xl">
+                Blood Relative Working Details-
+              </h3>
+              <tr>
+                <td className="border px-2">
+                  <span className="font-bold">Name of Relative:</span>
+                  {form?.blood_relative?.name}
+                </td>
+                <td className="border px-2">
+                  <span className="font-bold">Designation:</span>
+                  {form?.blood_relative?.designation}
+                </td>
+              </tr>
+
               {/* Name of the Relative: Akanshi Pal
 
 Staff Category: Non-Teaching

@@ -7,6 +7,7 @@ import { formPost, formUpdate } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {RxCrossCircled} from "react-icons/rx"
 
 const campusPreference = [
   "Head Office",
@@ -502,6 +503,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
   const [year, setYear] = useState([]);
   const [isBloodRelative, setIsBloodRelative] = useState(false);
   const [isPayrollCms, setIsPayrollCms] = useState(false);
+  const [isShowImageUpload, setIsShowImageUpload] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCampus, setSelectedCampus] = useState([]);
@@ -568,7 +570,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     values,
     errors,
     handleChange,
-    handleBlur,
+    // handleBlur,
     handleSubmit,
     setFieldValue,
     setValues,
@@ -623,7 +625,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
       referenceMobile2: "",
       referenceName1: "",
       referenceName2: "",
-      payrollCms: "",
       payrollCmsCampus: "",  
       declaration: false,
       isShortlisted: false,
@@ -905,16 +906,24 @@ const Vacancy = ({ isShowTeachingForm }) => {
           </div>
 
           <div className="md:col-span-6 col-span-12">
-            {values.personal_details?.image_url ? (
-              <Input
-                type="text"
-                label={"Your Uploaded Image"}
-                className="pointer-events-none"
-                disabled
-                style={{ "--color--": "#525252" }}
-                // onBlur={handleBlur}
-                value={values.personal_details?.image_url}
-              />
+            {values.personal_details?.image_url && !isShowImageUpload ? (
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  label={"Your Uploaded Image"}
+                  className="pointer-events-none flex-1 select-none"
+                  disabled
+                  style={{ "--color--": "#525252" }}
+                  // onBlur={handleBlur}
+                  value={values.personal_details?.image_url}
+                />
+
+                <button
+                  onClick={() => setIsShowImageUpload(!isShowImageUpload)}
+                >
+                  <RxCrossCircled/>
+                </button>
+              </div>
             ) : (
               <Input
                 type="file"

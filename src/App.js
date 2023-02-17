@@ -52,10 +52,7 @@ const App = () => {
           <Route path="" element={<SuccessfullPaymentComponent />} />
         </Route>
 
-        <Route
-          path="/payment/:orderId/:billing_name"
-          element={<ProtectedRoute />}
-        >
+        <Route path="/payment/:billing_name" element={<ProtectedRoute />}>
           <Route path="" element={<Payment />} />
         </Route>
       </Routes>

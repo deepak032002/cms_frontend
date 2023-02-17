@@ -7,7 +7,7 @@ import { formPost, formUpdate } from "../api/vacancyapply";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import {RxCrossCircled} from "react-icons/rx"
+import { RxCrossCircled } from "react-icons/rx";
 
 const campusPreference = [
   "Head Office",
@@ -517,11 +517,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     if (res?.status === 201) {
       toast.success("Successfully submitted!");
       navigate(
-        `/payment/CMS-${Math.floor(
-          Math.random() * (10000000000 - 999999999 + 1) + 999999999
-        )}/${data?.personal_details?.first_name}${
-          data?.personal_details?.middle_name
-        }${data?.personal_details?.last_name}`
+        `/payment/${data?.personal_details?.first_name}${data?.personal_details?.middle_name}${data?.personal_details?.last_name}`
       );
     }
 
@@ -625,7 +621,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
       referenceMobile2: "",
       referenceName1: "",
       referenceName2: "",
-      payrollCmsCampus: "",  
+      payrollCmsCampus: "",
       declaration: false,
       isShortlisted: false,
       paymentConfirmation: false,
@@ -921,7 +917,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <button
                   onClick={() => setIsShowImageUpload(!isShowImageUpload)}
                 >
-                  <RxCrossCircled/>
+                  <RxCrossCircled />
                 </button>
               </div>
             ) : (
@@ -2285,8 +2281,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
               <div className="md:col-span-3 col-span-12">
                 <Input
                   type="date"
-                  // required={true}
                   label={"Date of Joining"}
+                  max={new Date().toISOString().slice(0, 10)}
                   className="mt-2"
                   id={`work_experience[${0}].joining_date`}
                   name={`work_experience[${0}].joining_date`}
@@ -2306,6 +2302,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   label={"Date of Leaving"}
                   // required
+                  max={new Date().toISOString().slice(0, 10)}
                   className="mt-2"
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
@@ -2437,6 +2434,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   label={"Date of Joining"}
                   className="mt-2"
+                  max={new Date().toISOString().slice(0, 10)}
                   // required={true}
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
@@ -2455,6 +2453,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="date"
                   label={"Date of Leaving"}
+                  max={new Date().toISOString().slice(0, 10)}
                   // required={true}
                   className="mt-2"
                   id={`work_experience[${1}].leaving_date`}
@@ -2570,6 +2569,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 <Input
                   type="date"
                   label={"Date of Joining"}
+                  max={new Date().toISOString().slice(0, 10)}
                   className="mt-2"
                   // required={true}
                   id={`work_experience[${2}].joining_date`}
@@ -2590,6 +2590,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   type="date"
                   label={"Date of Leaving"}
                   className="mt-2"
+                  max={new Date().toISOString().slice(0, 10)}
                   // required={true}
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}

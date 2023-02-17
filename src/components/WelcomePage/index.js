@@ -39,7 +39,6 @@ const WelcomePage = () => {
   return (
     <div className="welcome_page_wrp">
       <Header />
-  
 
       {isLoading ? (
         <Loader />
@@ -104,12 +103,7 @@ const WelcomePage = () => {
                   ) : (
                     <>
                       <Link
-                        to={`/payment/CMS-${Math.floor(
-                          Math.random() * (10000000000 - 999999999 + 1) +
-                            999999999
-                        )}/${form?.personal_details?.first_name}${
-                          form?.personal_details?.middle_name
-                        }${form?.personal_details?.last_name}`}
+                        to={`/payment/${form?.personal_details?.first_name}${form?.personal_details?.middle_name}${form?.personal_details?.last_name}`}
                         className="bg-red-600 text-white hover:bg-red-700 rounded-md px-3 py-1"
                       >
                         Payment
@@ -139,15 +133,9 @@ const WelcomePage = () => {
                     </Link>
                   </p>
                 </div>
-                <img
-                  class="w-full"
-                  src={welcome}
-                  alt="welcome image"
-                />
+                <img class="w-full" src={welcome} alt="welcome image" />
               </div>
             </div>
-            
-            
           )}
         </>
       )}

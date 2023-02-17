@@ -22,6 +22,7 @@ const Input = ({
   onFocus,
   disabled,
   required,
+  max,
   defaultValue,
 }) => {
   const elemId = useId();
@@ -66,7 +67,9 @@ const Input = ({
             );
           })}
         </select>
-        <span className="text-red-600 text-sm">{error ? <div>{error}</div> : ""}</span>
+        <span className="text-red-600 text-sm">
+          {error ? <div>{error}</div> : ""}
+        </span>
       </div>
     );
   }
@@ -151,6 +154,7 @@ const Input = ({
             onBlur={onBlur}
             disabled={disabled}
             id={id}
+            max={max}
             min={min}
           />
           <span style={style || { "--color--": "#525252" }}>{label}</span>

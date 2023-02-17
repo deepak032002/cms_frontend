@@ -10,7 +10,7 @@ const Payment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const token = useSelector((state) => state.auth.token);
-  const { orderId, billing_name } = params;
+  const { billing_name } = params;
 
   useEffect(() => {
     (async () => {
@@ -18,7 +18,6 @@ const Payment = () => {
       const res = await axios.post(
         `${process.env.REACT_APP_URL}/paymentInitiator`,
         {
-          order_id: orderId,
           billing_name: billing_name,
         },
         {

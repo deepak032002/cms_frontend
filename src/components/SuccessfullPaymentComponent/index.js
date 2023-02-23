@@ -1,24 +1,18 @@
 import React, { useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import Header from "../header";
 import {
   BsFillPatchCheckFill,
   BsFillPatchExclamationFill,
 } from "react-icons/bs";
-import axios from "axios";
 
 const SuccessfullPaymentComponent = () => {
   const [searchParams] = useSearchParams();
-
   const status = searchParams.get("status");
-  const orderId = searchParams.get("orderNo");
+  const orderId = searchParams.get("orderId");
   const amount = searchParams.get("amount");
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.post('/')
-    })();
-  }, []);
+  
 
   return (
     <>

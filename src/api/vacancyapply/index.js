@@ -88,3 +88,25 @@ export const getForm = async (token) => {
     return error;
   }
 };
+
+export const paymentInitiator = async (token) => {
+  try {
+    const res = axios.get(`${api_url}/paymentInitiator/`, {
+      headers: {
+        Authorisation: token,
+      },
+    });
+
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+export const paymentVerify = async (data) => {
+  try {
+    const res = axios.post(`${api_url}/paymentVerify/`, data, {});
+    return res;
+  } catch (error) {
+    return error;
+  }
+};

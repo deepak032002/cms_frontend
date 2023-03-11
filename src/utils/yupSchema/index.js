@@ -34,11 +34,10 @@ export const staffTeachingSchema = Yup.object({
       }),
     image: Yup.mixed()
       .required("This is required")
-      .test(
-        "fileSize",
-        "File size should be less than 2MB!",
-        (e) => e?.size <= 2 * (1000 * 1000)
-      ),
+      .test("fileSize", "File size should be less than 2MB!", (e) => {
+        if (typeof e === "string") return true;
+        return e?.size <= 2 * (1000 * 1000);
+      }),
     father: Yup.object().shape({
       name: Yup.string().required("This is required"),
       mobile: Yup.string()

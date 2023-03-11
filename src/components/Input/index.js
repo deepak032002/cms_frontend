@@ -16,6 +16,7 @@ const Input = ({
   value,
   onBlur,
   error,
+  touched,
   id,
   accept,
   autoFocus,
@@ -68,7 +69,7 @@ const Input = ({
           })}
         </select>
         <span className="text-red-600 text-sm">
-          {error.error && error.touched ? <div>{error}</div> : ""}
+          {error && touched ? <div>{error}</div> : ""}
         </span>
       </div>
     );
@@ -99,7 +100,7 @@ const Input = ({
             );
           })}
           <span className="text-red-600 text-sm">
-            {error.error && error.touched ? <div>{error}</div> : null}
+            {error && touched ? <div>{error}</div> : null}
           </span>
         </div>
       </>
@@ -129,7 +130,7 @@ const Input = ({
             <span style={style || { "--color--": "#525252" }}>{label}</span>
           </div>
           <span className="text-red-600 text-sm">
-            {error.error && error.touched ? <div>{error}</div> : null}
+            {error && touched ? <div>{error}</div> : null}
           </span>
         </div>
       </>
@@ -160,7 +161,7 @@ const Input = ({
           <span style={style || { "--color--": "#525252" }}>{label}</span>
         </div>
         <span className="text-red-600 text-sm">
-          {error.error && error.touched ? <div>{error}</div> : null}
+          {error && touched ? <div>{error}</div> : null}
         </span>
       </div>
     </>

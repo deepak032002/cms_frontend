@@ -9,7 +9,8 @@ import {
 const SuccessfullPaymentComponent = () => {
   const [searchParams] = useSearchParams();
   const status = searchParams.get("status");
-  const orderId = searchParams.get("orderId");
+  // const orderId = searchParams.get("orderId");
+  const orderId = searchParams.get("orderNo");
   const amount = searchParams.get("amount");
 
   

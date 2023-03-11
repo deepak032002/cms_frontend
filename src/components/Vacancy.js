@@ -506,7 +506,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
   const [isShowImageUpload, setIsShowImageUpload] = useState(false);
   const [isSameCurrentAddress, setIsSameCurrentAddress] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCampus, setSelectedCampus] = useState([]);
+  // const [selectedCampus, setSelectedCampus] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const form = useSelector((state) => state.form.form);
   const navigate = useNavigate();
@@ -543,11 +543,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
     if (res?.status === 200) {
       toast.success("Successfully Updated!");
       navigate(
-        `/payment/CMS-${Math.floor(
-          Math.random() * (10000000000 - 999999999 + 1) + 999999999
-        )}/${data?.personal_details?.first_name}${
-          data?.personal_details?.middle_name
-        }${data?.personal_details?.last_name}`
+        `/payment/${data?.personal_details?.first_name}${data?.personal_details?.middle_name}${data?.personal_details?.last_name}`
       );
     }
 
@@ -638,6 +634,8 @@ const Vacancy = ({ isShowTeachingForm }) => {
     },
   });
 
+  // console.log(errors, touched);
+
   useEffect(() => {
     const years = [];
     for (let i = 1972; i <= new Date().getFullYear(); i++) {
@@ -670,8 +668,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
                   value={values.academic}
-                  // onBlur={handleBlur}
-                  error={{ error: errors.academic, touched: touched.academic }}
+                  onBlur={handleBlur}
+                  touched={touched.academic}
+                  error={errors.academic}
                   id="academic"
                   selectoptions={academicSection}
                 />
@@ -685,9 +684,10 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                   onChange={handleChange}
                   value={values.subject}
-                  // onBlur={handleBlur}
+                  onBlur={handleBlur}
                   id="subject"
-                  error={{ error: errors.subject, touched: touched.subject }}
+                  touched={touched.subject}
+                  error={errors.subject}
                   selectoptions={subjects}
                 />
               </div>
@@ -706,6 +706,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onChange={handleChange}
                   value={values.designation}
                   onBlur={handleBlur}
+                  // touched={touc}
                   error={errors.designation}
                   id="academic"
                   selectoptions={designation}
@@ -735,6 +736,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onBlur={handleBlur}
                 id={`campus_prefrence[${0}].campus`}
                 value={values.campus_prefrence[0]?.campus}
+                touched={
+                  Array.isArray(touched.campus_prefrence)
+                    ? touched.campus_prefrence[0]?.campus
+                    : ""
+                }
                 error={
                   Array.isArray(errors.campus_prefrence)
                     ? errors.campus_prefrence[0]?.campus
@@ -754,6 +760,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onBlur={handleBlur}
                 id="campus_prefrence[1].campus"
                 value={values?.campus_prefrence[1]?.campus}
+                touched={
+                  Array.isArray(touched.campus_prefrence)
+                    ? touched.campus_prefrence[1]?.campus
+                    : ""
+                }
                 error={
                   Array.isArray(errors.campus_prefrence)
                     ? errors.campus_prefrence[1]?.campus
@@ -773,6 +784,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onBlur={handleBlur}
                 id="campus_prefrence[2].campus"
                 value={values?.campus_prefrence[2]?.campus}
+                touched={
+                  Array.isArray(touched.campus_prefrence)
+                    ? touched.campus_prefrence[2]?.campus
+                    : ""
+                }
                 error={
                   Array.isArray(errors.campus_prefrence)
                     ? errors.campus_prefrence[2]?.campus
@@ -782,7 +798,9 @@ const Vacancy = ({ isShowTeachingForm }) => {
               />
             </div>
             <div className="text-red-600 text-sm col-span-12">
-              {!Array.isArray(errors.campus_prefrence)
+              {!Array.isArray(errors.campus_prefrence) &&
+              errors.campus_prefrence &&
+              touched.campus_prefrence
                 ? errors.campus_prefrence
                 : ""}
             </div>
@@ -804,6 +822,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details.first_name}
+              touched={touched.personal_details?.first_name}
               error={errors.personal_details?.first_name}
             />
           </div>
@@ -819,6 +838,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.middle_name}
+              touched={touched.personal_details?.first_name}
               error={errors.personal_details?.middle_name}
             />
           </div>
@@ -834,6 +854,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.last_name}
+              touched={touched.personal_details?.last_name}
               error={errors.personal_details?.last_name}
             />
           </div>
@@ -850,6 +871,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.dob.slice(0, 10)}
+              touched={touched.personal_details?.dob}
               error={errors.personal_details?.dob}
             />
           </div>
@@ -866,6 +888,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.marital_status}
+              touched={touched.personal_details?.marital_status}
               error={errors.personal_details?.marital_status}
             />
 
@@ -880,6 +903,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.personal_details?.spouse}
+                touched={touched.personal_details?.spouse}
                 error={errors.personal_details?.spouse}
               />
             ) : (
@@ -898,12 +922,13 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.aadhar_number}
+              touched={touched.personal_details?.aadhar_number}
               error={errors.personal_details?.aadhar_number}
             />
           </div>
 
           <div className="md:col-span-6 col-span-12">
-            {values.personal_details?.image_url && !isShowImageUpload ? (
+            {values.personal_details?.image && !isShowImageUpload ? (
               <div className="flex gap-2">
                 <Input
                   type="text"
@@ -912,7 +937,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   disabled
                   style={{ "--color--": "#525252" }}
                   onBlur={handleBlur}
-                  value={values.personal_details?.image_url}
+                  value={values.personal_details?.image}
                 />
 
                 <button
@@ -933,6 +958,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={(e) =>
                   setFieldValue("personal_details.image", e.target.files[0])
                 }
+                touched={touched.personal_details?.image}
                 error={errors.personal_details?.image}
               />
             )}
@@ -949,6 +975,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.mobile}
+              touched={touched.personal_details?.mobile}
               error={errors.personal_details?.mobile}
             />
           </div>
@@ -964,6 +991,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.email}
+              touched={touched.personal_details?.email}
               error={errors.personal_details?.email}
             />
           </div>
@@ -1030,6 +1058,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.father?.name}
+              touched={touched.personal_details?.father?.name}
               error={errors.personal_details?.father?.name}
             />
           </div>
@@ -1044,6 +1073,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.father?.mobile}
+              touched={touched.personal_details?.father?.mobile}
               error={errors.personal_details?.father?.mobile}
               className="mt-2"
             />
@@ -1060,6 +1090,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.father?.occupation}
+              touched={touched.personal_details?.father?.occupation}
               error={errors.personal_details?.father?.occupation}
             />
           </div>
@@ -1075,6 +1106,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.mother?.name}
+              touched={touched.personal_details?.mother?.name}
               error={errors.personal_details?.mother?.name}
             />
           </div>
@@ -1090,6 +1122,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.mother?.mobile}
+              touched={touched.personal_details?.mother?.mobile}
               error={errors.personal_details?.mother?.mobile}
             />
           </div>
@@ -1104,6 +1137,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.personal_details?.mother?.occupation}
+              touched={touched.personal_details?.mother?.occupation}
               error={errors.personal_details?.mother?.occupation}
             />
           </div>
@@ -1293,6 +1327,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.flat_house"
               id="address.current.flat_house"
               value={values.address?.current?.flat_house}
+              touched={touched.address?.current?.flat_house}
               error={errors.address?.current?.flat_house}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1307,6 +1342,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.street_lane"
               id="address.current.street_lane"
               value={values.address?.current?.street_lane}
+              touched={touched.address?.current?.street_lane}
               error={errors.address?.current?.street_lane}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1321,6 +1357,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.area_locality"
               id="address.current.area_locality"
               value={values.address?.current?.area_locality}
+              touched={touched.address?.current?.area_locality}
               error={errors.address?.current?.area_locality}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1335,6 +1372,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.landmark"
               id="address.current.landmark"
               value={values.address?.current?.landmark}
+              touched={touched.address?.current?.landmark}
               error={errors.address?.current?.landmark}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1350,6 +1388,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.country"
               id="address.current.country"
               value={values.address?.current?.country}
+              touched={touched.address?.current?.country}
               error={errors.address?.current?.country}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1364,6 +1403,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name="address.current.country_name"
                 id="address.current.country_name"
                 value={values.address?.current?.country_name}
+                touched={touched.address?.current?.country_name}
                 error={errors.address?.current?.country_name}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -1382,6 +1422,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name="address.current.state"
                 id="address.current.state"
                 value={values.address?.current?.state}
+                touched={touched.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -1396,6 +1437,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 name="address.current.state"
                 id="address.current.state"
                 value={values.address?.current?.state}
+                touched={touched.address?.current?.state}
                 error={errors.address?.current?.state}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -1412,6 +1454,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.city"
               id="address.current.city"
               value={values.address?.current?.city}
+              touched={touched.address?.current?.city}
               error={errors.address?.current?.city}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1425,6 +1468,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               name="address.current.pincode"
               id="address.current.pincode"
               value={values.address?.current?.pincode}
+              touched={touched.address?.current?.pincode}
               error={errors.address?.current?.pincode}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -1459,6 +1503,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.flat_house"
                   id="address.permanent.flat_house"
                   value={values.address.permanent?.flat_house}
+                  touched={touched.address?.permanent?.flat_house}
                   error={errors.address?.permanent?.flat_house}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1473,6 +1518,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.street_lane"
                   id="address.permanent.street_lane"
                   value={values.address.permanent?.street_lane}
+                  touched={touched.address?.permanent?.street_lane}
                   error={errors.address?.permanent?.street_lane}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1487,6 +1533,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.area_locality"
                   id="address.permanent.area_locality"
                   value={values.address.permanent?.area_locality}
+                  touched={touched.address?.permanent?.area_locality}
                   error={errors.address?.permanent?.area_locality}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1501,6 +1548,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.landmark"
                   id="address.permanent.landmark"
                   value={values.address.permanent?.landmark}
+                  touched={touched.address?.permanent?.landmark}
                   error={errors.address?.permanent?.landmark}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1516,6 +1564,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.country"
                   id="address.permanent.country"
                   value={values.address.permanent?.country}
+                  touched={touched.address?.permanent?.country}
                   error={errors.address?.permanent?.country}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1530,6 +1579,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     name="address.permanent.country_name"
                     id="address.permanent.country_name"
                     value={values.address.permanent?.country_name}
+                    touched={touched.address?.permanent?.country_name}
                     error={errors.address?.permanent?.country_name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -1548,6 +1598,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     name="address.permanent.state"
                     id="address.permanent.state"
                     value={values.address.permanent?.state}
+                    touched={touched.address?.permanent?.state}
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -1562,6 +1613,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                     name="address.permanent.state"
                     id="address.permanent.state"
                     value={values.address.permanent?.state}
+                    touched={touched.address?.permanent?.state}
                     error={errors.address?.permanent?.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -1578,6 +1630,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.city"
                   id="address.permanent.city"
                   value={values.address.permanent?.city}
+                  touched={touched.address?.permanent?.city}
                   error={errors.address?.permanent?.city}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1591,6 +1644,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   name="address.permanent.pincode"
                   id="address.permanent.pincode"
                   value={values.address.permanent?.pincode}
+                  touched={touched.address?.permanent?.pincode}
                   error={errors.address?.permanent?.pincode}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -1634,6 +1688,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.high_school.year`}
               name={`academic_details.high_school.year`}
               value={values?.academic_details?.high_school?.year}
+              touched={touched.academic_details?.high_school?.year}
               error={errors?.academic_details?.high_school?.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1649,6 +1704,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.high_school.board`}
               name={`academic_details.high_school.board`}
               value={values?.academic_details?.high_school?.board}
+              touched={touched.academic_details?.high_school?.board}
               error={errors?.academic_details?.high_school?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1663,6 +1719,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.high_school.school`}
               name={`academic_details.high_school.school`}
               value={values?.academic_details?.high_school?.school}
+              touched={touched.academic_details?.high_school?.school}
               error={errors?.academic_details?.high_school?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1677,6 +1734,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.high_school.percentage`}
               name={`academic_details.high_school.percentage`}
               value={values?.academic_details?.high_school?.percentage}
+              touched={touched.academic_details?.high_school?.percentage}
               error={errors?.academic_details?.high_school?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1702,6 +1760,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.high_school.medium`}
               name={`academic_details.high_school.medium`}
               value={values?.academic_details?.high_school?.medium}
+              touched={touched.academic_details?.high_school?.medium}
               error={errors?.academic_details?.high_school?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1722,6 +1781,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.senior_secondary.year`}
               name={`academic_details.senior_secondary.year`}
               value={values?.academic_details?.senior_secondary?.year}
+              touched={touched.academic_details?.senior_secondary?.year}
               error={errors?.academic_details?.senior_secondary?.year}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1737,6 +1797,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.senior_secondary.board`}
               name={`academic_details.senior_secondary.board`}
               value={values?.academic_details?.senior_secondary?.board}
+              touched={touched.academic_details?.senior_secondary?.board}
               error={errors?.academic_details?.senior_secondary?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1751,6 +1812,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.senior_secondary.school`}
               name={`academic_details.senior_secondary.school`}
               value={values?.academic_details?.senior_secondary?.school}
+              touched={touched.academic_details?.senior_secondary?.school}
               error={errors?.academic_details?.senior_secondary?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1765,6 +1827,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.senior_secondary.percentage`}
               name={`academic_details.senior_secondary.percentage`}
               value={values?.academic_details?.senior_secondary?.percentage}
+              touched={touched.academic_details?.senior_secondary?.percentage}
               error={errors?.academic_details?.senior_secondary?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1790,6 +1853,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.senior_secondary.medium`}
               name={`academic_details.senior_secondary.medium`}
               value={values?.academic_details?.senior_secondary?.medium}
+              touched={touched.academic_details?.senior_secondary?.medium}
               error={errors?.academic_details?.senior_secondary?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1808,12 +1872,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.year`}
               name={`academic_details.graduation.year`}
               value={values?.academic_details?.graduation?.year}
+              touched={touched.academic_details?.graduation?.year}
               error={errors?.academic_details?.graduation?.year}
               onBlur={handleBlur}
               onChange={handleChange}
               style={{ "--color--": "#525252" }}
             />
           </div>
+
           <div className="md:col-span-6 col-span-12">
             <Input
               type="select"
@@ -1823,6 +1889,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.board`}
               name={`academic_details.graduation.board`}
               value={values?.academic_details?.graduation?.board}
+              touched={touched.academic_details?.graduation?.board}
               error={errors?.academic_details?.graduation?.board}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1838,6 +1905,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.school`}
               name={`academic_details.graduation.school`}
               value={values?.academic_details?.graduation?.school}
+              touched={touched.academic_details?.graduation?.school}
               error={errors?.academic_details?.graduation?.school}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1852,6 +1920,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.percentage`}
               name={`academic_details.graduation.percentage`}
               value={values?.academic_details?.graduation?.percentage}
+              touched={touched.academic_details?.graduation?.percentage}
               error={errors?.academic_details?.graduation?.percentage}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1877,6 +1946,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.medium`}
               name={`academic_details.graduation.medium`}
               value={values?.academic_details?.graduation?.medium}
+              touched={touched.academic_details?.graduation?.medium}
               error={errors?.academic_details?.graduation?.medium}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1892,6 +1962,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.subject1`}
               name={`academic_details.graduation.subject1`}
               value={values?.academic_details?.graduation?.subject1}
+              touched={touched.academic_details?.graduation?.subject1}
               error={errors?.academic_details?.graduation?.subject1}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1907,6 +1978,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.subject2`}
               name={`academic_details.graduation.subject2`}
               value={values?.academic_details?.graduation?.subject2}
+              touched={touched.academic_details?.graduation?.subject2}
               error={errors?.academic_details?.graduation?.subject2}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1922,6 +1994,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               id={`academic_details.graduation.subject3`}
               name={`academic_details.graduation.subject3`}
               value={values?.academic_details?.graduation?.subject3}
+              touched={touched.academic_details?.graduation?.subject3}
               error={errors?.academic_details?.graduation?.subject3}
               onBlur={handleBlur}
               onChange={handleChange}
@@ -1964,6 +2037,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.year`}
                 name={`academic_details.post_graduation.year`}
                 value={values?.academic_details?.post_graduation?.year}
+                touched={touched.academic_details?.post_graduation?.year}
                 error={errors?.academic_details?.post_graduation?.year}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1979,6 +2053,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.board`}
                 name={`academic_details.post_graduation.board`}
                 value={values?.academic_details?.post_graduation?.board}
+                touched={touched.academic_details?.post_graduation?.board}
                 error={errors?.academic_details?.post_graduation?.board}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -1994,6 +2069,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.school`}
                 name={`academic_details.post_graduation.school`}
                 value={values?.academic_details?.post_graduation?.school}
+                touched={touched.academic_details?.post_graduation?.school}
                 error={errors?.academic_details?.post_graduation?.school}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2008,6 +2084,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.percentage`}
                 name={`academic_details.post_graduation.percentage`}
                 value={values?.academic_details?.post_graduation?.percentage}
+                touched={touched.academic_details?.post_graduation?.percentage}
                 error={errors?.academic_details?.post_graduation?.percentage}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2033,6 +2110,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.medium`}
                 name={`academic_details.post_graduation.medium`}
                 value={values?.academic_details?.post_graduation?.medium}
+                touched={touched.academic_details?.post_graduation?.medium}
                 error={errors?.academic_details?.post_graduation?.medium}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2048,6 +2126,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.subject1`}
                 name={`academic_details.post_graduation.subject1`}
                 value={values?.academic_details?.post_graduation?.subject1}
+                touched={touched.academic_details?.post_graduation?.subject1}
                 error={errors?.academic_details?.post_graduation?.subject1}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2063,6 +2142,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.subject2`}
                 name={`academic_details.post_graduation.subject2`}
                 value={values?.academic_details?.post_graduation?.subject2}
+                touched={touched.academic_details?.post_graduation?.subject2}
                 error={errors?.academic_details?.post_graduation?.subject2}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2078,6 +2158,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 id={`academic_details.post_graduation.subject3`}
                 name={`academic_details.post_graduation.subject3`}
                 value={values?.academic_details?.post_graduation?.subject3}
+                touched={touched.academic_details?.post_graduation?.subject3}
                 error={errors?.academic_details?.post_graduation?.subject3}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -2233,6 +2314,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].work`}
                   name={`work_experience[${0}].work`}
                   value={values.work_experience[0]?.work}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.work
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.work
@@ -2251,6 +2337,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].designation`}
                   name={`work_experience[${0}].designation`}
                   value={values.work_experience[0]?.designation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.designation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.designation
@@ -2269,6 +2360,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].organisation`}
                   name={`work_experience[${0}].organisation`}
                   value={values.work_experience[0]?.organisation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.organisation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.organisation
@@ -2288,6 +2384,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].joining_date`}
                   name={`work_experience[${0}].joining_date`}
                   value={values.work_experience[0]?.joining_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.joining_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.joining_date
@@ -2308,6 +2409,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].leaving_date`}
                   name={`work_experience[${0}].leaving_date`}
                   value={values.work_experience[0]?.leaving_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.leaving_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.leaving_date
@@ -2326,6 +2432,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].salary`}
                   name={`work_experience[${0}].salary`}
                   value={values.work_experience[0]?.salary}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.salary
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.salary
@@ -2345,6 +2456,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${0}].reason`}
                   name={`work_experience[${0}].reason`}
                   value={values.work_experience[0]?.reason}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[0]?.reason
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[0]?.reason
@@ -2384,6 +2500,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].work`}
                   name={`work_experience[${1}].work`}
                   value={values.work_experience[1]?.work}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.work
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.work
@@ -2402,6 +2523,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].designation`}
                   name={`work_experience[${1}].designation`}
                   value={values.work_experience[1]?.designation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.designation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.designation
@@ -2420,6 +2546,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].organisation`}
                   name={`work_experience[${1}].organisation`}
                   value={values.work_experience[1]?.organisation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.organisation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.organisation
@@ -2440,6 +2571,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].joining_date`}
                   name={`work_experience[${1}].joining_date`}
                   value={values.work_experience[1]?.joining_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.joining_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.joining_date
@@ -2460,6 +2596,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].leaving_date`}
                   name={`work_experience[${1}].leaving_date`}
                   value={values.work_experience[1]?.leaving_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.leaving_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.leaving_date
@@ -2478,6 +2619,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].salary`}
                   name={`work_experience[${1}].salary`}
                   value={values.work_experience[1]?.salary}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.salary
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.salary
@@ -2496,6 +2642,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${1}].reason`}
                   name={`work_experience[${1}].reason`}
                   value={values.work_experience[1]?.reason}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[1]?.reason
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[1]?.reason
@@ -2520,6 +2671,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].work`}
                   name={`work_experience[${2}].work`}
                   value={values.work_experience[2]?.work}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.work
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.work
@@ -2538,13 +2694,14 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].designation`}
                   name={`work_experience[${2}].designation`}
                   value={values.work_experience[2]?.designation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.designation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
-                      ? // ? errors?.work_experience[2]?.designation
-                        {
-                          error: errors?.work_experience[2]?.designation,
-                          touched: touched.work_experience[2]?.designation,
-                        }
+                      ? errors?.work_experience[2]?.designation
                       : ""
                   }
                   onBlur={handleBlur}
@@ -2560,6 +2717,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].organisation`}
                   name={`work_experience[${2}].organisation`}
                   value={values.work_experience[2]?.organisation}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.organisation
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.organisation
@@ -2580,6 +2742,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].joining_date`}
                   name={`work_experience[${2}].joining_date`}
                   value={values.work_experience[2]?.joining_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.joining_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.joining_date
@@ -2600,6 +2767,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].leaving_date`}
                   name={`work_experience[${2}].leaving_date`}
                   value={values.work_experience[2]?.leaving_date}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.leaving_date
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.leaving_date
@@ -2618,6 +2790,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].salary`}
                   name={`work_experience[${2}].salary`}
                   value={values.work_experience[2]?.salary}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.salary
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.salary
@@ -2637,6 +2814,11 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id={`work_experience[${2}].reason`}
                   name={`work_experience[${2}].reason`}
                   value={values.work_experience[2]?.reason}
+                  touched={
+                    Array.isArray(touched?.work_experience)
+                      ? touched?.work_experience[2]?.reason
+                      : ""
+                  }
                   error={
                     Array.isArray(errors?.work_experience)
                       ? errors?.work_experience[2]?.reason
@@ -2647,19 +2829,6 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-              {/* <div className="md:col-span-6 col-span-12">
-                <Input
-                  type="text"
-                  label={"Nature of The Job"}
-                  className="my-2"
-                  id={`work_experience[${2}].job_nature`}
-                  name={`work_experience[${2}].job_nature`}
-                  value={values.work_experience[2]?.job_nature}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  style={{ "--color--": "#525252" }}
-                />
-              </div> */}
             </div>
           </div>
         </div>
@@ -2707,6 +2876,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id="payrollCms.campus"
                   onChange={handleChange}
                   value={values.payrollCms?.campus}
+                  touched={touched.payrollCms?.campus}
                   error={errors.payrollCms?.campus}
                   label={"Campus"}
                   className="my-2"
@@ -2722,6 +2892,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   id="payrollCms.designation"
                   onChange={handleChange}
                   value={values.payrollCms?.designation}
+                  touched={touched.payrollCms?.designation}
                   error={errors.payrollCms?.designation}
                   className="my-2"
                   style={{ "--color--": "#525252" }}
@@ -2748,6 +2919,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
               required={true}
               name="earliest_date_join"
               value={values.earliest_date_join?.slice(0, 10)}
+              touched={touched.earliest_date_join}
               error={errors.earliest_date_join}
               id="earliest_date_join-no"
               onChange={handleChange}
@@ -2779,6 +2951,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.referenceName1}
+                touched={touched.referenceName1}
                 error={errors.referenceName1}
               />
             </div>
@@ -2792,6 +2965,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.referenceMobile1}
+                touched={touched.referenceMobile1}
                 error={errors.referenceMobile1}
               />
             </div>
@@ -2810,6 +2984,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.referenceName2}
+                touched={touched.referenceName2}
                 error={errors.referenceName2}
               />
             </div>
@@ -2823,6 +2998,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.referenceMobile2}
+                touched={touched.referenceMobile2}
                 error={errors.referenceMobile2}
               />
             </div>
@@ -2865,6 +3041,7 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.blood_relative?.name}
+                  touched={touched.blood_relative?.name}
                   error={errors.blood_relative?.name}
                   className="mb-4"
                   style={{ "--color--": "#525252" }}
@@ -2880,29 +3057,12 @@ const Vacancy = ({ isShowTeachingForm }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.blood_relative?.designation}
+                  touched={touched.blood_relative?.designation}
                   error={errors.blood_relative?.designation}
                   className="mb-4"
                   style={{ "--color--": "#525252" }}
                 />
               </div>
-
-              {/* <div className="md:col-span-6 col-span-12">
-                <Input
-                  type="select"
-                  selectoptions={campusPreference}
-                  name="blood_relative.campus"
-                  id="blood_relative.campus"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.blood_relative?.campus}
-                  error={errors.blood_relative?.campus}
-                  label={"Campus"}
-                  className="mt-2"
-                  style={{ "--color--": "#525252" }}
-                />
-              </div>
-
-              <div className="md:col-span-6 col-span-12"></div> */}
             </>
           ) : (
             ""

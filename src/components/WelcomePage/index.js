@@ -20,7 +20,7 @@ const WelcomePage = () => {
     (async () => {
       setIsLoading(true);
       const res = await getForm(token);
-      // console.log(res);
+      console.log(res);
 
       if (res?.status === 200) {
         dispatch(setForm(res.data.form));
@@ -79,9 +79,9 @@ const WelcomePage = () => {
                   <p className="capitalize">Applied For - {form.category}</p>
                 </div>
                 <div className="md:col-span-4 col-span-12 flex justify-center md:my-0 my-6 mx-2">
-                  {form.personal_details.image_url ? (
+                  {form.personal_details.image ? (
                     <img
-                      src={form.personal_details.image_url}
+                      src={form.personal_details.image}
                       className="aspect-[9/16] w-52 h-64 shadow-lg border-black border"
                       alt="logo"
                     />
